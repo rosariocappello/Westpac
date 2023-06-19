@@ -1,0 +1,126 @@
+set -x
+# Script for removing shared mememory semaphores, and msg queues under hub.
+#
+# Info.....
+#
+#     Written by.......... Luke Bowman (LB)
+#     Date of creation.... 31th January 2006.   
+#
+#     UPDATE HISTORY
+#
+#        VERSION   DATE      WHO   REASON
+#        1.1       31JAN2006 LB    Initial Release
+#        1.2       09MAR2006 STMK  Version number added.
+#        1.3       10MAR2006 LB    Revised annotation.
+#
+#     @(#)mfmemtrash      1.3 - Last Updated 10th March 2006.
+#
+# Function ...
+#
+# Script will remove ALL semaphores and shared memory and message queues
+# for hub.                       
+# 
+# Instructions...
+# mfmemtrash 
+#
+
+##
+## Loop to remove all data
+##
+
+remove_all_loop()
+{
+##
+## Remove shared memory
+##
+ 
+##
+## Loop as many times as there are memory allocations.
+##
+for i in `ipcs -m | grep $LOGNAME | awk '{print $1}' `
+do
+    ipcsstring=`ipcs -m | grep $LOGNAME | head -1`
+    ##
+    ## Some OS's allow big semids that concatanate with column 1 in ipcs
+    ## so we check for a space at the 2nd char position in the string before
+    ## extracting the shared mem id.
+    ## Also use same rule for Linux which has a different format for ipcs
+    ##
+    ipcsline=` echo $ipcsstring | cut -c2`
+    if (test "$ipcsline.x" = " .x" -o `uname -s` = "Linux" )then
+       ipcspid=`echo $ipcsstring | awk '{print $2}' ` 2> /dev/null
+    else
+       ipcspid=`echo $ipcsstring | awk '{print $1}'| sed -e 's/^m//' ` 2> /dev/null
+    fi
+    ipcrm -m $ipcspid > /dev/null
+done
+
+##
+## Remove semaphores
+##
+
+##
+## Loop as many times as there are memory allocations.
+##
+for i in `ipcs -s | grep $LOGNAME | awk '{print $1}'`
+do
+    ipcsstring=`ipcs -s | grep $LOGNAME | head -1`
+    ##
+    ## Some OS's allow big semids that concatanate with column 1 in ipcs
+    ## so we check for a space at the 2nd char position in the string before
+    ## extracting the shared mem id.
+    ## Also use same rule for Linux which has a different format for ipcs
+    ##
+    ipcsline=`echo $ipcsstring | cut -c2`
+    if (test "$ipcsline.x" = " .x" -o `uname -s` = "Linux" )then
+       ipcspid=`echo $ipcsstring | awk '{print $2}' ` 2> /dev/null
+    else
+       ipcspid=`echo $ipcsstring | awk '{print $1}'| sed -e 's/^s//' ` 2> /dev/null
+    fi
+   ipcrm -s $ipcspid > /dev/null
+done
+
+##
+## Remove message queues.
+##
+
+##
+## Loop as many times as there are memory allocations.
+##
+for i in `ipcs -q | grep $LOGNAME |awk '{print $1}'`
+do
+    ipcsstring=`ipcs -q | grep $LOGNAME | head -1`
+    ##
+    ## Some OS's allow big semids that concatanate with column 1 in ipcs
+    ## so we check for a space at the 2nd char position in the string before
+    ## extracting the shared mem id.
+    ## Also use same rule for Linux which has a different format for ipcs
+    ##
+    ipcsline=`echo $ipcsstring | cut -c2`
+    if (test "$ipcsline.x" = " .x" -o `uname -s` = "Linux" )then
+       ipcspid=`echo $ipcsstring | awk '{print $2}' ` 2> /dev/null
+    else
+       ipcspid=`echo $ipcsstring | awk '{print $1}'| sed -e 's/^q//' ` 2> /dev/null
+    fi
+   ipcrm -q $ipcspid > /dev/null
+done
+
+}
+
+##
+## Display WARNING that this will remove ALL data.            
+##
+
+test `uname -s` = Linux && echocmd="echo -e" || echocmd="echo"
+
+$echocmd "WARNING : This will remove all shared memory, semaphores and message"
+$echocmd "          queues for the login, "$LOGNAME
+$echocmd "          Do you wish to proceed (Y/N?) : \c"
+
+read a
+case $a in
+       Y|y) remove_all_loop ;;
+esac
+          
+
+
