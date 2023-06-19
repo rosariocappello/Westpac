@@ -12,7 +12,7 @@ WARNING"1"
 LISTPATH"Listing"
 LIST()
 showdir
-P(cobsql)  endp
+P(cobsql) COBSQLTYPE=ORACLE8 DISPLAY KEEPCOMP MAKESYN VERBOSE KEEPCBL endp
 INT"/home/oracle/Westpac/prod/bin/"
 ANIM
 LISTPATH"/home/oracle/Westpac/prod/Listing"

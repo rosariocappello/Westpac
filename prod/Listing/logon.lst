@@ -1,8 +1,8 @@
-* Micro Focus COBOL                  V8.0 revision 000 19-Jun-23 21:33 Page   1
+* Micro Focus COBOL                  V8.0 revision 000 19-Jun-23 23:12 Page   1
 * /home/oracle/Westpac/prod/cobol/logon.cob
 * Directives File: /home/oracle/Westpac/prod/bin/logon.cob.dir
 * Accepted - showdir
-* Accepted - P(cobsql)
+* Accepted - P(cobsql) COBSQLTYPE=ORACLE8 DISPLAY KEEPCOMP MAKESYN VERBOSE KEEPCBL
 * Accepted - INT"/home/oracle/Westpac/prod/bin/"
 * Accepted - ANIM
 * Accepted - LISTPATH"/home/oracle/Westpac/prod/Listing"
@@ -58,7 +58,7 @@
     47     goback
     48     .
     49
-* Micro Focus COBOL                  V8.0 revision 000 19-Jun-23 21:33 Page   2
+* Micro Focus COBOL                  V8.0 revision 000 19-Jun-23 23:12 Page   2
 * /home/oracle/Westpac/prod/cobol/logon.cob
     50 LOGON SECTION.
     51
@@ -118,7 +118,7 @@
    105     MOVE SPACES TO EMP-NAME-ARR
    106     .
    107
-* Micro Focus COBOL                  V8.0 revision 000 19-Jun-23 21:33 Page   3
+* Micro Focus COBOL                  V8.0 revision 000 19-Jun-23 23:12 Page   3
 * /home/oracle/Westpac/prod/cobol/logon.cob
    108     .
    109
@@ -178,7 +178,7 @@
    163     STOP RUN
    164     .
    165
-* Micro Focus COBOL                  V8.0 revision 000 19-Jun-23 21:33 Page   4
+* Micro Focus COBOL                  V8.0 revision 000 19-Jun-23 23:12 Page   4
 * /home/oracle/Westpac/prod/cobol/logon.cob
    166 DISPLAY-INFO SECTION.
    167
@@ -213,6 +213,107 @@
    196 DISPLAY-LINE-EXIT.
    197     EXIT
    198     .
+   198*Host Variables
+   198*--------------
+   198*05  COMM-IND OF EMP-REC-VARS                            Short Integer
+   198*  /home/oracle/Westpac/prod/cobol/logon.cob        14       112
+   198*05  COMMISSION OF EMP-REC-VARS                          Decimal(7,2)
+   198*  /home/oracle/Westpac/prod/cobol/logon.cob        13       112
+   198*05  EMP-NAME OF EMP-REC-VARS                            Varchar(10)
+   198*  /home/oracle/Westpac/prod/cobol/logon.cob        10       112       112
+   198*05  EMP-NUMBER OF EMP-REC-VARS                          Short Integer
+   198*  /home/oracle/Westpac/prod/cobol/logon.cob        11       114
+   198*01  PASSWD                                              Varchar(10)
+   198*  /home/oracle/Westpac/prod/cobol/logon.cob         8        62        62
+   198*05  SALARY OF EMP-REC-VARS                              Decimal(7,2)
+   198*  /home/oracle/Westpac/prod/cobol/logon.cob        12       112
+   198*01  USERNAME                                            Varchar(10)
+   198*  /home/oracle/Westpac/prod/cobol/logon.cob         7        62        62
+   198*Version 19.3.0.0.0
+   198*Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reser
+   198*SQL Identifiers
+   198*---------------
+   198*BIT64                 DEFINE                        Command Line
+   198*COMP5                 DEFINE                        Command Line
+   198*UNIX                  DEFINE                        Pre-defined
+   198*Version 19.3.0.0.0
+   198*Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reser
+* Micro Focus COBOL                  V8.0 revision 000 19-Jun-23 23:12 Page   5
+* /home/oracle/Westpac/prod/cobol/logon.cob
+   198*                              Precompiler Options
+   198*-------------------------------------------------------------------------
+   198*Option Name    Current Value        Where set
+   198*-------------------------------------------------------------------------
+   198*asacc             no                default
+   198*assume_sqlcode    no                default
+   198*auto_connect      no                default
+   198*charset_picn      nchar_charset     default
+   198*charset_picx      db_charset        default
+   198*close_on_commit   no                default
+   198*common_parser     no                default
+   198*comp5             yes               /opt/oracle/product/19c/dbhome_1/prec
+   198*config            default config    default
+   198*cwh_sql99         yes               default
+   198*date_format       local             default
+   198*db2_array         no                default
+   198*dbms              native            default
+   198*declare_section   no                default
+   198*define            COMP5             /opt/oracle/product/19c/dbhome_1/prec
+   198*                  BIT64             /opt/oracle/product/19c/dbhome_1/prec
+   198*                  *none*            /opt/oracle/product/19c/dbhome_1/prec
+   198*dynamic           oracle            default
+   198*end_of_fetch      1403              default
+   198*errors            yes               default
+   198*file_id           0                 default
+   198*fips              no                default
+   198*format            ansi              default
+   198*hold_cursor       no                default
+   198*host              cobol             default
+   198*implicit_svpt     no                default
+   198*iname             /home/oracle/Westpcommand linel/logon.cob
+   198*include           *none*            default
+   198*ireclen           80                default
+   198*litdelim          quote             default
+   198*lname             /home/oracle/Westpcommand linel/logon.lis
+   198*lreclen           132               default
+   198*ltype             long              default
+   198*maxliteral        256               default
+   198*maxopencursors    10                default
+   198*max_row_insert    0                 default
+   198*memforprefetch    0                 default
+   198*mode              oracle            default
+   198*nested            yes               default
+   198*nls_local         no                default
+   198*oname             /home/oracle/Westpcommand linel/logon.cs9
+   198*oraca             no                default
+   198*oreclen           80                default
+   198*outline           no                default
+   198*outlnprefix       *none*            default
+   198*pagelen           66                default
+   198*picn_endian       big               default
+   198*picx              charf             default
+   198*plan_baseline     no                default
+   198*plan_enabled      yes               default
+   198*plan_fixed        yes               default
+   198*plan_prefix       none              default
+   198*plan_run          no                default
+   198*prefetch          1                 default
+* Micro Focus COBOL                  V8.0 revision 000 19-Jun-23 23:12 Page   6
+* /home/oracle/Westpac/prod/cobol/logon.cob
+   198*release_cursor    no                default
+   198*runoutline        no                default
+   198*select_error      yes               default
+   198*sqlcheck          syntax            default
+   198*stmt_cache        0                 default
+   198*threads           no                default
+   198*trim_password     no                default
+   198*type_code         oracle            default
+   198*unsafe_null       no                default
+   198*userid            *none*            default
+   198*varchar           no                default
+   198*xref              yes               default
+   198*Version 19.3.0.0.0
+   198*Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reser
    198*Statistics
    198*----------
    198*Return code: 0
@@ -229,4 +330,4 @@
 * (C) Copyright 1984-2023 Micro Focus or one of its affiliates.
 *                                                        REF GNR-085800000AM
 * Total Messages:     0
-* Data:        1760     Code:        3195
+* Data:        1888     Code:        3275
