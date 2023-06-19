@@ -1,4 +1,4 @@
-* Micro Focus COBOL                  V8.0 revision 000 19-Jun-23 23:12 Page   1
+* Micro Focus COBOL                  V8.0 revision 000 20-Jun-23 09:24 Page   1
 * /home/oracle/Westpac/prod/cobol/logon.cob
 * Directives File: /home/oracle/Westpac/prod/bin/logon.cob.dir
 * Accepted - showdir
@@ -25,307 +25,308 @@
     14   05 COMM-IND PIC S9(4) COMP VALUE ZERO.
     15     EXEC SQL END DECLARE SECTION END-EXEC.
     16     EXEC SQL INCLUDE SQLCA END-EXEC.
-    17 01 DISPLAY-VARIABLES.
-    18   05 D-EMP-NAME PIC X(10).
-    19   05 D-SALARY PIC Z(4)9.99.
-    20   05 D-COMMISSION PIC Z(4)9.99.
-    21 01 D-TOTAL-QUERIED PIC 9(4) VALUE ZERO.
-    22
-    23 01 ws-flags pic x(4) comp-5 value 1.
-    24 01 ws-timeout pic s9(18) comp-5 value 0.
-    25 01 ws-identifier PIC x(4) VALUE "HELP".
-    26 01 ws-status-code pic x(4) comp-5 value zero.
-    27
-    28 PROCEDURE DIVISION.
-    29 BEGIN-PGM SECTION.
-    30
-    31    CALL"CBL_DEBUG_START" using  by value ws-flags
-    32                                         ws-timeout
-    33                        by reference     ws-identifier
-    34                        returning        ws-status-code
-    35
-    36     ACCEPT EMP-NUMBER
-    37     EXEC SQL
-    38         WHENEVER SQLERROR DO PERFORM SQL-ERROR
-    39     END-EXEC
-    40     .
-    41     PERFORM LOGON
-    42     .
-    43     PERFORM QUERY-LOOP
-    44     .
-    45     perform SIGN-OFF
-    46     .
-    47     goback
-    48     .
-    49
-* Micro Focus COBOL                  V8.0 revision 000 19-Jun-23 23:12 Page   2
+    17
+    18 01 DISPLAY-VARIABLES.
+    19   05 D-EMP-NAME PIC X(10).
+    20   05 D-SALARY PIC Z(4)9.99.
+    21   05 D-COMMISSION PIC Z(4)9.99.
+    22 01 D-TOTAL-QUERIED PIC 9(4) VALUE ZERO.
+    23
+    24 01 ws-flags pic x(4) comp-5 value 1.
+    25 01 ws-timeout pic s9(18) comp-5 value 0.
+    26 01 ws-identifier PIC x(4) VALUE "HELP".
+    27 01 ws-status-code pic x(4) comp-5 value zero.
+    28
+    29 PROCEDURE DIVISION.
+    30 BEGIN-PGM SECTION.
+    31
+    32    CALL"CBL_DEBUG_START" using  by value ws-flags
+    33                                         ws-timeout
+    34                        by reference     ws-identifier
+    35                        returning        ws-status-code
+    36
+    37     ACCEPT EMP-NUMBER
+    38     EXEC SQL
+    39         WHENEVER SQLERROR DO PERFORM SQL-ERROR
+    40     END-EXEC
+    41     .
+    42     PERFORM LOGON
+    43     .
+    44     PERFORM QUERY-LOOP
+    45     .
+    46     perform SIGN-OFF
+    47     .
+    48     goback
+    49     .
+* Micro Focus COBOL                  V8.0 revision 000 20-Jun-23 09:24 Page   2
 * /home/oracle/Westpac/prod/cobol/logon.cob
-    50 LOGON SECTION.
-    51
-    52     MOVE "mfuser" TO USERNAME-ARR
-    53     .
-    54     MOVE 6 TO USERNAME-LEN
-    55     .
-    56     MOVE "Welcome01" TO PASSWD-ARR
-    57
-    58     MOVE 9 TO PASSWD-LEN
-    59     .
-    60
-    61     EXEC SQL
-    62         CONNECT :USERNAME IDENTIFIED BY :PASSWD
-    63     END-EXEC
-    64     .
-    65     perform DISPLAY-INFO
-    66
-    67     DISPLAY " "
-    68     .
-    69     DISPLAY "EMPLOYEE    SALARY    COMMISSION" upon console
-    70     .
-    71     DISPLAY "--------    ------    ----------" upon console
-    72     .
-    73
-    74 LOGON-EXIT.
-    75     EXIT
-    76     .
-    77
-    78 QUERY-LOOP SECTION.
-    79     DISPLAY " "  upon console
-    80     .
-    81     DISPLAY "ENTER EMP NUMBER (0 TO QUIT): "  upon console
-    82     .
-    83
-    84     ACCEPT EMP-NUMBER
-    85     IF (EMP-NUMBER = 0)
-    86         PERFORM SIGN-OFF
-    87     END-IF
-    88     .
-    89
-    90     perform until EMP-NUMBER = 0
-    91
-    92         perform get-employee-info
-    93         DISPLAY " "  upon console
-    94         DISPLAY "ENTER EMP NUMBER (0 TO QUIT): "   upon console
-    95         ACCEPT EMP-NUMBER
-    96
-    97     end-perform.
-    98
-    99 QUERY-LOOP-exit.
-   100       exit.
-   101     .
-   102
-   103 get-employee-info section.
-   104
-   105     MOVE SPACES TO EMP-NAME-ARR
-   106     .
-   107
-* Micro Focus COBOL                  V8.0 revision 000 19-Jun-23 23:12 Page   3
+    50
+    51 LOGON SECTION.
+    52
+    53     MOVE "mfuser" TO USERNAME-ARR
+    54     .
+    55     MOVE 6 TO USERNAME-LEN
+    56     .
+    57     MOVE "Welcome01" TO PASSWD-ARR
+    58
+    59     MOVE 9 TO PASSWD-LEN
+    60     .
+    61
+    62     EXEC SQL
+    63         CONNECT :USERNAME IDENTIFIED BY :PASSWD
+    64     END-EXEC
+    65     .
+    66     perform DISPLAY-INFO
+    67
+    68     DISPLAY " "
+    69     .
+    70     DISPLAY "EMPLOYEE    SALARY    COMMISSION" upon console
+    71     .
+    72     DISPLAY "--------    ------    ----------" upon console
+    73     .
+    74
+    75 LOGON-EXIT.
+    76     EXIT
+    77     .
+    78
+    79 QUERY-LOOP SECTION.
+    80     DISPLAY " "  upon console
+    81     .
+    82     DISPLAY "ENTER EMP NUMBER (0 TO QUIT): "  upon console
+    83     .
+    84
+    85     ACCEPT EMP-NUMBER
+    86     IF (EMP-NUMBER = 0)
+    87         PERFORM SIGN-OFF
+    88     END-IF
+    89     .
+    90
+    91     perform until EMP-NUMBER = 0
+    92
+    93         perform get-employee-info
+    94         DISPLAY " "  upon console
+    95         DISPLAY "ENTER EMP NUMBER (0 TO QUIT): "   upon console
+    96         ACCEPT EMP-NUMBER
+    97
+    98     end-perform.
+    99
+   100 QUERY-LOOP-exit.
+   101       exit.
+   102     .
+   103
+   104 get-employee-info section.
+   105
+   106     MOVE SPACES TO EMP-NAME-ARR
+   107     .
+* Micro Focus COBOL                  V8.0 revision 000 20-Jun-23 09:24 Page   3
 * /home/oracle/Westpac/prod/cobol/logon.cob
-   108     .
-   109
-   110      EXEC SQL
-   111         SELECT ENAME, SAL, COMM
-   112         INTO :EMP-NAME, :SALARY, :COMMISSION:COMM-IND
-   113         FROM EMP
-   114         WHERE EMPNO = :EMP-NUMBER
-   115      END-EXEC
-   116     .
-   117     if sqlcode = 0
-   118         PERFORM DISPLAY-LINE
-   119     else
-   120         DISPLAY "NOT A VALID EMPLOYEE NUMBER - TRY AGAIN."
-   121     end-if
-   122     .
-   123     ADD 1 TO D-TOTAL-QUERIED.
-   124
-   125 get-employee-info-EXIT.
-   126     EXIT
-   127     .
-   128
-   129 SIGN-OFF SECTION.
-   130     DISPLAY " "
-   131     .
-   132
-   133     DISPLAY "TOTAL NUMBER QUERIED WAS ", D-TOTAL-QUERIED, "."
-   134     .
-   135     DISPLAY "HAVE A GOOD DAY."
-   136     .
-   137     DISPLAY " "
-   138     .
-   139     EXEC SQL
-   140         COMMIT WORK RELEASE
-   141     END-EXEC
-   142     .
-   143     GOBACK.
-   144     .
-   145
-   146 SQL-ERROR SECTION.
-   147     EXEC SQL
-   148         WHENEVER SQLERROR CONTINUE
-   149     END-EXEC
-   150     .
-   151     DISPLAY " "
-   152     .
-   153     DISPLAY "ORACLE ERROR DETECTED:"
-   154     .
-   155     DISPLAY " "
-   156     .
-   157     DISPLAY SQLERRMC
-   158     .
-   159     EXEC SQL
-   160         ROLLBACK WORK RELEASE
-   161     END-EXEC
-   162     .
-   163     STOP RUN
-   164     .
-   165
-* Micro Focus COBOL                  V8.0 revision 000 19-Jun-23 23:12 Page   4
+   108
+   109     .
+   110
+   111      EXEC SQL
+   112         SELECT ENAME, SAL, COMM
+   113         INTO :EMP-NAME, :SALARY, :COMMISSION:COMM-IND
+   114         FROM EMP
+   115         WHERE EMPNO = :EMP-NUMBER
+   116      END-EXEC
+   117     .
+   118     if sqlcode = 0
+   119         PERFORM DISPLAY-LINE
+   120     else
+   121         DISPLAY "NOT A VALID EMPLOYEE NUMBER - TRY AGAIN."
+   122     end-if
+   123     .
+   124     ADD 1 TO D-TOTAL-QUERIED.
+   125
+   126 get-employee-info-EXIT.
+   127     EXIT
+   128     .
+   129
+   130 SIGN-OFF SECTION.
+   131     DISPLAY " "
+   132     .
+   133
+   134     DISPLAY "TOTAL NUMBER QUERIED WAS ", D-TOTAL-QUERIED, "."
+   135     .
+   136     DISPLAY "HAVE A GOOD DAY."
+   137     .
+   138     DISPLAY " "
+   139     .
+   140     EXEC SQL
+   141         COMMIT WORK RELEASE
+   142     END-EXEC
+   143     .
+   144     GOBACK.
+   145     .
+   146
+   147 SQL-ERROR SECTION.
+   148     EXEC SQL
+   149         WHENEVER SQLERROR CONTINUE
+   150     END-EXEC
+   151     .
+   152     DISPLAY " "
+   153     .
+   154     DISPLAY "ORACLE ERROR DETECTED:"
+   155     .
+   156     DISPLAY " "
+   157     .
+   158     DISPLAY SQLERRMC
+   159     .
+   160     EXEC SQL
+   161         ROLLBACK WORK RELEASE
+   162     END-EXEC
+   163     .
+   164     STOP RUN
+   165     .
+* Micro Focus COBOL                  V8.0 revision 000 20-Jun-23 09:24 Page   4
 * /home/oracle/Westpac/prod/cobol/logon.cob
-   166 DISPLAY-INFO SECTION.
-   167
-   168     DISPLAY " " upon console
-   169     .
-   170     DISPLAY "CONNECTED TO ORACLE AS USER    = " USERNAME upon
-   171       console
-   172     .
-   173     DISPLAY "CONNECTED TO ORACLE AS PASSWORD=" PASSWD upon
-   174       console
-   175     .
-   176     Display "SQLCODE = " SQLCODE
-   177     .
-   178 DISPLAY-INFO-EXIT.
-   179     EXIT
-   180     .
-   181
-   182 DISPLAY-LINE SECTION.
-   183
-   184     MOVE EMP-NAME-ARR TO D-EMP-NAME
-   185     .
-   186     MOVE SALARY TO D-SALARY
-   187     .
-   188     IF COMM-IND = -1
-   189         DISPLAY D-EMP-NAME, D-SALARY, "          NULL"
-   190     ELSE
-   191         MOVE COMMISSION TO D-COMMISSION
-   192         DISPLAY D-EMP-NAME, D-SALARY, "      ", D-COMMISSION
-   193     END-IF
-   194     .
+   166
+   167 DISPLAY-INFO SECTION.
+   168
+   169     DISPLAY " " upon console
+   170     .
+   171     DISPLAY "CONNECTED TO ORACLE AS USER    = " USERNAME upon
+   172       console
+   173     .
+   174     DISPLAY "CONNECTED TO ORACLE AS PASSWORD=" PASSWD upon
+   175       console
+   176     .
+   177     Display "SQLCODE = " SQLCODE
+   178     .
+   179 DISPLAY-INFO-EXIT.
+   180     EXIT
+   181     .
+   182
+   183 DISPLAY-LINE SECTION.
+   184
+   185     MOVE EMP-NAME-ARR TO D-EMP-NAME
+   186     .
+   187     MOVE SALARY TO D-SALARY
+   188     .
+   189     IF COMM-IND = -1
+   190         DISPLAY D-EMP-NAME, D-SALARY, "          NULL"
+   191     ELSE
+   192         MOVE COMMISSION TO D-COMMISSION
+   193         DISPLAY D-EMP-NAME, D-SALARY, "      ", D-COMMISSION
+   194     END-IF
    195     .
-   196 DISPLAY-LINE-EXIT.
-   197     EXIT
-   198     .
-   198*Host Variables
-   198*--------------
-   198*05  COMM-IND OF EMP-REC-VARS                            Short Integer
-   198*  /home/oracle/Westpac/prod/cobol/logon.cob        14       112
-   198*05  COMMISSION OF EMP-REC-VARS                          Decimal(7,2)
-   198*  /home/oracle/Westpac/prod/cobol/logon.cob        13       112
-   198*05  EMP-NAME OF EMP-REC-VARS                            Varchar(10)
-   198*  /home/oracle/Westpac/prod/cobol/logon.cob        10       112       112
-   198*05  EMP-NUMBER OF EMP-REC-VARS                          Short Integer
-   198*  /home/oracle/Westpac/prod/cobol/logon.cob        11       114
-   198*01  PASSWD                                              Varchar(10)
-   198*  /home/oracle/Westpac/prod/cobol/logon.cob         8        62        62
-   198*05  SALARY OF EMP-REC-VARS                              Decimal(7,2)
-   198*  /home/oracle/Westpac/prod/cobol/logon.cob        12       112
-   198*01  USERNAME                                            Varchar(10)
-   198*  /home/oracle/Westpac/prod/cobol/logon.cob         7        62        62
-   198*Version 19.3.0.0.0
-   198*Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reser
-   198*SQL Identifiers
-   198*---------------
-   198*BIT64                 DEFINE                        Command Line
-   198*COMP5                 DEFINE                        Command Line
-   198*UNIX                  DEFINE                        Pre-defined
-   198*Version 19.3.0.0.0
-   198*Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reser
-* Micro Focus COBOL                  V8.0 revision 000 19-Jun-23 23:12 Page   5
+   196     .
+   197 DISPLAY-LINE-EXIT.
+   198     EXIT
+   199     .
+   199*Host Variables
+   199*--------------
+   199*05  COMM-IND OF EMP-REC-VARS                            Short Integer
+   199*  /home/oracle/Westpac/prod/cobol/logon.cob        14       113
+   199*05  COMMISSION OF EMP-REC-VARS                          Decimal(7,2)
+   199*  /home/oracle/Westpac/prod/cobol/logon.cob        13       113
+   199*05  EMP-NAME OF EMP-REC-VARS                            Varchar(10)
+   199*  /home/oracle/Westpac/prod/cobol/logon.cob        10       113       113
+   199*05  EMP-NUMBER OF EMP-REC-VARS                          Short Integer
+   199*  /home/oracle/Westpac/prod/cobol/logon.cob        11       115
+   199*01  PASSWD                                              Varchar(10)
+   199*  /home/oracle/Westpac/prod/cobol/logon.cob         8        63        63
+   199*05  SALARY OF EMP-REC-VARS                              Decimal(7,2)
+   199*  /home/oracle/Westpac/prod/cobol/logon.cob        12       113
+   199*01  USERNAME                                            Varchar(10)
+   199*  /home/oracle/Westpac/prod/cobol/logon.cob         7        63        63
+   199*Version 19.3.0.0.0
+   199*Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reser
+   199*SQL Identifiers
+   199*---------------
+   199*BIT64                 DEFINE                        Command Line
+   199*COMP5                 DEFINE                        Command Line
+   199*UNIX                  DEFINE                        Pre-defined
+   199*Version 19.3.0.0.0
+* Micro Focus COBOL                  V8.0 revision 000 20-Jun-23 09:24 Page   5
 * /home/oracle/Westpac/prod/cobol/logon.cob
-   198*                              Precompiler Options
-   198*-------------------------------------------------------------------------
-   198*Option Name    Current Value        Where set
-   198*-------------------------------------------------------------------------
-   198*asacc             no                default
-   198*assume_sqlcode    no                default
-   198*auto_connect      no                default
-   198*charset_picn      nchar_charset     default
-   198*charset_picx      db_charset        default
-   198*close_on_commit   no                default
-   198*common_parser     no                default
-   198*comp5             yes               /opt/oracle/product/19c/dbhome_1/prec
-   198*config            default config    default
-   198*cwh_sql99         yes               default
-   198*date_format       local             default
-   198*db2_array         no                default
-   198*dbms              native            default
-   198*declare_section   no                default
-   198*define            COMP5             /opt/oracle/product/19c/dbhome_1/prec
-   198*                  BIT64             /opt/oracle/product/19c/dbhome_1/prec
-   198*                  *none*            /opt/oracle/product/19c/dbhome_1/prec
-   198*dynamic           oracle            default
-   198*end_of_fetch      1403              default
-   198*errors            yes               default
-   198*file_id           0                 default
-   198*fips              no                default
-   198*format            ansi              default
-   198*hold_cursor       no                default
-   198*host              cobol             default
-   198*implicit_svpt     no                default
-   198*iname             /home/oracle/Westpcommand linel/logon.cob
-   198*include           *none*            default
-   198*ireclen           80                default
-   198*litdelim          quote             default
-   198*lname             /home/oracle/Westpcommand linel/logon.lis
-   198*lreclen           132               default
-   198*ltype             long              default
-   198*maxliteral        256               default
-   198*maxopencursors    10                default
-   198*max_row_insert    0                 default
-   198*memforprefetch    0                 default
-   198*mode              oracle            default
-   198*nested            yes               default
-   198*nls_local         no                default
-   198*oname             /home/oracle/Westpcommand linel/logon.cs9
-   198*oraca             no                default
-   198*oreclen           80                default
-   198*outline           no                default
-   198*outlnprefix       *none*            default
-   198*pagelen           66                default
-   198*picn_endian       big               default
-   198*picx              charf             default
-   198*plan_baseline     no                default
-   198*plan_enabled      yes               default
-   198*plan_fixed        yes               default
-   198*plan_prefix       none              default
-   198*plan_run          no                default
-   198*prefetch          1                 default
-* Micro Focus COBOL                  V8.0 revision 000 19-Jun-23 23:12 Page   6
+   199*Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reser
+   199*                              Precompiler Options
+   199*-------------------------------------------------------------------------
+   199*Option Name    Current Value        Where set
+   199*-------------------------------------------------------------------------
+   199*asacc             no                default
+   199*assume_sqlcode    no                default
+   199*auto_connect      no                default
+   199*charset_picn      nchar_charset     default
+   199*charset_picx      db_charset        default
+   199*close_on_commit   no                default
+   199*common_parser     no                default
+   199*comp5             yes               /opt/oracle/product/19c/dbhome_1/prec
+   199*config            default config    default
+   199*cwh_sql99         yes               default
+   199*date_format       local             default
+   199*db2_array         no                default
+   199*dbms              native            default
+   199*declare_section   no                default
+   199*define            COMP5             /opt/oracle/product/19c/dbhome_1/prec
+   199*                  BIT64             /opt/oracle/product/19c/dbhome_1/prec
+   199*                  *none*            /opt/oracle/product/19c/dbhome_1/prec
+   199*dynamic           oracle            default
+   199*end_of_fetch      1403              default
+   199*errors            yes               default
+   199*file_id           0                 default
+   199*fips              no                default
+   199*format            ansi              default
+   199*hold_cursor       no                default
+   199*host              cobol             default
+   199*implicit_svpt     no                default
+   199*iname             /home/oracle/Westpcommand linel/logon.cob
+   199*include           *none*            default
+   199*ireclen           80                default
+   199*litdelim          quote             default
+   199*lname             /home/oracle/Westpcommand linel/logon.lis
+   199*lreclen           132               default
+   199*ltype             long              default
+   199*maxliteral        256               default
+   199*maxopencursors    10                default
+   199*max_row_insert    0                 default
+   199*memforprefetch    0                 default
+   199*mode              oracle            default
+   199*nested            yes               default
+   199*nls_local         no                default
+   199*oname             /home/oracle/Westpcommand linel/logon.cs9
+   199*oraca             no                default
+   199*oreclen           80                default
+   199*outline           no                default
+   199*outlnprefix       *none*            default
+   199*pagelen           66                default
+   199*picn_endian       big               default
+   199*picx              charf             default
+   199*plan_baseline     no                default
+   199*plan_enabled      yes               default
+   199*plan_fixed        yes               default
+   199*plan_prefix       none              default
+   199*plan_run          no                default
+* Micro Focus COBOL                  V8.0 revision 000 20-Jun-23 09:24 Page   6
 * /home/oracle/Westpac/prod/cobol/logon.cob
-   198*release_cursor    no                default
-   198*runoutline        no                default
-   198*select_error      yes               default
-   198*sqlcheck          syntax            default
-   198*stmt_cache        0                 default
-   198*threads           no                default
-   198*trim_password     no                default
-   198*type_code         oracle            default
-   198*unsafe_null       no                default
-   198*userid            *none*            default
-   198*varchar           no                default
-   198*xref              yes               default
-   198*Version 19.3.0.0.0
-   198*Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reser
-   198*Statistics
-   198*----------
-   198*Return code: 0
-   198*Number of messages at severity I: 0
-   198*Number of messages at severity W: 0
-   198*Number of messages at severity E: 0
-   198*Number of messages at severity F: 0
-   198*Number of input lines: 198
-   198*Number of host variables declared: 17
-   198*Number of cursor names: 0
-   198*Number of statement names: 0
-   198*Maximum memory (bytes) used: 1018779
+   199*prefetch          1                 default
+   199*release_cursor    no                default
+   199*runoutline        no                default
+   199*select_error      yes               default
+   199*sqlcheck          syntax            default
+   199*stmt_cache        0                 default
+   199*threads           no                default
+   199*trim_password     no                default
+   199*type_code         oracle            default
+   199*unsafe_null       no                default
+   199*userid            *none*            default
+   199*varchar           no                default
+   199*xref              yes               default
+   199*Version 19.3.0.0.0
+   199*Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reser
+   199*Statistics
+   199*----------
+   199*Return code: 0
+   199*Number of messages at severity I: 0
+   199*Number of messages at severity W: 0
+   199*Number of messages at severity E: 0
+   199*Number of messages at severity F: 0
+   199*Number of input lines: 199
+   199*Number of host variables declared: 17
+   199*Number of cursor names: 0
+   199*Number of statement names: 0
+   199*Maximum memory (bytes) used: 1018779
 * Micro Focus COBOL                  V8.0 revision 000 Compiler
 * (C) Copyright 1984-2023 Micro Focus or one of its affiliates.
 *                                                        REF GNR-085800000AM

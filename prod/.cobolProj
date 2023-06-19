@@ -8,8 +8,8 @@
          <path enabled="true" name="/Orcl1/dir" type="mfpath"/>
          <path enabled="true" name="/Orcl1/logs" type="mfpath"/>
          <path enabled="true" name="/Orcl1/script" type="mfpath"/>
-         <path enabled="false" name="/Orcl1/cobol" type="mfpath"/>
-         <path enabled="false" name="/Orcl1/copybooks" type="mfpath"/>
+         <path enabled="true" name="/Orcl1/cobol" type="mfpath"/>
+         <path enabled="true" name="/Orcl1/copybooks" type="mfpath"/>
          <path enabled="false" name="/Orcl1/ddl" type="mfpath"/>
       </copybook-paths>
       <build-precedence-paths xsi:type="buildPrecedenceSettings">

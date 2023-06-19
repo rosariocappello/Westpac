@@ -96,6 +96,8 @@
 		<path type="copybook" name="${mf.projectLocation.Orcl1}/dir"/>
 		<path type="copybook" name="${mf.projectLocation.Orcl1}/logs"/>
 		<path type="copybook" name="${mf.projectLocation.Orcl1}/script"/>
+		<path type="copybook" name="${mf.projectLocation.Orcl1}/cobol"/>
+		<path type="copybook" name="${mf.projectLocation.Orcl1}/copybooks"/>
 	</mffilelist>
 	<!--  ********************************  -->
 	<!--  * Source File Compile and Link *  -->
