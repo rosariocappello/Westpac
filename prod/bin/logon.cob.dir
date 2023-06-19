@@ -1,0 +1,20 @@
+DIALECT"MF"
+COPYEXT"cpy,cbl"
+SOURCETABSTOP"4"
+COLLECTION"Orcl1"
+MAX-ERROR"100"
+NOTESTCOVER
+CHARSET"ASCII"
+EXITPROGRAM"ANSI"
+NOPROFILE
+SOURCEFORMAT"fixed"
+WARNING"1"
+LISTPATH"Listing"
+LIST()
+showdir
+P(cobsql)  endp
+INT"/home/oracle/Westpac/prod/bin/"
+ANIM
+LISTPATH"/home/oracle/Westpac/prod/Listing"
+ERRFORMAT(2)
+STDERR

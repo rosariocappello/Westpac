@@ -1,0 +1,2 @@
+#/opt/microfocus/VisualCOBOL/bin/cobchecker64 /home/oracle/Westpac/remote/testconn.cbl "int(""testconn.int"")" "USE""/home/oracle/Westpac/remote/New_Configuration.bin/mfant7173086515120163526.dir"""
+^/home/oracle/Westpac/remote/testconn.cbl

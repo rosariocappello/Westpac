@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<x:dirset xmlns:x="http://microfocus.com/directivesset" schemaVersion="1.1">
+    <x:preprocessor bgpEnabled="true" editable="false" enabled="true" handler="PSQL" id="Oracle Pro*COBOL(COBSQL)" location="P(cobsql)" predefinedId="0" stackable="true"/>
+</x:dirset>

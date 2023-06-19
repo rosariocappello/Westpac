@@ -1,0 +1,319 @@
+Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 19 19:05:32 2023
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
+
+Open file: /home/oracle/Westpac/remote/testconn.cbl
+     1  
+     2        ****************************************************************
+     3        * Copyright (C) Micro Focus 1988-2019. All rights reserved.
+     4        *
+     5        * This sample code is supplied for demonstration purposes only
+     6        * on an "as is" basis and is for use at your own risk.
+     7        *
+     8        ****************************************************************
+     9         working-storage section.
+    10  
+    11        *  Include the SQL Communications Area. This includes the
+    12        *  definitions of SQLCODE, etc
+    13             EXEC SQL INCLUDE SQLCA END-EXEC
+    14  
+    15             EXEC SQL BEGIN DECLARE SECTION END-EXEC
+    16         01 svr pic x(32) varying.
+    17         01 usr pic x(32)  varying.
+    18         01 pass pic x(32) varying.
+    19         01 usr-pass pic x(64).
+    20             EXEC SQL END DECLARE SECTION END-EXEC.
+    21  
+    22         procedure division.
+    23        *        Connect to a database
+    24             display "Connect statement tests"
+    25             display " "
+    26             display "Enter data source name "
+    27               with no advancing
+    28        *            accept svr
+    29  
+    30             display "Enter username "
+    31               with no advancing
+    32        *            accept usr
+    33  
+    34             display "Enter password "
+    35               with no advancing
+    36        *            accept pass
+    37             move "orcl1" to svr
+    38             move 5 to svr-len
+    39             move "mfuser" to usr
+    40             move 6 to  usr-len
+    41             move "Welcome01" to pass
+    42             move 8 to  pass-len
+    43  
+    44        *        Test 1 - Basic OpenESQL style connect
+    45  
+    46             move space to usr-pass
+    47             string
+    48               usr delimited space
+    49               "." delimited size
+    50               pass delimited space
+    51               into usr-pass
+    52             end-string
+    53             display "Test 1:" usr-pass
+    54  
+    55                 EXEC SQL
+    56                      CONNECT :USR IDENTIFIED BY :PASS
+    57                      AT :svr
+    58                  END-EXEC.
+    59             if sqlcode not = 0
+    60                 display "Error: cannot connect "
+Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 19 19:05:32 2023
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
+
+    61                 display sqlcode
+    62                 display sqlerrmc
+    63        *           stop run
+    64             end-if
+    65             display "Test 1: OK"
+    66  
+    67        *            EXEC SQL
+    68        *                DISCONNECT CURRENT
+    69        *            END-EXEC
+    70  
+    71             if sqlcode not = 0
+    72                 display "Error: cannot disconnect "
+    73                 display sqlcode
+    74                 display sqlerrmc
+    75        *                 stop run
+    76             end-if
+    77  
+    78        *        Test 2 - OpenESQL style connect with no prompt and slash .
+    79        *                 WITH PROMPT is an option only supported on PC
+    80        *                platforms.
+    81  
+    82             move space to usr-pass
+    83             string
+    84               usr delimited space
+    85               "/" delimited size
+    86               pass delimited space
+    87               into usr-pass
+    88             end-string
+    89  
+    90             display "Test 2:" usr-pass
+    91        *       EXEC SQL
+    92        *                CONNECT TO :svr USER :usr-pass WITH NO PROMPT
+    93        *           END-EXEC
+    94  
+    95             if sqlcode not = 0
+    96                 display "Error: cannot connect "
+    97                 display sqlcode
+    98                 display sqlerrmc
+    99        *                 stop run
+   100             end-if
+   101  
+   102             display "Test 2: OK"
+   103  
+   104        *            EXEC SQL
+   105        *                DISCONNECT DEFAULT
+   106        *            END-EXEC
+   107  
+   108             if sqlcode not = 0
+   109                 display "Error: cannot disconnect "
+   110                 display sqlcode
+   111                 display sqlerrmc
+   112        *                 stop run
+   113             end-if
+   114  
+   115        *    Test 3 - Oracle style connect with combined user and password
+   116  
+   117             move space to usr-pass
+   118             string
+   119               usr delimited space
+   120               "/" delimited size
+   121               pass delimited space
+Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 19 19:05:32 2023
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
+
+   122               into usr-pass
+   123             end-string
+   124  
+   125             display "Test 3:" usr-pass
+   126        *            EXEC SQL
+   127        *                CONNECT :usr-pass USING :svr
+   128        *            END-EXEC
+   129  
+   130             if sqlcode not = 0
+   131                 display "Error: cannot connect "
+   132                 display sqlcode
+   133                 display sqlerrmc
+   134        *                 stop run
+   135             end-if
+   136             display "Test 3: OK"
+   137  
+   138        *            EXEC SQL
+   139        *                DISCONNECT
+   140        *            END-EXEC
+   141             if sqlcode not = 0
+   142                 display "Error: cannot disconnect "
+   143                 display sqlcode
+   144                 display sqlerrmc
+   145        *            stop run
+   146             end-if
+   147  
+   148        * Test 4 - Oracle style connect with separate user and password
+   149             display "Test 4:"
+   150             EXEC SQL
+   151                 CONNECT :usr IDENTIFIED BY :pass USING :svr
+   152             END-EXEC
+   153             if sqlcode not = 0
+   154                 display "Error: cannot connect "
+   155                 display sqlcode
+   156                 display sqlerrmc
+   157        *          stop run
+   158             end-if
+   159             display "Test 4: OK"
+   160  
+   161        *            EXEC SQL
+   162        *                DISCONNECT ALL
+   163        *            END-EXEC
+   164  
+   165             if sqlcode not = 0
+   166                 display "Error: cannot disconnect "
+   167                 display sqlcode
+   168                 display sqlerrmc
+   169        *                stop run
+   170             end-if
+   171  
+   172             stop run
+   173             .
+Close file: /home/oracle/Westpac/remote/testconn.cbl
+Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 19 19:05:32 2023
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
+
+
+Host Variables
+--------------
+
+01  PASS                                                Varchar(32)
+  /home/oracle/Westpac/remote/testconn.cbl        18        56        56       151       151
+
+01  SVR                                                 Varchar(32)
+  /home/oracle/Westpac/remote/testconn.cbl        16        57        57       151       151
+
+01  USR                                                 Varchar(32)
+  /home/oracle/Westpac/remote/testconn.cbl        17        56        56       151       151
+
+Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 19 19:05:32 2023
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
+
+
+SQL Identifiers
+---------------
+
+BIT64                 DEFINE                        Command Line
+
+COMP5                 DEFINE                        Command Line
+
+UNIX                  DEFINE                        Pre-defined
+
+Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 19 19:05:32 2023
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
+
+
+
+                              Precompiler Options
+-------------------------------------------------------------------------------
+Option Name    Current Value        Where set
+-------------------------------------------------------------------------------
+asacc             no                default                                     
+assume_sqlcode    no                default                                     
+auto_connect      no                default                                     
+charset_picn      nchar_charset     default                                     
+charset_picx      db_charset        default                                     
+close_on_commit   no                default                                     
+common_parser     no                default                                     
+comp5             yes               /opt/oracle/product/19c/dbhome_1/precomp/adm
+config            default config    default                                     
+cwh_sql99         yes               default                                     
+date_format       local             default                                     
+db2_array         no                default                                     
+dbms              native            default                                     
+declare_section   no                default                                     
+define            COMP5             /opt/oracle/product/19c/dbhome_1/precomp/adm
+                  BIT64             /opt/oracle/product/19c/dbhome_1/precomp/adm
+                  *none*            /opt/oracle/product/19c/dbhome_1/precomp/adm
+dynamic           oracle            default                                     
+end_of_fetch      1403              default                                     
+errors            yes               default                                     
+file_id           0                 default                                     
+fips              no                default                                     
+format            ansi              default                                     
+hold_cursor       no                default                                     
+host              cobol             default                                     
+implicit_svpt     no                default                                     
+iname             /home/oracle/Westpcommand linestconn.cbl                      
+include           *none*            default                                     
+ireclen           80                default                                     
+litdelim          quote             default                                     
+lname             /home/oracle/Westpcommand linestconn.lis                      
+lreclen           132               default                                     
+ltype             long              default                                     
+maxliteral        256               default                                     
+maxopencursors    10                default                                     
+max_row_insert    0                 default                                     
+memforprefetch    0                 default                                     
+mode              oracle            default                                     
+nested            yes               default                                     
+nls_local         no                default                                     
+oname             /home/oracle/Westpcommand linestconn.cs9                      
+oraca             no                default                                     
+oreclen           80                default                                     
+outline           no                default                                     
+outlnprefix       *none*            default                                     
+pagelen           66                default                                     
+picn_endian       big               default                                     
+picx              charf             default                                     
+plan_baseline     no                default                                     
+plan_enabled      yes               default                                     
+plan_fixed        yes               default                                     
+plan_prefix       none              default                                     
+plan_run          no                default                                     
+prefetch          1                 default                                     
+release_cursor    no                default                                     
+runoutline        no                default                                     
+select_error      yes               default                                     
+sqlcheck          syntax            default                                     
+stmt_cache        0                 default                                     
+threads           no                default                                     
+trim_password     no                default                                     
+type_code         oracle            default                                     
+unsafe_null       no                default                                     
+userid            *none*            default                                     
+varchar           no                default                                     
+xref              yes               default                                     
+Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 19 19:05:32 2023
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
+
+
+Statistics
+----------
+
+Return code: 0
+Number of messages at severity I: 0
+Number of messages at severity W: 0
+Number of messages at severity E: 0
+Number of messages at severity F: 0
+Number of input lines: 173
+Number of host variables declared: 4
+Number of cursor names: 0
+Number of statement names: 0
+Maximum memory (bytes) used: 996060

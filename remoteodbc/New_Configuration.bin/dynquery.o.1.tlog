@@ -1,0 +1,7 @@
+#/opt/microfocus/VisualCOBOL/bin/cobchecker64 /home/oracle/Westpac/remoteodbc/dynquery.cbl "int(""dynquery.int"")" "USE""/home/oracle/Westpac/remoteodbc/New_Configuration.bin/mfant13244590018402559348.dir"""
+^/home/oracle/Westpac/remoteodbc/dynquery.cbl
+!/opt/microfocus/VisualCOBOL/cpylib/sqlca.cpy
++/opt/microfocus/VisualCOBOL/cpylib/sqlca.cpy
+-/opt/microfocus/VisualCOBOL/cpylib/sqlca.cpy
+!/opt/microfocus/VisualCOBOL/cpylib/sqlda78.cpy
++/opt/microfocus/VisualCOBOL/cpylib/sqlda78.cpy

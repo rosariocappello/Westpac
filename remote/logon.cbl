@@ -20,7 +20,7 @@
          05 D-COMMISSION PIC Z(4)9.99.
        01 D-TOTAL-QUERIED PIC 9(4) VALUE ZERO.
 
-       01 ws-flags pic x(4) comp-5 value 1.
+       01 ws-flags pic x(4) comp-5 value 0.
        01 ws-timeout pic s9(18) comp-5 value 0.
        01 ws-identifier PIC x(4) VALUE "HELP".
        01 ws-status-code pic x(4) comp-5 value zero.
@@ -28,10 +28,10 @@
        PROCEDURE DIVISION.
        BEGIN-PGM SECTION.
 
-          CALL"CBL_DEBUG_START" using  by value ws-flags
-                                               ws-timeout
-                              by reference     ws-identifier
-                              returning        ws-status-code
+      *   CALL"CBL_DEBUG_START" using  by value ws-flags
+      *                                        ws-timeout
+      *                       by reference     ws-identifier
+      *                       returning        ws-status-code
 
            ACCEPT EMP-NUMBER
            EXEC SQL

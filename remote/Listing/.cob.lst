@@ -1,0 +1,6 @@
+* Micro Focus COBOL                  V8.0 revision 000 09-Jun-23 17:53 Page   1
+* /home/oracle/Westpac/prod/cobol/.cob.cob
+* Options: int(".cob.int") verbose
+*          use(/home/oracle/Westpac/prod/dir/.cob.cob.dir)
+*          INT(/home/oracle/Westpac/prod/bin/)
+*          LIST(/home/oracle/Westpac/prod/listing/.cob.lst)

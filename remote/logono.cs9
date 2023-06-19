@@ -1,0 +1,183 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. logono
+
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01  SQLFPN GLOBAL.
+           02  SQLFPN-FILE-LEN PIC S9(4) COMP-5 VALUE +38.
+           02  SQLFPN-FILENAME PIC X(38) VALUE "/home/oracle/Westpac/rem
+      -    "ote/logono.cbl".
+
+       01  SQLCTX GLOBAL PIC S9(9) COMP-5 VALUE +139234906.
+
+
+       01  SQLEXD GLOBAL.
+           02  SQL-SQLVSN   PIC S9(18) COMP-5 VALUE +13.
+           02  SQL-ARRSIZ   PIC S9(9) COMP-5 VALUE +4.
+           02  SQL-ITERS    PIC S9(9) COMP-5.
+           02  SQL-OFFSET   PIC S9(9) COMP-5.
+           02  SQL-SELERR   PIC S9(4) COMP-5.
+           02  SQL-SQLETY   PIC S9(4) COMP-5.
+           02  SQL-OCCURS   PIC S9(9) COMP-5.
+           02  SQL-DUMMY    PIC S9(9) COMP-5.
+           02  SQL-CUD      PIC S9(18) COMP-5.
+           02  SQL-SQLEST   PIC S9(18) COMP-5.
+           02  SQL-STMT     PIC S9(18) COMP-5.
+           02  SQL-SQLADTP  PIC S9(18) COMP-5 VALUE 0.
+           02  SQL-SQLTDSP  PIC S9(18) COMP-5 VALUE 0.
+           02  SQL-SQPHSV   PIC S9(18) COMP-5.
+           02  SQL-SQPHSL   PIC S9(18) COMP-5.
+           02  SQL-SQPHSS   PIC S9(18) COMP-5.
+           02  SQL-SQPIND   PIC S9(18) COMP-5.
+           02  SQL-SQPINS   PIC S9(18) COMP-5.
+           02  SQL-SQPARM   PIC S9(18) COMP-5.
+           02  SQL-SQPARC   PIC S9(18) COMP-5.
+           02  SQL-SQPADTO  PIC S9(18) COMP-5.
+           02  SQL-SQPTDSO  PIC S9(18) COMP-5.
+           02  SQL-SQPHR1   PIC S9(9) COMP-5.
+           02  SQL-SQPHR2   PIC S9(9) COMP-5.
+           02  SQL-SQPHR3   PIC S9(9) COMP-5.
+           02  SQL-SQPHR4   PIC S9(9) COMP-5.
+           02  SQL-SQPHR5   PIC S9(9) COMP-5.
+           02  SQL-SQFOFF   PIC S9(9) COMP-5.
+           02  SQL-SQCMOD   PIC S9(9) COMP-5.
+           02  SQL-SQFMOD   PIC S9(9) COMP-5.
+           02  SQL-SQPMEM   PIC S9(9) COMP-5.
+           02  SQL-DUMMYPF  PIC S9(9) COMP-5.
+           02  SQL-SQHSTV   PIC S9(18) COMP-5 OCCURS 4 TIMES.
+           02  SQL-SQHSTL   PIC S9(18) COMP-5 OCCURS 4 TIMES.
+           02  SQL-SQHSTS   PIC S9(18) COMP-5 OCCURS 4 TIMES.
+           02  SQL-SQINDV   PIC S9(18) COMP-5 OCCURS 4 TIMES.
+           02  SQL-SQINDS   PIC S9(18) COMP-5 OCCURS 4 TIMES.
+           02  SQL-SQHARM   PIC S9(18) COMP-5 OCCURS 4 TIMES.
+           02  SQL-SQHARC   PIC S9(18) COMP-5 OCCURS 4 TIMES.
+           02  SQL-SQADTO   PIC S9(4) COMP-5 OCCURS 4 TIMES.
+           02  SQL-SQTDSO   PIC S9(4) COMP-5 OCCURS 4 TIMES.
+
+
+       01  SQL-RUNTIME-VARS.
+           02  SQL-IAPXIT-SUCCESS  PIC S9(9) COMP-5 VALUE    +0.
+           02  SQL-IAPXIT-FAILURE  PIC S9(9) COMP-5 VALUE +1403.
+           02  SQL-IAPXIT-FATALERR PIC S9(9) COMP-5 VALUE  +535.
+
+       01  SQLCUD GLOBAL.
+           02     FILLER PIC S9(4) COMP-5 VALUE +13.
+           02     FILLER PIC S9(4) COMP-5 VALUE +4130.
+           02     FILLER PIC S9(4) COMP-5 VALUE +1.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +5.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +27.
+           02     FILLER PIC S9(4) COMP-5 VALUE +14.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +4.
+           02     FILLER PIC S9(4) COMP-5 VALUE +4.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +1.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +1.
+           02     FILLER PIC S9(4) COMP-5 VALUE +96.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +1.
+           02     FILLER PIC S9(4) COMP-5 VALUE +96.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +1.
+           02     FILLER PIC S9(4) COMP-5 VALUE +10.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +1.
+           02     FILLER PIC S9(4) COMP-5 VALUE +10.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+       01 WS-DB-NAME PIC X(30) VALUE 'orcl1'.
+       01 WS-DB-USER PIC X(30) VALUE 'mfuser'.
+       01 WS-DB-PASS PIC X(30) VALUE 'Welcome01'.
+       01 SQLCODE PIC S9(9) USAGE 
+      *                           COMP
+                                  COMP-5
+                                      .
+
+       PROCEDURE DIVISION.
+       MAIN-PROCEDURE.
+
+      *    EXEC SQL
+      *        CONNECT :WS-DB-USER  IDENTIFIED BY :WS-DB-PASS
+      *    END-EXEC
+           MOVE 10 TO SQL-ITERS
+           MOVE 5 TO SQL-OFFSET
+           MOVE 0 TO SQL-OCCURS
+           CALL "SQLADR" USING
+               SQLCUD
+               SQL-CUD
+           CALL "SQLADR" USING
+               SQLCA
+               SQL-SQLEST
+           MOVE 4352 TO SQL-SQLETY
+           CALL "SQLADR" USING
+               WS-DB-USER
+               SQL-SQHSTV(1)
+           MOVE 30 TO SQL-SQHSTL(1)
+           MOVE 30 TO SQL-SQHSTS(1)
+           MOVE 0 TO SQL-SQINDV(1)
+           MOVE 0 TO SQL-SQINDS(1)
+           MOVE 0 TO SQL-SQHARM(1)
+           CALL "SQLADR" USING
+               WS-DB-PASS
+               SQL-SQHSTV(2)
+           MOVE 30 TO SQL-SQHSTL(2)
+           MOVE 30 TO SQL-SQHSTS(2)
+           MOVE 0 TO SQL-SQINDV(2)
+           MOVE 0 TO SQL-SQINDS(2)
+           MOVE 0 TO SQL-SQHARM(2)
+           CALL "SQLADR" USING
+               SQL-SQHSTV(1)
+               SQL-SQPHSV
+           CALL "SQLADR" USING
+               SQL-SQHSTL(1)
+               SQL-SQPHSL
+           CALL "SQLADR" USING
+               SQL-SQHSTS(1)
+               SQL-SQPHSS
+           CALL "SQLADR" USING
+               SQL-SQINDV(1)
+               SQL-SQPIND
+           CALL "SQLADR" USING
+               SQL-SQINDS(1)
+               SQL-SQPINS
+           CALL "SQLADR" USING
+               SQL-SQHARM(1)
+               SQL-SQPARM
+           CALL "SQLADR" USING
+               SQL-SQHARC(1)
+               SQL-SQPARC
+
+           CALL "SQLBEX" USING
+               SQLCTX
+               SQLEXD
+               SQLFPN
+           .
+
+           IF SQLCODE NOT EQUAL ZERO
+               DISPLAY "DB connection failed with SQLCODE: " SQLCODE
+           END-IF
+           DISPLAY "DB connection successful."
+
+           EXEC SQL
+               DISCONNECT
+           END-EXEC
+
+           IF SQLCODE NOT EQUAL ZERO
+               DISPLAY "DB disconnect failed with SQLCODE: " SQLCODE
+           END-IF
+           DISPLAY "DB disconnect successful."
+
+           GOBACK
+           .

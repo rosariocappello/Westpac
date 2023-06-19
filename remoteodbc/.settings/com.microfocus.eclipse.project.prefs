@@ -1,0 +1,7 @@
+com.microfocus.eclipse.editor.add_copypath_operation=append
+com.microfocus.eclipse.editor.build_thread_count=1
+com.microfocus.eclipse.editor.clean_foreign_files=prompt
+com.microfocus.eclipse.editor.delete_build_artifacts=always
+com.microfocus.eclipse.editor.disregard_output_folder_delta=false
+com.microfocus.eclipse.editor.enable_auto_add_copypath=true
+eclipse.preferences.version=1

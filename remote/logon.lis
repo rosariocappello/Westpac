@@ -1,0 +1,361 @@
+Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 19 19:10:31 2023
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
+
+Open file: /home/oracle/Westpac/remote/logon.cbl
+     1         IDENTIFICATION DIVISION.
+     2         PROGRAM-ID. LOGON.
+     3         ENVIRONMENT DIVISION.
+     4         DATA DIVISION.
+     5         WORKING-STORAGE SECTION.
+     6             EXEC SQL BEGIN DECLARE SECTION END-EXEC.
+     7         01 USERNAME PIC X(10) varying.
+     8         01 PASSWD PIC X(10) varying.
+     9         01 EMP-REC-VARS.
+    10           05 EMP-NAME PIC X(10) VARYING.
+    11           05 EMP-NUMBER PIC S9(4) COMP VALUE ZERO.
+    12           05 SALARY PIC S9(5)V99 COMP-3 VALUE ZERO.
+    13           05 COMMISSION PIC S9(5)V99 COMP-3 VALUE ZERO.
+    14           05 COMM-IND PIC S9(4) COMP VALUE ZERO.
+    15             EXEC SQL END DECLARE SECTION END-EXEC.
+    16             EXEC SQL INCLUDE SQLCA END-EXEC.
+    17         01 DISPLAY-VARIABLES.
+    18           05 D-EMP-NAME PIC X(10).
+    19           05 D-SALARY PIC Z(4)9.99.
+    20           05 D-COMMISSION PIC Z(4)9.99.
+    21         01 D-TOTAL-QUERIED PIC 9(4) VALUE ZERO.
+    22  
+    23         01 ws-flags pic x(4) comp-5 value 0.
+    24         01 ws-timeout pic s9(18) comp-5 value 0.
+    25         01 ws-identifier PIC x(4) VALUE "HELP".
+    26         01 ws-status-code pic x(4) comp-5 value zero.
+    27  
+    28         PROCEDURE DIVISION.
+    29         BEGIN-PGM SECTION.
+    30  
+    31        *   CALL"CBL_DEBUG_START" using  by value ws-flags
+    32        *                                        ws-timeout
+    33        *                       by reference     ws-identifier
+    34        *                       returning        ws-status-code
+    35  
+    36             ACCEPT EMP-NUMBER
+    37             EXEC SQL
+    38                 WHENEVER SQLERROR DO PERFORM SQL-ERROR
+    39             END-EXEC
+    40             .
+    41             PERFORM LOGON
+    42             .
+    43             PERFORM QUERY-LOOP
+    44             .
+    45             perform SIGN-OFF
+    46             .
+    47             goback
+    48             .
+    49  
+    50         LOGON SECTION.
+    51  
+    52             MOVE "mfuser" TO USERNAME-ARR
+    53             .
+    54             MOVE 6 TO USERNAME-LEN
+    55             .
+    56             MOVE "Welcome01" TO PASSWD-ARR
+    57  
+    58             MOVE 9 TO PASSWD-LEN
+    59             .
+    60  
+Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 19 19:10:31 2023
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
+
+    61             EXEC SQL
+    62                 CONNECT :USERNAME IDENTIFIED BY :PASSWD
+    63             END-EXEC
+    64             .
+    65             perform DISPLAY-INFO
+    66  
+    67             DISPLAY " "
+    68             .
+    69             DISPLAY "EMPLOYEE    SALARY    COMMISSION" upon console
+    70             .
+    71             DISPLAY "--------    ------    ----------" upon console
+    72             .
+    73  
+    74         LOGON-EXIT.
+    75             EXIT
+    76             .
+    77  
+    78         QUERY-LOOP SECTION.
+    79             DISPLAY " "  upon console
+    80             .
+    81             DISPLAY "ENTER EMP NUMBER (0 TO QUIT): "  upon console       
+    82             .
+    83             
+    84             ACCEPT EMP-NUMBER
+    85             IF (EMP-NUMBER = 0)
+    86                 PERFORM SIGN-OFF
+    87             END-IF
+    88             .
+    89             
+    90             perform until EMP-NUMBER = 0
+    91              
+    92                 perform get-employee-info
+    93                 DISPLAY " "  upon console
+    94                 DISPLAY "ENTER EMP NUMBER (0 TO QUIT): "   upon console
+    95                 ACCEPT EMP-NUMBER
+    96                 
+    97             end-perform.
+    98             
+    99         QUERY-LOOP-exit.  
+   100               exit.
+   101             .
+   102             
+   103         get-employee-info section.
+   104             
+   105             MOVE SPACES TO EMP-NAME-ARR
+   106             .
+   107   
+   108             .
+   109  
+   110              EXEC SQL
+   111                 SELECT ENAME, SAL, COMM
+   112                 INTO :EMP-NAME, :SALARY, :COMMISSION:COMM-IND
+   113                 FROM EMP
+   114                 WHERE EMPNO = :EMP-NUMBER
+   115              END-EXEC
+   116             .
+   117             if sqlcode = 0 
+   118                 PERFORM DISPLAY-LINE
+   119             else
+   120                 DISPLAY "NOT A VALID EMPLOYEE NUMBER - TRY AGAIN."
+   121             end-if
+Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 19 19:10:31 2023
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
+
+   122             .
+   123             ADD 1 TO D-TOTAL-QUERIED.
+   124  
+   125         get-employee-info-EXIT.
+   126             EXIT
+   127             .
+   128  
+   129         SIGN-OFF SECTION.
+   130             DISPLAY " "
+   131             .
+   132  
+   133             DISPLAY "TOTAL NUMBER QUERIED WAS ", D-TOTAL-QUERIED, "."
+   134             .
+   135             DISPLAY "HAVE A GOOD DAY."
+   136             .
+   137             DISPLAY " "
+   138             .
+   139             EXEC SQL
+   140                 COMMIT WORK RELEASE
+   141             END-EXEC
+   142             .
+   143             GOBACK.
+   144             .
+   145  
+   146         SQL-ERROR SECTION.
+   147             EXEC SQL
+   148                 WHENEVER SQLERROR CONTINUE
+   149             END-EXEC
+   150             .
+   151             DISPLAY " "
+   152             .
+   153             DISPLAY "ORACLE ERROR DETECTED:"
+   154             .
+   155             DISPLAY " "
+   156             .
+   157             DISPLAY SQLERRMC
+   158             .
+   159             EXEC SQL
+   160                 ROLLBACK WORK RELEASE
+   161             END-EXEC
+   162             .
+   163             STOP RUN
+   164             .
+   165  
+   166         DISPLAY-INFO SECTION.
+   167  
+   168             DISPLAY " " upon console
+   169             .
+   170             DISPLAY "CONNECTED TO ORACLE AS USER    = " USERNAME upon
+   171               console
+   172             .
+   173             DISPLAY "CONNECTED TO ORACLE AS PASSWORD=" PASSWD upon
+   174               console
+   175             .
+   176             Display "SQLCODE = " SQLCODE
+   177             .
+   178         DISPLAY-INFO-EXIT.
+   179             EXIT
+   180             .
+   181  
+   182         DISPLAY-LINE SECTION.
+Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 19 19:10:31 2023
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
+
+   183  
+   184             MOVE EMP-NAME-ARR TO D-EMP-NAME
+   185             .
+   186             MOVE SALARY TO D-SALARY
+   187             .
+   188             IF COMM-IND = -1
+   189                 DISPLAY D-EMP-NAME, D-SALARY, "          NULL"
+   190             ELSE
+   191                 MOVE COMMISSION TO D-COMMISSION
+   192                 DISPLAY D-EMP-NAME, D-SALARY, "      ", D-COMMISSION
+   193             END-IF
+   194             .
+   195             .
+   196         DISPLAY-LINE-EXIT.
+   197             EXIT
+   198             .
+Close file: /home/oracle/Westpac/remote/logon.cbl
+Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 19 19:10:31 2023
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
+
+
+Host Variables
+--------------
+
+05  COMM-IND OF EMP-REC-VARS                            Short Integer
+  /home/oracle/Westpac/remote/logon.cbl        14       112
+
+05  COMMISSION OF EMP-REC-VARS                          Decimal(7,2)
+  /home/oracle/Westpac/remote/logon.cbl        13       112
+
+05  EMP-NAME OF EMP-REC-VARS                            Varchar(10)
+  /home/oracle/Westpac/remote/logon.cbl        10       112       112
+
+05  EMP-NUMBER OF EMP-REC-VARS                          Short Integer
+  /home/oracle/Westpac/remote/logon.cbl        11       114
+
+01  PASSWD                                              Varchar(10)
+  /home/oracle/Westpac/remote/logon.cbl         8        62        62
+
+05  SALARY OF EMP-REC-VARS                              Decimal(7,2)
+  /home/oracle/Westpac/remote/logon.cbl        12       112
+
+01  USERNAME                                            Varchar(10)
+  /home/oracle/Westpac/remote/logon.cbl         7        62        62
+
+Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 19 19:10:31 2023
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
+
+
+SQL Identifiers
+---------------
+
+BIT64                 DEFINE                        Command Line
+
+COMP5                 DEFINE                        Command Line
+
+UNIX                  DEFINE                        Pre-defined
+
+Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 19 19:10:31 2023
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
+
+
+
+                              Precompiler Options
+-------------------------------------------------------------------------------
+Option Name    Current Value        Where set
+-------------------------------------------------------------------------------
+asacc             no                default                                     
+assume_sqlcode    no                default                                     
+auto_connect      no                default                                     
+charset_picn      nchar_charset     default                                     
+charset_picx      db_charset        default                                     
+close_on_commit   no                default                                     
+common_parser     no                default                                     
+comp5             yes               /opt/oracle/product/19c/dbhome_1/precomp/adm
+config            default config    default                                     
+cwh_sql99         yes               default                                     
+date_format       local             default                                     
+db2_array         no                default                                     
+dbms              native            default                                     
+declare_section   no                default                                     
+define            COMP5             /opt/oracle/product/19c/dbhome_1/precomp/adm
+                  BIT64             /opt/oracle/product/19c/dbhome_1/precomp/adm
+                  *none*            /opt/oracle/product/19c/dbhome_1/precomp/adm
+dynamic           oracle            default                                     
+end_of_fetch      1403              default                                     
+errors            yes               default                                     
+file_id           0                 default                                     
+fips              no                default                                     
+format            ansi              default                                     
+hold_cursor       no                default                                     
+host              cobol             default                                     
+implicit_svpt     no                default                                     
+iname             /home/oracle/Westpcommand linegon.cbl                         
+include           *none*            default                                     
+ireclen           80                default                                     
+litdelim          quote             default                                     
+lname             /home/oracle/Westpcommand linegon.lis                         
+lreclen           132               default                                     
+ltype             long              default                                     
+maxliteral        256               default                                     
+maxopencursors    10                default                                     
+max_row_insert    0                 default                                     
+memforprefetch    0                 default                                     
+mode              oracle            default                                     
+nested            yes               default                                     
+nls_local         no                default                                     
+oname             /home/oracle/Westpcommand linegon.cs9                         
+oraca             no                default                                     
+oreclen           80                default                                     
+outline           no                default                                     
+outlnprefix       *none*            default                                     
+pagelen           66                default                                     
+picn_endian       big               default                                     
+picx              charf             default                                     
+plan_baseline     no                default                                     
+plan_enabled      yes               default                                     
+plan_fixed        yes               default                                     
+plan_prefix       none              default                                     
+plan_run          no                default                                     
+prefetch          1                 default                                     
+release_cursor    no                default                                     
+runoutline        no                default                                     
+select_error      yes               default                                     
+sqlcheck          syntax            default                                     
+stmt_cache        0                 default                                     
+threads           no                default                                     
+trim_password     no                default                                     
+type_code         oracle            default                                     
+unsafe_null       no                default                                     
+userid            *none*            default                                     
+varchar           no                default                                     
+xref              yes               default                                     
+Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 19 19:10:31 2023
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
+
+
+Statistics
+----------
+
+Return code: 0
+Number of messages at severity I: 0
+Number of messages at severity W: 0
+Number of messages at severity E: 0
+Number of messages at severity F: 0
+Number of input lines: 198
+Number of host variables declared: 17
+Number of cursor names: 0
+Number of statement names: 0
+Maximum memory (bytes) used: 1018361

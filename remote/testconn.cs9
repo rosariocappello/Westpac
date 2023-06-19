@@ -1,0 +1,470 @@
+
+      ****************************************************************
+      * Copyright (C) Micro Focus 1988-2019. All rights reserved.
+      *
+      * This sample code is supplied for demonstration purposes only
+      * on an "as is" basis and is for use at your own risk.
+      *
+      ****************************************************************
+       working-storage section.
+
+      *  Include the SQL Communications Area. This includes the
+      *  definitions of SQLCODE, etc
+       01  SQLFPN GLOBAL.
+           02  SQLFPN-FILE-LEN PIC S9(4) COMP-5 VALUE +40.
+           02  SQLFPN-FILENAME PIC X(40) VALUE "/home/oracle/Westpac/rem
+      -    "ote/testconn.cbl".
+
+       01  SQLCTX GLOBAL PIC S9(9) COMP-5 VALUE +687437815.
+
+
+       01  SQLEXD GLOBAL.
+           02  SQL-SQLVSN   PIC S9(18) COMP-5 VALUE +13.
+           02  SQL-ARRSIZ   PIC S9(9) COMP-5 VALUE +5.
+           02  SQL-ITERS    PIC S9(9) COMP-5.
+           02  SQL-OFFSET   PIC S9(9) COMP-5.
+           02  SQL-SELERR   PIC S9(4) COMP-5.
+           02  SQL-SQLETY   PIC S9(4) COMP-5.
+           02  SQL-OCCURS   PIC S9(9) COMP-5.
+           02  SQL-DUMMY    PIC S9(9) COMP-5.
+           02  SQL-CUD      PIC S9(18) COMP-5.
+           02  SQL-SQLEST   PIC S9(18) COMP-5.
+           02  SQL-STMT     PIC S9(18) COMP-5.
+           02  SQL-SQLADTP  PIC S9(18) COMP-5 VALUE 0.
+           02  SQL-SQLTDSP  PIC S9(18) COMP-5 VALUE 0.
+           02  SQL-SQPHSV   PIC S9(18) COMP-5.
+           02  SQL-SQPHSL   PIC S9(18) COMP-5.
+           02  SQL-SQPHSS   PIC S9(18) COMP-5.
+           02  SQL-SQPIND   PIC S9(18) COMP-5.
+           02  SQL-SQPINS   PIC S9(18) COMP-5.
+           02  SQL-SQPARM   PIC S9(18) COMP-5.
+           02  SQL-SQPARC   PIC S9(18) COMP-5.
+           02  SQL-SQPADTO  PIC S9(18) COMP-5.
+           02  SQL-SQPTDSO  PIC S9(18) COMP-5.
+           02  SQL-SQPHR1   PIC S9(9) COMP-5.
+           02  SQL-SQPHR2   PIC S9(9) COMP-5.
+           02  SQL-SQPHR3   PIC S9(9) COMP-5.
+           02  SQL-SQPHR4   PIC S9(9) COMP-5.
+           02  SQL-SQPHR5   PIC S9(9) COMP-5.
+           02  SQL-SQFOFF   PIC S9(9) COMP-5.
+           02  SQL-SQCMOD   PIC S9(9) COMP-5.
+           02  SQL-SQFMOD   PIC S9(9) COMP-5.
+           02  SQL-SQPMEM   PIC S9(9) COMP-5.
+           02  SQL-DUMMYPF  PIC S9(9) COMP-5.
+           02  SQL-SQHSTV   PIC S9(18) COMP-5 OCCURS 5 TIMES.
+           02  SQL-SQHSTL   PIC S9(18) COMP-5 OCCURS 5 TIMES.
+           02  SQL-SQHSTS   PIC S9(18) COMP-5 OCCURS 5 TIMES.
+           02  SQL-SQINDV   PIC S9(18) COMP-5 OCCURS 5 TIMES.
+           02  SQL-SQINDS   PIC S9(18) COMP-5 OCCURS 5 TIMES.
+           02  SQL-SQHARM   PIC S9(18) COMP-5 OCCURS 5 TIMES.
+           02  SQL-SQHARC   PIC S9(18) COMP-5 OCCURS 5 TIMES.
+           02  SQL-SQADTO   PIC S9(4) COMP-5 OCCURS 5 TIMES.
+           02  SQL-SQTDSO   PIC S9(4) COMP-5 OCCURS 5 TIMES.
+
+
+       01  SQL-RUNTIME-VARS.
+           02  SQL-IAPXIT-SUCCESS  PIC S9(9) COMP-5 VALUE    +0.
+           02  SQL-IAPXIT-FAILURE  PIC S9(9) COMP-5 VALUE +1403.
+           02  SQL-IAPXIT-FATALERR PIC S9(9) COMP-5 VALUE  +535.
+
+       01  SQLCUD GLOBAL.
+           02     FILLER PIC S9(4) COMP-5 VALUE +13.
+           02     FILLER PIC S9(4) COMP-5 VALUE +4130.
+           02     FILLER PIC S9(4) COMP-5 VALUE +1.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +5.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +1051.
+           02     FILLER PIC S9(4) COMP-5 VALUE +55.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +4.
+           02     FILLER PIC S9(4) COMP-5 VALUE +4.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +2.
+           02     FILLER PIC S9(4) COMP-5 VALUE +128.
+           02     FILLER PIC S9(4) COMP-5 VALUE +1.
+           02     FILLER PIC S9(4) COMP-5 VALUE +9.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +1.
+           02     FILLER PIC S9(4) COMP-5 VALUE +9.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +1.
+           02     FILLER PIC S9(4) COMP-5 VALUE +10.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +1.
+           02     FILLER PIC S9(4) COMP-5 VALUE +10.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +1.
+           02     FILLER PIC S9(4) COMP-5 VALUE +9.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +40.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +27.
+           02     FILLER PIC S9(4) COMP-5 VALUE +150.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +4.
+           02     FILLER PIC S9(4) COMP-5 VALUE +4.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +1.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +1.
+           02     FILLER PIC S9(4) COMP-5 VALUE +9.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +1.
+           02     FILLER PIC S9(4) COMP-5 VALUE +9.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +1.
+           02     FILLER PIC S9(4) COMP-5 VALUE +9.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +1.
+           02     FILLER PIC S9(4) COMP-5 VALUE +10.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+      *    EXEC SQL INCLUDE SQLCA END-EXEC
+       01  SQLCA GLOBAL.
+           05  SQLCAID               PIC X(8).
+           05  SQLCABC               PIC S9(9) COMP-5.
+           05  SQLCODE               PIC S9(9) COMP-5.
+           05  SQLERRM.
+               49 SQLERRML           PIC S9(4) COMP-5.
+               49 SQLERRMC           PIC X(70).
+           05  SQLERRP               PIC X(8).
+           05  SQLERRD OCCURS 6 TIMES
+                                     PIC S9(9) COMP-5.
+           05  SQLWARN.
+               10 SQLWARN0           PIC X(1).
+               10 SQLWARN1           PIC X(1).
+               10 SQLWARN2           PIC X(1).
+               10 SQLWARN3           PIC X(1).
+               10 SQLWARN4           PIC X(1).
+               10 SQLWARN5           PIC X(1).
+               10 SQLWARN6           PIC X(1).
+               10 SQLWARN7           PIC X(1).
+           05  SQLEXT                PIC X(8).
+
+      *    EXEC SQL BEGIN DECLARE SECTION END-EXEC
+      *01 svr pic x(32) varying.
+       01  SVR.
+           02  SVR-LEN  PIC S9(4) COMP-5.
+           02  SVR-ARR  PIC X(32).
+      *01 usr pic x(32)  varying.
+       01  USR.
+           02  USR-LEN  PIC S9(4) COMP-5.
+           02  USR-ARR  PIC X(32).
+      *01 pass pic x(32) varying.
+       01  PASS.
+           02  PASS-LEN  PIC S9(4) COMP-5.
+           02  PASS-ARR  PIC X(32).
+       01 usr-pass pic x(64).
+      *    EXEC SQL END DECLARE SECTION END-EXEC.
+
+       procedure division.
+      *        Connect to a database
+           display "Connect statement tests"
+           display " "
+           display "Enter data source name "
+             with no advancing
+      *  	   accept svr
+
+           display "Enter username "
+             with no advancing
+      *  	   accept usr
+
+           display "Enter password "
+             with no advancing
+      *  	   accept pass
+           move "orcl1" to svr
+           move 5 to svr-len
+           move "mfuser" to usr
+           move 6 to  usr-len
+           move "Welcome01" to pass
+           move 8 to  pass-len
+
+      *        Test 1 - Basic OpenESQL style connect
+
+           move space to usr-pass
+           string
+             usr delimited space
+             "." delimited size
+             pass delimited space
+             into usr-pass
+           end-string
+           display "Test 1:" usr-pass
+
+      *        EXEC SQL
+      *             CONNECT :USR IDENTIFIED BY :PASS
+      *             AT :svr
+      *         END-EXEC.
+               MOVE 10 TO SQL-ITERS
+               MOVE 5 TO SQL-OFFSET
+               MOVE 0 TO SQL-OCCURS
+               CALL "SQLADR" USING
+                   SQLCUD
+                   SQL-CUD
+               CALL "SQLADR" USING
+                   SQLCA
+                   SQL-SQLEST
+               MOVE 4352 TO SQL-SQLETY
+               CALL "SQLADRVC" USING
+                   USR-LEN IN
+                   USR
+                   USR-ARR IN
+                   USR
+                   SQL-SQHSTV(1)
+               MOVE 34 TO SQL-SQHSTL(1)
+               MOVE 34 TO SQL-SQHSTS(1)
+               MOVE 0 TO SQL-SQINDV(1)
+               MOVE 0 TO SQL-SQINDS(1)
+               MOVE 0 TO SQL-SQHARM(1)
+               CALL "SQLADRVC" USING
+                   PASS-LEN IN
+                   PASS
+                   PASS-ARR IN
+                   PASS
+                   SQL-SQHSTV(2)
+               MOVE 34 TO SQL-SQHSTL(2)
+               MOVE 34 TO SQL-SQHSTS(2)
+               MOVE 0 TO SQL-SQINDV(2)
+               MOVE 0 TO SQL-SQINDS(2)
+               MOVE 0 TO SQL-SQHARM(2)
+               CALL "SQLADRVC" USING
+                   SVR-LEN IN
+                   SVR
+                   SVR-ARR IN
+                   SVR
+                   SQL-SQHSTV(5)
+               MOVE 34 TO SQL-SQHSTL(5)
+               MOVE 34 TO SQL-SQHSTS(5)
+               MOVE 0 TO SQL-SQINDV(5)
+               MOVE 0 TO SQL-SQINDS(5)
+               MOVE 0 TO SQL-SQHARM(5)
+               CALL "SQLADR" USING
+                   SQL-SQHSTV(1)
+                   SQL-SQPHSV
+               CALL "SQLADR" USING
+                   SQL-SQHSTL(1)
+                   SQL-SQPHSL
+               CALL "SQLADR" USING
+                   SQL-SQHSTS(1)
+                   SQL-SQPHSS
+               CALL "SQLADR" USING
+                   SQL-SQINDV(1)
+                   SQL-SQPIND
+               CALL "SQLADR" USING
+                   SQL-SQINDS(1)
+                   SQL-SQPINS
+               CALL "SQLADR" USING
+                   SQL-SQHARM(1)
+                   SQL-SQPARM
+               CALL "SQLADR" USING
+                   SQL-SQHARC(1)
+                   SQL-SQPARC
+
+               CALL "SQLBEX" USING
+                   SQLCTX
+                   SQLEXD
+                   SQLFPN
+                   .
+           if sqlcode not = 0
+               display "Error: cannot connect "
+               display sqlcode
+               display sqlerrmc
+      *           stop run
+           end-if
+           display "Test 1: OK"
+
+      *  	   EXEC SQL
+      *  	       DISCONNECT CURRENT
+      *  	   END-EXEC
+
+           if sqlcode not = 0
+               display "Error: cannot disconnect "
+               display sqlcode
+               display sqlerrmc
+      *                 stop run
+           end-if
+
+      *        Test 2 - OpenESQL style connect with no prompt and slash .
+      *                 WITH PROMPT is an option only supported on PC
+      *                platforms.
+
+           move space to usr-pass
+           string
+             usr delimited space
+             "/" delimited size
+             pass delimited space
+             into usr-pass
+           end-string
+
+           display "Test 2:" usr-pass
+      *       EXEC SQL
+      *  	       CONNECT TO :svr USER :usr-pass WITH NO PROMPT
+      *  	  END-EXEC
+
+           if sqlcode not = 0
+               display "Error: cannot connect "
+               display sqlcode
+               display sqlerrmc
+      *                 stop run
+           end-if
+
+           display "Test 2: OK"
+
+      *  	   EXEC SQL
+      *  	       DISCONNECT DEFAULT
+      *  	   END-EXEC
+
+           if sqlcode not = 0
+               display "Error: cannot disconnect "
+               display sqlcode
+               display sqlerrmc
+      *                 stop run
+           end-if
+
+      *    Test 3 - Oracle style connect with combined user and password
+
+           move space to usr-pass
+           string
+             usr delimited space
+             "/" delimited size
+             pass delimited space
+             into usr-pass
+           end-string
+
+           display "Test 3:" usr-pass
+      *  	   EXEC SQL
+      *  	       CONNECT :usr-pass USING :svr
+      *  	   END-EXEC
+
+           if sqlcode not = 0
+               display "Error: cannot connect "
+               display sqlcode
+               display sqlerrmc
+      *                 stop run
+           end-if
+           display "Test 3: OK"
+
+      *  	   EXEC SQL
+      *  	       DISCONNECT
+      *  	   END-EXEC
+           if sqlcode not = 0
+               display "Error: cannot disconnect "
+               display sqlcode
+               display sqlerrmc
+      *            stop run
+           end-if
+
+      * Test 4 - Oracle style connect with separate user and password
+           display "Test 4:"
+      *    EXEC SQL
+      *        CONNECT :usr IDENTIFIED BY :pass USING :svr
+      *    END-EXEC
+           MOVE 10 TO SQL-ITERS
+           MOVE 40 TO SQL-OFFSET
+           MOVE 0 TO SQL-OCCURS
+           CALL "SQLADR" USING
+               SQLCUD
+               SQL-CUD
+           CALL "SQLADR" USING
+               SQLCA
+               SQL-SQLEST
+           MOVE 4352 TO SQL-SQLETY
+           CALL "SQLADRVC" USING
+               USR-LEN IN
+               USR
+               USR-ARR IN
+               USR
+               SQL-SQHSTV(1)
+           MOVE 34 TO SQL-SQHSTL(1)
+           MOVE 34 TO SQL-SQHSTS(1)
+           MOVE 0 TO SQL-SQINDV(1)
+           MOVE 0 TO SQL-SQINDS(1)
+           MOVE 0 TO SQL-SQHARM(1)
+           CALL "SQLADRVC" USING
+               PASS-LEN IN
+               PASS
+               PASS-ARR IN
+               PASS
+               SQL-SQHSTV(2)
+           MOVE 34 TO SQL-SQHSTL(2)
+           MOVE 34 TO SQL-SQHSTS(2)
+           MOVE 0 TO SQL-SQINDV(2)
+           MOVE 0 TO SQL-SQINDS(2)
+           MOVE 0 TO SQL-SQHARM(2)
+           CALL "SQLADRVC" USING
+               SVR-LEN IN
+               SVR
+               SVR-ARR IN
+               SVR
+               SQL-SQHSTV(3)
+           MOVE 34 TO SQL-SQHSTL(3)
+           MOVE 34 TO SQL-SQHSTS(3)
+           MOVE 0 TO SQL-SQINDV(3)
+           MOVE 0 TO SQL-SQINDS(3)
+           MOVE 0 TO SQL-SQHARM(3)
+           CALL "SQLADR" USING
+               SQL-SQHSTV(1)
+               SQL-SQPHSV
+           CALL "SQLADR" USING
+               SQL-SQHSTL(1)
+               SQL-SQPHSL
+           CALL "SQLADR" USING
+               SQL-SQHSTS(1)
+               SQL-SQPHSS
+           CALL "SQLADR" USING
+               SQL-SQINDV(1)
+               SQL-SQPIND
+           CALL "SQLADR" USING
+               SQL-SQINDS(1)
+               SQL-SQPINS
+           CALL "SQLADR" USING
+               SQL-SQHARM(1)
+               SQL-SQPARM
+           CALL "SQLADR" USING
+               SQL-SQHARC(1)
+               SQL-SQPARC
+
+           CALL "SQLBEX" USING
+               SQLCTX
+               SQLEXD
+               SQLFPN
+           if sqlcode not = 0
+               display "Error: cannot connect "
+               display sqlcode
+               display sqlerrmc
+      *          stop run
+           end-if
+           display "Test 4: OK"
+
+      *  	   EXEC SQL
+      *  	       DISCONNECT ALL
+      *  	   END-EXEC
+
+           if sqlcode not = 0
+               display "Error: cannot disconnect "
+               display sqlcode
+               display sqlerrmc
+      *                stop run
+           end-if
+
+           stop run
+           .

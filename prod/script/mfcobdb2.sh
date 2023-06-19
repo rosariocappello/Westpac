@@ -95,7 +95,7 @@ LOCBIN=$ENVTOP/bin
 export LOCBIN
 echo "LOCBIN          = " $LOCBIN >>$logfile
 
-LOCLIST=$ENVTOP/listing
+LOCLIST=$ENVTOP/Listing
 export LOCLIST
 echo "LOCLIST         = " $LOCLIST >>$logfile
 
