@@ -88,7 +88,7 @@
 001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
 001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
 001000           02     FILLER PIC S9(4) COMP-5 VALUE +27.
-001000           02     FILLER PIC S9(4) COMP-5 VALUE +61.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +63.
 001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
 001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
 001000           02     FILLER PIC S9(4) COMP-5 VALUE +4.
@@ -119,7 +119,7 @@
 001000           02     FILLER PIC S9(4) COMP-5 VALUE +73.
 001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
 001000           02     FILLER PIC S9(4) COMP-5 VALUE +4.
-001000           02     FILLER PIC S9(4) COMP-5 VALUE +110.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +112.
 001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
 001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
 001000           02     FILLER PIC S9(4) COMP-5 VALUE +4.
@@ -150,7 +150,7 @@
 001000           02     FILLER PIC S9(4) COMP-5 VALUE +12.
 001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
 001000           02     FILLER PIC S9(4) COMP-5 VALUE +30.
-001000           02     FILLER PIC S9(4) COMP-5 VALUE +139.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +141.
 001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
 001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
 001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
@@ -165,7 +165,7 @@
 001000           02     FILLER PIC S9(4) COMP-5 VALUE +14.
 001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
 001000           02     FILLER PIC S9(4) COMP-5 VALUE +32.
-001000           02     FILLER PIC S9(4) COMP-5 VALUE +159.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +161.
 001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
 001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
 001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
@@ -219,10 +219,12 @@
 001000               10 SQLWARN6           PIC X(1).
 001000               10 SQLWARN7           PIC X(1).
 001000           05  SQLEXT                PIC X(8).
+032000
 032000       01 DISPLAY-VARIABLES.
 032000         05 D-EMP-NAME PIC X(10).
 032000         05 D-SALARY PIC Z(4)9.99.
 032000         05 D-COMMISSION PIC Z(4)9.99.
+032000
 032000       01 D-TOTAL-QUERIED PIC 9(4) VALUE ZERO.
 032000
 032000       01 ws-flags pic x(4) comp-5 value 1.
@@ -233,7 +235,7 @@
 032000       PROCEDURE DIVISION.
 032000       BEGIN-PGM SECTION.
 032000
-032000          CALL"CBL_DEBUG_START" using  by value ws-flags
+032000           CALL"CBL_DEBUG_START" using  by value ws-flags
 032000                                               ws-timeout
 032000                              by reference     ws-identifier
 032000                              returning        ws-status-code
@@ -656,19 +658,19 @@
 005000      *Host Variables
 005000      *--------------
 005000      *05  COMM-IND OF EMP-REC-VARS                            Short Integer
-005000      *  /home/oracle/Westpac/prod/cobol/logon.cob        14       112
+005000      *  /home/oracle/Westpac/prod/cobol/logon.cob        14       114
 005000      *05  COMMISSION OF EMP-REC-VARS                          Decimal(7,2)
-005000      *  /home/oracle/Westpac/prod/cobol/logon.cob        13       112
+005000      *  /home/oracle/Westpac/prod/cobol/logon.cob        13       114
 005000      *05  EMP-NAME OF EMP-REC-VARS                            Varchar(10)
-005000      *  /home/oracle/Westpac/prod/cobol/logon.cob        10       112       112
+005000      *  /home/oracle/Westpac/prod/cobol/logon.cob        10       114       114
 005000      *05  EMP-NUMBER OF EMP-REC-VARS                          Short Integer
-005000      *  /home/oracle/Westpac/prod/cobol/logon.cob        11       114
+005000      *  /home/oracle/Westpac/prod/cobol/logon.cob        11       116
 005000      *01  PASSWD                                              Varchar(10)
-005000      *  /home/oracle/Westpac/prod/cobol/logon.cob         8        62        62
+005000      *  /home/oracle/Westpac/prod/cobol/logon.cob         8        64        64
 005000      *05  SALARY OF EMP-REC-VARS                              Decimal(7,2)
-005000      *  /home/oracle/Westpac/prod/cobol/logon.cob        12       112
+005000      *  /home/oracle/Westpac/prod/cobol/logon.cob        12       114
 005000      *01  USERNAME                                            Varchar(10)
-005000      *  /home/oracle/Westpac/prod/cobol/logon.cob         7        62        62
+005000      *  /home/oracle/Westpac/prod/cobol/logon.cob         7        64        64
 005000      *Version 19.3.0.0.0
 005000      *Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reser
 005000      *SQL Identifiers
@@ -757,7 +759,7 @@
 005000      *Number of messages at severity W: 0
 005000      *Number of messages at severity E: 0
 005000      *Number of messages at severity F: 0
-005000      *Number of input lines: 198
+005000      *Number of input lines: 200
 005000      *Number of host variables declared: 17
 005000      *Number of cursor names: 0
 005000      *Number of statement names: 0

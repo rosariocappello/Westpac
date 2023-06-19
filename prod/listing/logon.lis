@@ -1,4 +1,4 @@
-Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 19 14:20:57 2023
+Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 19 20:55:18 2023
 Version 19.3.0.0.0
 
 Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
@@ -20,205 +20,207 @@ Open file: /home/oracle/Westpac/prod/cobol/logon.cob
     14           05 COMM-IND PIC S9(4) COMP VALUE ZERO.
     15             EXEC SQL END DECLARE SECTION END-EXEC.
     16             EXEC SQL INCLUDE SQLCA END-EXEC.
-    17         01 DISPLAY-VARIABLES.
-    18           05 D-EMP-NAME PIC X(10).
-    19           05 D-SALARY PIC Z(4)9.99.
-    20           05 D-COMMISSION PIC Z(4)9.99.
-    21         01 D-TOTAL-QUERIED PIC 9(4) VALUE ZERO.
+    17         
+    18         01 DISPLAY-VARIABLES.
+    19           05 D-EMP-NAME PIC X(10).
+    20           05 D-SALARY PIC Z(4)9.99.
+    21           05 D-COMMISSION PIC Z(4)9.99.
     22  
-    23         01 ws-flags pic x(4) comp-5 value 1.
-    24         01 ws-timeout pic s9(18) comp-5 value 0.
-    25         01 ws-identifier PIC x(4) VALUE "HELP".
-    26         01 ws-status-code pic x(4) comp-5 value zero.
-    27  
-    28         PROCEDURE DIVISION.
-    29         BEGIN-PGM SECTION.
-    30  
-    31            CALL"CBL_DEBUG_START" using  by value ws-flags
-    32                                                 ws-timeout
-    33                                by reference     ws-identifier
-    34                                returning        ws-status-code
-    35  
-    36             ACCEPT EMP-NUMBER
-    37             EXEC SQL
-    38                 WHENEVER SQLERROR DO PERFORM SQL-ERROR
-    39             END-EXEC
-    40             .
-    41             PERFORM LOGON
+    23         01 D-TOTAL-QUERIED PIC 9(4) VALUE ZERO.
+    24  
+    25         01 ws-flags pic x(4) comp-5 value 1.
+    26         01 ws-timeout pic s9(18) comp-5 value 0.
+    27         01 ws-identifier PIC x(4) VALUE "HELP".
+    28         01 ws-status-code pic x(4) comp-5 value zero.
+    29  
+    30         PROCEDURE DIVISION.
+    31         BEGIN-PGM SECTION.
+    32  
+    33             CALL"CBL_DEBUG_START" using  by value ws-flags
+    34                                                 ws-timeout
+    35                                by reference     ws-identifier
+    36                                returning        ws-status-code
+    37  
+    38             ACCEPT EMP-NUMBER
+    39             EXEC SQL
+    40                 WHENEVER SQLERROR DO PERFORM SQL-ERROR
+    41             END-EXEC
     42             .
-    43             PERFORM QUERY-LOOP
+    43             PERFORM LOGON
     44             .
-    45             perform SIGN-OFF
+    45             PERFORM QUERY-LOOP
     46             .
-    47             goback
+    47             perform SIGN-OFF
     48             .
-    49  
-    50         LOGON SECTION.
+    49             goback
+    50             .
     51  
-    52             MOVE "mfuser" TO USERNAME-ARR
-    53             .
-    54             MOVE 6 TO USERNAME-LEN
+    52         LOGON SECTION.
+    53  
+    54             MOVE "mfuser" TO USERNAME-ARR
     55             .
-    56             MOVE "Welcome01" TO PASSWD-ARR
-    57  
-    58             MOVE 9 TO PASSWD-LEN
-    59             .
-    60  
-Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 19 14:20:57 2023
+    56             MOVE 6 TO USERNAME-LEN
+    57             .
+    58             MOVE "Welcome01" TO PASSWD-ARR
+    59  
+    60             MOVE 9 TO PASSWD-LEN
+Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 19 20:55:18 2023
 Version 19.3.0.0.0
 
 Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
 
-    61             EXEC SQL
-    62                 CONNECT :USERNAME IDENTIFIED BY :PASSWD
-    63             END-EXEC
-    64             .
-    65             perform DISPLAY-INFO
-    66  
-    67             DISPLAY " "
-    68             .
-    69             DISPLAY "EMPLOYEE    SALARY    COMMISSION" upon console
+    61             .
+    62  
+    63             EXEC SQL
+    64                 CONNECT :USERNAME IDENTIFIED BY :PASSWD
+    65             END-EXEC
+    66             .
+    67             perform DISPLAY-INFO
+    68  
+    69             DISPLAY " "
     70             .
-    71             DISPLAY "--------    ------    ----------" upon console
+    71             DISPLAY "EMPLOYEE    SALARY    COMMISSION" upon console
     72             .
-    73  
-    74         LOGON-EXIT.
-    75             EXIT
-    76             .
-    77  
-    78         QUERY-LOOP SECTION.
-    79             DISPLAY " "  upon console
-    80             .
-    81             DISPLAY "ENTER EMP NUMBER (0 TO QUIT): "  upon console       
+    73             DISPLAY "--------    ------    ----------" upon console
+    74             .
+    75  
+    76         LOGON-EXIT.
+    77             EXIT
+    78             .
+    79  
+    80         QUERY-LOOP SECTION.
+    81             DISPLAY " "  upon console
     82             .
-    83             
-    84             ACCEPT EMP-NUMBER
-    85             IF (EMP-NUMBER = 0)
-    86                 PERFORM SIGN-OFF
-    87             END-IF
-    88             .
-    89             
-    90             perform until EMP-NUMBER = 0
-    91              
-    92                 perform get-employee-info
-    93                 DISPLAY " "  upon console
-    94                 DISPLAY "ENTER EMP NUMBER (0 TO QUIT): "   upon console
-    95                 ACCEPT EMP-NUMBER
-    96                 
-    97             end-perform.
-    98             
-    99         QUERY-LOOP-exit.  
-   100               exit.
-   101             .
-   102             
-   103         get-employee-info section.
+    83             DISPLAY "ENTER EMP NUMBER (0 TO QUIT): "  upon console       
+    84             .
+    85             
+    86             ACCEPT EMP-NUMBER
+    87             IF (EMP-NUMBER = 0)
+    88                 PERFORM SIGN-OFF
+    89             END-IF
+    90             .
+    91             
+    92             perform until EMP-NUMBER = 0
+    93              
+    94                 perform get-employee-info
+    95                 DISPLAY " "  upon console
+    96                 DISPLAY "ENTER EMP NUMBER (0 TO QUIT): "   upon console
+    97                 ACCEPT EMP-NUMBER
+    98                 
+    99             end-perform.
+   100             
+   101         QUERY-LOOP-exit.  
+   102               exit.
+   103             .
    104             
-   105             MOVE SPACES TO EMP-NAME-ARR
-   106             .
-   107   
+   105         get-employee-info section.
+   106             
+   107             MOVE SPACES TO EMP-NAME-ARR
    108             .
-   109  
-   110              EXEC SQL
-   111                 SELECT ENAME, SAL, COMM
-   112                 INTO :EMP-NAME, :SALARY, :COMMISSION:COMM-IND
-   113                 FROM EMP
-   114                 WHERE EMPNO = :EMP-NUMBER
-   115              END-EXEC
-   116             .
-   117             if sqlcode = 0 
-   118                 PERFORM DISPLAY-LINE
-   119             else
-   120                 DISPLAY "NOT A VALID EMPLOYEE NUMBER - TRY AGAIN."
-   121             end-if
-Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 19 14:20:57 2023
+   109   
+   110             .
+   111  
+   112              EXEC SQL
+   113                 SELECT ENAME, SAL, COMM
+   114                 INTO :EMP-NAME, :SALARY, :COMMISSION:COMM-IND
+   115                 FROM EMP
+   116                 WHERE EMPNO = :EMP-NUMBER
+   117              END-EXEC
+   118             .
+   119             if sqlcode = 0 
+   120                 PERFORM DISPLAY-LINE
+   121             else
+Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 19 20:55:18 2023
 Version 19.3.0.0.0
 
 Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
 
-   122             .
-   123             ADD 1 TO D-TOTAL-QUERIED.
-   124  
-   125         get-employee-info-EXIT.
-   126             EXIT
-   127             .
-   128  
-   129         SIGN-OFF SECTION.
-   130             DISPLAY " "
-   131             .
-   132  
-   133             DISPLAY "TOTAL NUMBER QUERIED WAS ", D-TOTAL-QUERIED, "."
-   134             .
-   135             DISPLAY "HAVE A GOOD DAY."
+   122                 DISPLAY "NOT A VALID EMPLOYEE NUMBER - TRY AGAIN."
+   123             end-if
+   124             .
+   125             ADD 1 TO D-TOTAL-QUERIED.
+   126  
+   127         get-employee-info-EXIT.
+   128             EXIT
+   129             .
+   130  
+   131         SIGN-OFF SECTION.
+   132             DISPLAY " "
+   133             .
+   134  
+   135             DISPLAY "TOTAL NUMBER QUERIED WAS ", D-TOTAL-QUERIED, "."
    136             .
-   137             DISPLAY " "
+   137             DISPLAY "HAVE A GOOD DAY."
    138             .
-   139             EXEC SQL
-   140                 COMMIT WORK RELEASE
-   141             END-EXEC
-   142             .
-   143             GOBACK.
+   139             DISPLAY " "
+   140             .
+   141             EXEC SQL
+   142                 COMMIT WORK RELEASE
+   143             END-EXEC
    144             .
-   145  
-   146         SQL-ERROR SECTION.
-   147             EXEC SQL
-   148                 WHENEVER SQLERROR CONTINUE
-   149             END-EXEC
-   150             .
-   151             DISPLAY " "
+   145             GOBACK.
+   146             .
+   147  
+   148         SQL-ERROR SECTION.
+   149             EXEC SQL
+   150                 WHENEVER SQLERROR CONTINUE
+   151             END-EXEC
    152             .
-   153             DISPLAY "ORACLE ERROR DETECTED:"
+   153             DISPLAY " "
    154             .
-   155             DISPLAY " "
+   155             DISPLAY "ORACLE ERROR DETECTED:"
    156             .
-   157             DISPLAY SQLERRMC
+   157             DISPLAY " "
    158             .
-   159             EXEC SQL
-   160                 ROLLBACK WORK RELEASE
-   161             END-EXEC
-   162             .
-   163             STOP RUN
+   159             DISPLAY SQLERRMC
+   160             .
+   161             EXEC SQL
+   162                 ROLLBACK WORK RELEASE
+   163             END-EXEC
    164             .
-   165  
-   166         DISPLAY-INFO SECTION.
+   165             STOP RUN
+   166             .
    167  
-   168             DISPLAY " " upon console
-   169             .
-   170             DISPLAY "CONNECTED TO ORACLE AS USER    = " USERNAME upon
-   171               console
-   172             .
-   173             DISPLAY "CONNECTED TO ORACLE AS PASSWORD=" PASSWD upon
-   174               console
-   175             .
-   176             Display "SQLCODE = " SQLCODE
+   168         DISPLAY-INFO SECTION.
+   169  
+   170             DISPLAY " " upon console
+   171             .
+   172             DISPLAY "CONNECTED TO ORACLE AS USER    = " USERNAME upon
+   173               console
+   174             .
+   175             DISPLAY "CONNECTED TO ORACLE AS PASSWORD=" PASSWD upon
+   176               console
    177             .
-   178         DISPLAY-INFO-EXIT.
-   179             EXIT
-   180             .
-   181  
-   182         DISPLAY-LINE SECTION.
-Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 19 14:20:57 2023
+   178             Display "SQLCODE = " SQLCODE
+   179             .
+   180         DISPLAY-INFO-EXIT.
+   181             EXIT
+   182             .
+Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 19 20:55:18 2023
 Version 19.3.0.0.0
 
 Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
 
    183  
-   184             MOVE EMP-NAME-ARR TO D-EMP-NAME
-   185             .
-   186             MOVE SALARY TO D-SALARY
+   184         DISPLAY-LINE SECTION.
+   185  
+   186             MOVE EMP-NAME-ARR TO D-EMP-NAME
    187             .
-   188             IF COMM-IND = -1
-   189                 DISPLAY D-EMP-NAME, D-SALARY, "          NULL"
-   190             ELSE
-   191                 MOVE COMMISSION TO D-COMMISSION
-   192                 DISPLAY D-EMP-NAME, D-SALARY, "      ", D-COMMISSION
-   193             END-IF
-   194             .
-   195             .
-   196         DISPLAY-LINE-EXIT.
-   197             EXIT
-   198             .
+   188             MOVE SALARY TO D-SALARY
+   189             .
+   190             IF COMM-IND = -1
+   191                 DISPLAY D-EMP-NAME, D-SALARY, "          NULL"
+   192             ELSE
+   193                 MOVE COMMISSION TO D-COMMISSION
+   194                 DISPLAY D-EMP-NAME, D-SALARY, "      ", D-COMMISSION
+   195             END-IF
+   196             .
+   197             .
+   198         DISPLAY-LINE-EXIT.
+   199             EXIT
+   200             .
 Close file: /home/oracle/Westpac/prod/cobol/logon.cob
-Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 19 14:20:57 2023
+Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 19 20:55:18 2023
 Version 19.3.0.0.0
 
 Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
@@ -228,27 +230,27 @@ Host Variables
 --------------
 
 05  COMM-IND OF EMP-REC-VARS                            Short Integer
-  /home/oracle/Westpac/prod/cobol/logon.cob        14       112
+  /home/oracle/Westpac/prod/cobol/logon.cob        14       114
 
 05  COMMISSION OF EMP-REC-VARS                          Decimal(7,2)
-  /home/oracle/Westpac/prod/cobol/logon.cob        13       112
+  /home/oracle/Westpac/prod/cobol/logon.cob        13       114
 
 05  EMP-NAME OF EMP-REC-VARS                            Varchar(10)
-  /home/oracle/Westpac/prod/cobol/logon.cob        10       112       112
+  /home/oracle/Westpac/prod/cobol/logon.cob        10       114       114
 
 05  EMP-NUMBER OF EMP-REC-VARS                          Short Integer
-  /home/oracle/Westpac/prod/cobol/logon.cob        11       114
+  /home/oracle/Westpac/prod/cobol/logon.cob        11       116
 
 01  PASSWD                                              Varchar(10)
-  /home/oracle/Westpac/prod/cobol/logon.cob         8        62        62
+  /home/oracle/Westpac/prod/cobol/logon.cob         8        64        64
 
 05  SALARY OF EMP-REC-VARS                              Decimal(7,2)
-  /home/oracle/Westpac/prod/cobol/logon.cob        12       112
+  /home/oracle/Westpac/prod/cobol/logon.cob        12       114
 
 01  USERNAME                                            Varchar(10)
-  /home/oracle/Westpac/prod/cobol/logon.cob         7        62        62
+  /home/oracle/Westpac/prod/cobol/logon.cob         7        64        64
 
-Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 19 14:20:57 2023
+Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 19 20:55:18 2023
 Version 19.3.0.0.0
 
 Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
@@ -263,7 +265,7 @@ COMP5                 DEFINE                        Command Line
 
 UNIX                  DEFINE                        Pre-defined
 
-Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 19 14:20:57 2023
+Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 19 20:55:18 2023
 Version 19.3.0.0.0
 
 Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
@@ -340,7 +342,7 @@ unsafe_null       no                default
 userid            *none*            default                                     
 varchar           no                default                                     
 xref              yes               default                                     
-Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 19 14:20:57 2023
+Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 19 20:55:18 2023
 Version 19.3.0.0.0
 
 Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
@@ -354,7 +356,7 @@ Number of messages at severity I: 0
 Number of messages at severity W: 0
 Number of messages at severity E: 0
 Number of messages at severity F: 0
-Number of input lines: 198
+Number of input lines: 200
 Number of host variables declared: 17
 Number of cursor names: 0
 Number of statement names: 0

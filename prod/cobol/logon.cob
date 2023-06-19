@@ -14,10 +14,12 @@
          05 COMM-IND PIC S9(4) COMP VALUE ZERO.
            EXEC SQL END DECLARE SECTION END-EXEC.
            EXEC SQL INCLUDE SQLCA END-EXEC.
+       
        01 DISPLAY-VARIABLES.
          05 D-EMP-NAME PIC X(10).
          05 D-SALARY PIC Z(4)9.99.
          05 D-COMMISSION PIC Z(4)9.99.
+
        01 D-TOTAL-QUERIED PIC 9(4) VALUE ZERO.
 
        01 ws-flags pic x(4) comp-5 value 1.
@@ -28,7 +30,7 @@
        PROCEDURE DIVISION.
        BEGIN-PGM SECTION.
 
-          CALL"CBL_DEBUG_START" using  by value ws-flags
+           CALL"CBL_DEBUG_START" using  by value ws-flags
                                                ws-timeout
                               by reference     ws-identifier
                               returning        ws-status-code
