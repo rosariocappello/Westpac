@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xsi:schemaLocation="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="cobolProject" name="gl2" uuid="85b684eb-7832-4ee0-a546-072d6aa6d121" version="5.0">
+<project xsi:schemaLocation="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="cobolProject" name="gl2" uuid="b3762112-de5d-42e9-93ac-f49dd716fff0" version="5.0">
    <settings xsi:type="projectSettingsContainer">
       <copybook-paths xsi:type="copybookPathsSettings">
          <path enabled="true" name="/gl2" type="mfpath"/>
@@ -10,7 +10,7 @@
          <path enabled="true" name="/gl2/Listing" type="mfpath"/>
       </build-precedence-paths>
       <configurations default="New Configuration" linkedWith="" xsi:type="buildConfigurationsContainer">
-         <configuration description="New Configuration" type="all_intgnt" xsi:type="cobolBuildConfiguration">
+         <configuration description="New Configuration" type="single_exe" xsi:type="cobolBuildConfiguration">
             <targetdir name="gl2"/>
             <application_configuration xsi:type="runtimeConfigurationSettings">
                <cobol_switches xsi:type="projectCobolSwitches"/>
@@ -39,9 +39,8 @@
                <options>
                   <option id="targetName" name="linkSettings" value="gl2"/>
                   <option id="applicationType" name="linkSettings" value="console"/>
-                  <option id="rcfile" name="linkSettings" value=""/>
                   <option id="outputDirectory" name="linkSettings" value="New Configuration.bin"/>
-                  <option id="type" name="linkSettings" value="all_intgnt"/>
+                  <option id="type" name="linkSettings" value="single_exe"/>
                   <option id="runtimeModel" name="linkSettings" value="shared"/>
                   <option id="platform" name="linkSettings" value="Unix/Linux"/>
                   <option id="bitism" name="linkSettings" value="32 bit"/>
@@ -56,10 +55,6 @@
                   <option id="deployPatterns" name="deploySettings" value="New_Configuration.bin/*${exeext}"/>
                </options>
             </deploy_settings>
-            <build_environment xsi:type="buildEnvironmentSettings">
-               <environmentScript>/home/oracle/setoracle.sh</environmentScript>
-               <environmentScriptParameters></environmentScriptParameters>
-            </build_environment>
          </configuration>
       </configurations>
       <ims_settings xsi:type="additionalImsSettings">
@@ -85,9 +80,6 @@
          <file compile="true" path="logon.cbl" xsi:type="cobolFile"/>
       </filetype>
       <filetype type="cobol.copybook" xsi:type="cobolFileContainer"/>
-      <folders xsi:type="cobolFolderContainer">
-         <folder compile="true" path="Listing" xsi:type="cobolFolder"/>
-         <folder compile="true" path="New_Configuration.bin" xsi:type="cobolFolder"/>
-      </folders>
+      <folders xsi:type="cobolFolderContainer"/>
    </files>
 </project>

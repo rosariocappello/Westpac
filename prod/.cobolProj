@@ -3,7 +3,6 @@
    <settings xsi:type="projectSettingsContainer">
       <copybook-paths xsi:type="copybookPathsSettings">
          <path enabled="true" name="/Orcl1" type="mfpath"/>
-         <path enabled="true" name="/Orcl1/bin" type="mfpath"/>
          <path enabled="true" name="/Orcl1/cs9" type="mfpath"/>
          <path enabled="true" name="/Orcl1/dir" type="mfpath"/>
          <path enabled="true" name="/Orcl1/logs" type="mfpath"/>
@@ -11,10 +10,10 @@
          <path enabled="true" name="/Orcl1/cobol" type="mfpath"/>
          <path enabled="true" name="/Orcl1/copybooks" type="mfpath"/>
          <path enabled="false" name="/Orcl1/ddl" type="mfpath"/>
+         <path enabled="true" name="/Orcl1/Listing" type="mfpath"/>
       </copybook-paths>
       <build-precedence-paths xsi:type="buildPrecedenceSettings">
          <path enabled="true" name="/Orcl1" type="mfpath"/>
-         <path enabled="true" name="/Orcl1/bin" type="mfpath"/>
          <path enabled="true" name="/Orcl1/cs9" type="mfpath"/>
          <path enabled="true" name="/Orcl1/dir" type="mfpath"/>
          <path enabled="true" name="/Orcl1/logs" type="mfpath"/>
@@ -22,6 +21,7 @@
          <path enabled="true" name="/Orcl1/cobol" type="mfpath"/>
          <path enabled="true" name="/Orcl1/copybooks" type="mfpath"/>
          <path enabled="true" name="/Orcl1/ddl" type="mfpath"/>
+         <path enabled="true" name="/Orcl1/Listing" type="mfpath"/>
       </build-precedence-paths>
       <configurations default="New Configuration" linkedWith="" xsi:type="buildConfigurationsContainer">
          <configuration description="New Configuration" type="all_dll" xsi:type="cobolBuildConfiguration">

@@ -91,13 +91,13 @@
 	<!-- COBOL copybook locations -->
 	<mffilelist id="cobol.copybook.locations">
 		<path type="copybook" name="${mf.projectLocation.Orcl1}"/>
-		<path type="copybook" name="${mf.projectLocation.Orcl1}/bin"/>
 		<path type="copybook" name="${mf.projectLocation.Orcl1}/cs9"/>
 		<path type="copybook" name="${mf.projectLocation.Orcl1}/dir"/>
 		<path type="copybook" name="${mf.projectLocation.Orcl1}/logs"/>
 		<path type="copybook" name="${mf.projectLocation.Orcl1}/script"/>
 		<path type="copybook" name="${mf.projectLocation.Orcl1}/cobol"/>
 		<path type="copybook" name="${mf.projectLocation.Orcl1}/copybooks"/>
+		<path type="copybook" name="${mf.projectLocation.Orcl1}/Listing"/>
 	</mffilelist>
 	<!--  ********************************  -->
 	<!--  * Source File Compile and Link *  -->
