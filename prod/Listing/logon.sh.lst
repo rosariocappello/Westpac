@@ -1,0 +1,6 @@
+* Micro Focus COBOL                  V8.0 revision 000 21-Jun-23 22:21 Page   1
+* /home/oracle/Westpac/prod/cobol/logon.sh.cob
+* Options: int("logon.sh.int") verbose
+*          use(/home/oracle/Westpac/prod/dir/logon.sh.cob.dir)
+*          INT(/home/oracle/Westpac/prod/bin/)
+*          LIST(/home/oracle/Westpac/prod/Listing/logon.sh.lst)

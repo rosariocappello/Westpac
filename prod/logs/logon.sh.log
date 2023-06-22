@@ -1,0 +1,84 @@
+****
+COBMODE         =  64
+VERSION         =  1.46
+DATE            =  2023-06-21 22:21:41
+USER            =  oracle
+SRCDIR          =  /home/oracle/Westpac/prod/cobol
+ORACLE_BASE     =  /opt/oracle
+ORACLE_SID      =  orcl1
+ORACLE_HOME     =  /opt/oracle/product/19c/dbhome_1
+LD_LIBRARY_PATH =  /opt/oracle/product/19c/dbhome_1/lib:/opt/microfocus/VisualCOBOL/lib:/opt/oracle/product/19c/dbhome_1/lib:/opt/microfocus/VisualCOBOL/lib:/opt/oracle/product/19c/dbhome_1/lib::/usr/lib64:/usr/lib64:/usr/lib64:/usr/lib
+PATH            =  .:/opt/oracle/product/19c/dbhome_1/bin:/opt/microfocus/VisualCOBOL/bin:/opt/oracle/product/19c/dbhome_1/bin:/opt/microfocus/VisualCOBOL/bin:/opt/oracle/product/19c/dbhome_1/bin:/home/oracle/.local/bin:/home/oracle/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/opt/microfocus/VisualCOBOL/bin
+COBCPY          =  /home/oracle/Westpac/prod/copybook:/opt/microfocus/VisualCOBOL/cpylib:/opt/microfocus/EnterpriseDeveloper/cpylib
+COBIDY          =  /home/oracle/Westpac/prod/cobidy
+LOCDIR          =  /home/oracle/Westpac/prod/dir
+LOCBIN          =  /home/oracle/Westpac/prod/bin
+LOCLIST         =  /home/oracle/Westpac/prod/Listing
+LOCSRCE         =  /home/oracle/Westpac/prod/cobol
+LOCSCS9         =  /home/oracle/Westpac/prod/cs9
+LOCSRPT         =  /home/oracle/Westpac/prod/cobol
+ 
+****
+ 
+deleting /home/oracle/Westpac/prod/Listing/logon.sh.lst
+ 
+****
+ 
+Dir file /home/oracle/Westpac/prod/dir/logon.sh.cob.dir 
+DIALECT"MF"
+COPYEXT"cpy,cbl"
+SOURCETABSTOP"8"
+COLLECTION"GL1"
+MAX-ERROR"100"
+NOTESTCOVER
+CHARSET"ASCII"
+EXITPROGRAM"ANSI"
+NOPROFILE
+SOURCEFORMAT"fixed"
+WARNING"1"
+LIST()
+P(cobsql) DISPLAY COBSQLTYPE=ORACLE8 SQLDEBUG NOMAKESYN VERBOSE KEEPCBL endp
+ANIM
+ERRFORMAT(2)
+STDERR 
+****
+ 
+cob64 -V -z -g /home/oracle/Westpac/prod/cobol/logon.sh.cob -C use=/home/oracle/Westpac/prod/dir/logon.sh.cob.dir -C INT=/home/oracle/Westpac/prod/bin/ -C LIST=/home/oracle/Westpac/prod/Listing/logon.sh.lst
+version @(#)cob.c	8.0.0.85
+PRN=KXCRH/AAD:Ao.U4.13.04
+PTI=32/64 bit
+PTI=Micro Focus Visual COBOL Development Hub 8.0 - Patch Update 06
+PTI=Patch Update 06
+PTI=pkg_321063
+PTI=MFInstaller
+* Micro Focus COBOL                  V8.0 revision 000           Compiler
+* (C) Copyright 1984-2023 Micro Focus or one of its affiliates.
+* Accepted - verbose
+* Accepted - use(/home/oracle/Westpac/prod/dir/logon.sh.cob.dir)
+* Accepted - DIALECT"MF"
+* Accepted - COPYEXT"cpy,cbl"
+* Accepted - SOURCETABSTOP"8"
+* Accepted - COLLECTION"GL1"
+* Accepted - MAX-ERROR"100"
+* Accepted - NOTESTCOVER
+* Accepted - CHARSET"ASCII"
+* Accepted - EXITPROGRAM"ANSI"
+* Accepted - NOPROFILE
+* Accepted - SOURCEFORMAT"fixed"
+* Accepted - WARNING"1"
+* Accepted - LIST()
+* Accepted - P(cobsql) DISPLAY COBSQLTYPE=ORACLE8 SQLDEBUG NOMAKESYN VERBOSE KEEPCBL
+* Accepted - ANIM
+* Accepted - ERRFORMAT(2)
+* Accepted - STDERR
+* Accepted - INT(/home/oracle/Westpac/prod/bin/)
+* Accepted - LIST(/home/oracle/Westpac/prod/Listing/logon.sh.lst)
+logon.sh.cbl failed with a return code of 16 
+:****
+* Micro Focus COBOL                  V8.0 revision 000 21-Jun-23 22:21 Page   1
+* /home/oracle/Westpac/prod/cobol/logon.sh.cob
+* Options: int("logon.sh.int") verbose
+*          use(/home/oracle/Westpac/prod/dir/logon.sh.cob.dir)
+*          INT(/home/oracle/Westpac/prod/bin/)
+*          LIST(/home/oracle/Westpac/prod/Listing/logon.sh.lst)
+:****
