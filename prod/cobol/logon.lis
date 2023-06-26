@@ -1,4 +1,4 @@
-Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 26 10:51:47 2023
+Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 26 22:01:48 2023
 Version 19.3.0.0.0
 
 Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
@@ -64,7 +64,7 @@ Open file: /home/oracle/Westpac/prod/cobol/logon.cob
     58  
     59             MOVE 9 TO PASSWD-LEN
     60             .
-Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 26 10:51:47 2023
+Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 26 22:01:48 2023
 Version 19.3.0.0.0
 
 Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
@@ -130,7 +130,7 @@ Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
    119                 PERFORM DISPLAY-LINE
    120             else
    121                 DISPLAY "NOT A VALID EMPLOYEE NUMBER - TRY AGAIN."
-Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 26 10:51:47 2023
+Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 26 22:01:48 2023
 Version 19.3.0.0.0
 
 Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
@@ -196,7 +196,7 @@ Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
    180             EXIT
    181             .
    182  
-Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 26 10:51:47 2023
+Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 26 22:01:48 2023
 Version 19.3.0.0.0
 
 Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
@@ -219,7 +219,7 @@ Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
    198             EXIT
    199             .
 Close file: /home/oracle/Westpac/prod/cobol/logon.cob
-Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 26 10:51:47 2023
+Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 26 22:01:48 2023
 Version 19.3.0.0.0
 
 Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
@@ -249,7 +249,7 @@ Host Variables
 01  USERNAME                                            Varchar(10)
   /home/oracle/Westpac/prod/cobol/logon.cob         7        63        63
 
-Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 26 10:51:47 2023
+Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 26 22:01:48 2023
 Version 19.3.0.0.0
 
 Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
@@ -264,7 +264,7 @@ COMP5                 DEFINE                        Command Line
 
 UNIX                  DEFINE                        Pre-defined
 
-Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 26 10:51:47 2023
+Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 26 22:01:48 2023
 Version 19.3.0.0.0
 
 Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
@@ -341,7 +341,7 @@ unsafe_null       no                default
 userid            *none*            default                                     
 varchar           no                default                                     
 xref              yes               default                                     
-Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 26 10:51:47 2023
+Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 26 22:01:48 2023
 Version 19.3.0.0.0
 
 Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.

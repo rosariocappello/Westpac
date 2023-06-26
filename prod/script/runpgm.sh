@@ -20,6 +20,9 @@ export ENVTOP
 MFPPFLOC=$ENVTOP/profiler
 export MFPPFLOC
 
+LOGDIR=$ENVTOP/logs
+export LOGDIR
+
 logfile=$ENVTOP/logs/$PROGNAME.log
 export logfile
 
@@ -46,6 +49,7 @@ fi
 
 cat ENVTOP/cfg/$PROGNAME.tcf                                 >>$logfile
 export TESTCOVER=$ENVTOP/cfg/$PROGNAME.tcf 
+export MFTRACE_CONFIG=$ENVTOP/cfg/ctf.cfg 
 
 rm -f   $logfile
 

@@ -1,4 +1,4 @@
-* Micro Focus COBOL                  V8.0 revision 000 26-Jun-23 10:51 Page   1
+* Micro Focus COBOL                  V8.0 revision 000 26-Jun-23 22:01 Page   1
 * /home/oracle/Westpac/prod/cobol/logon.cob
 * Directives File: /home/oracle/Westpac/prod/bin/logon.cob.dir
 * Accepted - showdir
@@ -58,7 +58,7 @@
     47     .
     48     goback
     49     .
-* Micro Focus COBOL                  V8.0 revision 000 26-Jun-23 10:51 Page   2
+* Micro Focus COBOL                  V8.0 revision 000 26-Jun-23 22:01 Page   2
 * /home/oracle/Westpac/prod/cobol/logon.cob
     50
     51 LOGON SECTION.
@@ -118,7 +118,7 @@
    105
    106     MOVE SPACES TO EMP-NAME-ARR
    107     .
-* Micro Focus COBOL                  V8.0 revision 000 26-Jun-23 10:51 Page   3
+* Micro Focus COBOL                  V8.0 revision 000 26-Jun-23 22:01 Page   3
 * /home/oracle/Westpac/prod/cobol/logon.cob
    108
    109     .
@@ -178,7 +178,7 @@
    163     .
    164     STOP RUN
    165     .
-* Micro Focus COBOL                  V8.0 revision 000 26-Jun-23 10:51 Page   4
+* Micro Focus COBOL                  V8.0 revision 000 26-Jun-23 22:01 Page   4
 * /home/oracle/Westpac/prod/cobol/logon.cob
    166
    167 DISPLAY-INFO SECTION.
@@ -238,7 +238,7 @@
    199*COMP5                 DEFINE                        Command Line
    199*UNIX                  DEFINE                        Pre-defined
    199*Version 19.3.0.0.0
-* Micro Focus COBOL                  V8.0 revision 000 26-Jun-23 10:51 Page   5
+* Micro Focus COBOL                  V8.0 revision 000 26-Jun-23 22:01 Page   5
 * /home/oracle/Westpac/prod/cobol/logon.cob
    199*Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reser
    199*                              Precompiler Options
@@ -298,7 +298,7 @@
    199*plan_fixed        yes               default
    199*plan_prefix       none              default
    199*plan_run          no                default
-* Micro Focus COBOL                  V8.0 revision 000 26-Jun-23 10:51 Page   6
+* Micro Focus COBOL                  V8.0 revision 000 26-Jun-23 22:01 Page   6
 * /home/oracle/Westpac/prod/cobol/logon.cob
    199*prefetch          1                 default
    199*release_cursor    no                default

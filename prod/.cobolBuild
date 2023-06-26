@@ -88,6 +88,10 @@
 	<mffilelist type="srcfile" id="cobol_file_set_1" srcdir="${basedir}">
 		<file name="logon.cob" srcdir="cobol"/>
 	</mffilelist>
+	<!-- cobol_file_set_2 -->
+	<mffilelist type="srcfile" id="cobol_file_set_2" srcdir="${basedir}">
+		<file name="MFABEND.cob" srcdir="cobol"/>
+	</mffilelist>
 	<!-- COBOL copybook locations -->
 	<mffilelist id="cobol.copybook.locations">
 		<path type="copybook" name="${mf.projectLocation.Orcl1}"/>
@@ -125,6 +129,7 @@
 	<!-- Default -->
 	<mffilelist id="cobol.default.object.files.New Configuration" srcdir="${basedir}/bin" type="objfile">
 		<file name="logon${mf.objext}"/>
+		<file name="MFABEND${mf.objext}"/>
 	</mffilelist>
 	<target name="cobol.createcar.cfg.New_Configuration.property">
 		<condition property="mf.createCar.isTrue">
@@ -172,12 +177,22 @@
 			<mfdirlist refid="cobol_directive_set_1"/>
 			<mffilelist refid="cobol_file_set_1"/>
 		</cobol>
+		<cobol debug="true" configuration="New Configuration" analysisData="${analysisData}" threadCount="${mf.buildThreadCount}" settingsDir="${mf.settingsDir}" analysisDataDir="${analysisDataDir}" useDirectiveSet="${mf.useDirectiveSet}" destdir="${basedir}/bin" is64bit="true" userenv="${userenv.filename}" failonerror="${mf.cobolFailOnError}" forceCompile="${mf.forceCompile}" connectionName="${mf.connectionName}" projectName="${mf.projectName}" desttype="obj">
+			<mffilelist refid="cobol.copybook.locations"/>
+			<mfdirlist refid="cobol_directive_set_1"/>
+			<mffilelist refid="cobol_file_set_2"/>
+		</cobol>
 	</target>
 	<target name="cobol.link.cfg.New_Configuration">
 		<parallel threadCount="${mf.buildThreadCount}">
 			<cobollink debug="true" destfile="logon" entrypoint="${mf.entryPoint.cfg.New_Configuration}" destdir="${mf.destDir.cfg.New_Configuration}" is64bit="true" objectdir="${basedir}/bin" userenv="${userenv.filename}" failonerror="${mf.cobollinkFailOnError}" desttype="dll/cso" threadedRts="false">
 				<mffilelist srcdir="${basedir}/bin">
 					<file name="logon${mf.objext}"/>
+				</mffilelist>
+			</cobollink>
+			<cobollink debug="true" destfile="MFABEND" entrypoint="${mf.entryPoint.cfg.New_Configuration}" destdir="${mf.destDir.cfg.New_Configuration}" is64bit="true" objectdir="${basedir}/bin" userenv="${userenv.filename}" failonerror="${mf.cobollinkFailOnError}" desttype="dll/cso" threadedRts="false">
+				<mffilelist srcdir="${basedir}/bin">
+					<file name="MFABEND${mf.objext}"/>
 				</mffilelist>
 			</cobollink>
 		</parallel>
@@ -191,6 +206,9 @@
 	<target name="clean.cfg.New_Configuration">
 		<cobolclean debug="true" destdir="${basedir}/bin" retainDirectivesFile="true" desttype="dll" genListingFile="true">
 			<mffilelist refid="cobol_file_set_1"/>
+		</cobolclean>
+		<cobolclean debug="true" destdir="${basedir}/bin" desttype="dll">
+			<mffilelist refid="cobol_file_set_2"/>
 		</cobolclean>
 	</target>
 	<!--  *******************  -->

@@ -1,0 +1,167 @@
+* Micro Focus COBOL                  V8.0 revision 000 26-Jun-23 21:49 Page   1
+* /home/oracle/Westpac/prod/cobol/MFABEND.cob
+* Options: int("MFABEND.int") verbose
+*          use(/home/oracle/Westpac/prod/dir/MFABEND.cob.dir)
+*          INT(/home/oracle/Westpac/prod/bin/)
+*          LIST(/home/oracle/Westpac/prod/Listing/MFABEND.lst)
+     1 IDENTIFICATION DIVISION.
+     2 PROGRAM-ID. MFABEND.
+     3
+     4 ENVIRONMENT DIVISION.
+     5 CONFIGURATION SECTION.
+     6
+     7 DATA DIVISION.
+     8 WORKING-STORAGE SECTION.
+     9 01  C                             pic 9.
+    10 01  flags                         pic x(4) comp-5 value 0.
+    11 01  status-code                   pic x(4) comp-5 value 0.
+    12 01  process                       pic x(4) comp-5 value 0.
+    13 01  ws-process                    pic x(4) comp-5 value 0.
+    14 01  filename                      pic x(256).
+    15 01  stackdump-name                pic x(256).
+    16 01  ABDCODE                       PIC S9(9) BINARY.
+    17 01  RESCODE                       PIC S9(9) BINARY.
+    18 01  TIMING                        PIC S9(9) BINARY.
+    19 01  WS-LOGNAME                    pic x(256).
+    20 01  ws-return-code                pic x(4) comp-5 value 0.
+    21
+    22 PROCEDURE DIVISION.
+    23
+    24      display 'LOGDIR'
+    25           upon environment-name
+    26      accept WS-LOGNAME
+    27           from environment-value
+    28
+    29      move space to filename
+    30      string  ws-logname  delimited by space
+    31              "/" delimited by size
+    32              "SSXABEND.%d.%f.%p.%t"  delimited by size
+    33               x"00"delimited by size
+    34        into filename
+    35      end-string.
+    36
+    37      move space to stackdump-name
+    38      string  ws-logname  delimited by space
+    39              "/" delimited by size
+    40              "SSXABEND_Stack.%d.%f.%p.%t"  delimited by size
+    41               x"00"delimited by size
+    42        into stackdump-name
+    43      end-string.
+    44
+    45
+    46     call "CBL_CREATE_CORE" using by value flags
+    47                                 by value process
+    48                                 by reference filename
+    49                       returning status-code
+    50
+    51
+    52      call "CBL_CREATE_STACKDUMP" using by value flags
+    53                                        by value process
+    54                                      by reference stackdump-name
+* Micro Focus COBOL                  V8.0 revision 000 26-Jun-23 21:49 Page   2
+* /home/oracle/Westpac/prod/cobol/MFABEND.cob
+    55                           returning status-code
+    56
+    57          MOVE 0001 TO ABDCODE.
+    58          MOVE 0 TO TIMING.
+    59          CALL "CEE3ABD" USING ABDCODE , TIMING.
+    60
+    61     stop run.
+    61*SQL Identifiers
+    61*---------------
+    61*BIT64                 DEFINE                        Command Line
+    61*COMP5                 DEFINE                        Command Line
+    61*UNIX                  DEFINE                        Pre-defined
+    61*Version 19.3.0.0.0
+    61*Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reser
+    61*                              Precompiler Options
+    61*-------------------------------------------------------------------------
+    61*Option Name    Current Value        Where set
+    61*-------------------------------------------------------------------------
+    61*asacc             no                default
+    61*assume_sqlcode    no                default
+    61*auto_connect      no                default
+    61*charset_picn      nchar_charset     default
+    61*charset_picx      db_charset        default
+    61*close_on_commit   no                default
+    61*common_parser     no                default
+    61*comp5             yes               /opt/oracle/product/19c/dbhome_1/prec
+    61*config            default config    default
+    61*cwh_sql99         yes               default
+    61*date_format       local             default
+    61*db2_array         no                default
+    61*dbms              native            default
+    61*declare_section   no                default
+    61*define            COMP5             /opt/oracle/product/19c/dbhome_1/prec
+    61*                  BIT64             /opt/oracle/product/19c/dbhome_1/prec
+    61*                  *none*            /opt/oracle/product/19c/dbhome_1/prec
+    61*dynamic           oracle            default
+    61*end_of_fetch      1403              default
+    61*errors            yes               default
+    61*file_id           0                 default
+    61*fips              no                default
+    61*format            ansi              default
+    61*hold_cursor       no                default
+    61*host              cobol             default
+    61*implicit_svpt     no                default
+    61*iname             /home/oracle/Westpcommand linel/MFABEND.cob
+    61*include           *none*            default
+    61*ireclen           80                default
+    61*litdelim          quote             default
+    61*lname             /home/oracle/Westpcommand linel/MFABEND.lis
+    61*lreclen           132               default
+    61*ltype             long              default
+    61*maxliteral        256               default
+    61*maxopencursors    10                default
+    61*max_row_insert    0                 default
+    61*memforprefetch    0                 default
+    61*mode              oracle            default
+    61*nested            yes               default
+    61*nls_local         no                default
+* Micro Focus COBOL                  V8.0 revision 000 26-Jun-23 21:49 Page   3
+* /home/oracle/Westpac/prod/cobol/MFABEND.cob
+    61*oname             /home/oracle/Westpcommand linel/MFABEND.cs9
+    61*oraca             no                default
+    61*oreclen           80                default
+    61*outline           no                default
+    61*outlnprefix       *none*            default
+    61*pagelen           66                default
+    61*picn_endian       big               default
+    61*picx              charf             default
+    61*plan_baseline     no                default
+    61*plan_enabled      yes               default
+    61*plan_fixed        yes               default
+    61*plan_prefix       none              default
+    61*plan_run          no                default
+    61*prefetch          1                 default
+    61*release_cursor    no                default
+    61*runoutline        no                default
+    61*select_error      yes               default
+    61*sqlcheck          syntax            default
+    61*stmt_cache        0                 default
+    61*threads           no                default
+    61*trim_password     no                default
+    61*type_code         oracle            default
+    61*unsafe_null       no                default
+    61*userid            *none*            default
+    61*varchar           no                default
+    61*xref              yes               default
+    61*Version 19.3.0.0.0
+    61*Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reser
+    61*Statistics
+    61*----------
+    61*Return code: 0
+    61*Number of messages at severity I: 0
+    61*Number of messages at severity W: 0
+    61*Number of messages at severity E: 0
+    61*Number of messages at severity F: 0
+    61*Number of input lines: 61
+    61*Number of host variables declared: 12
+    61*Number of cursor names: 0
+    61*Number of statement names: 0
+    61*Maximum memory (bytes) used: 998143
+* Micro Focus COBOL                  V8.0 revision 000 Compiler
+* (C) Copyright 1984-2023 Micro Focus or one of its affiliates.
+*                                                        REF GNR-085800000AM
+* Total Messages:     0
+* Data:        1872     Code:         630

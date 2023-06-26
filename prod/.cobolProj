@@ -12,6 +12,10 @@
          <path enabled="false" name="/Orcl1/ddl" type="mfpath"/>
          <path enabled="true" name="/Orcl1/Listing" type="mfpath"/>
          <path enabled="true" name="/Orcl1/.vscode" type="mfpath"/>
+         <path enabled="false" name="/Orcl1/cfg" type="mfpath"/>
+         <path enabled="false" name="/Orcl1/ctf" type="mfpath"/>
+         <path enabled="false" name="/Orcl1/profiler" type="mfpath"/>
+         <path enabled="false" name="/Orcl1/testcover" type="mfpath"/>
       </copybook-paths>
       <build-precedence-paths xsi:type="buildPrecedenceSettings">
          <path enabled="true" name="/Orcl1" type="mfpath"/>
@@ -24,6 +28,10 @@
          <path enabled="true" name="/Orcl1/ddl" type="mfpath"/>
          <path enabled="true" name="/Orcl1/Listing" type="mfpath"/>
          <path enabled="true" name="/Orcl1/.vscode" type="mfpath"/>
+         <path enabled="true" name="/Orcl1/cfg" type="mfpath"/>
+         <path enabled="true" name="/Orcl1/ctf" type="mfpath"/>
+         <path enabled="true" name="/Orcl1/profiler" type="mfpath"/>
+         <path enabled="true" name="/Orcl1/testcover" type="mfpath"/>
       </build-precedence-paths>
       <configurations default="New Configuration" linkedWith="" xsi:type="buildConfigurationsContainer">
          <configuration description="New Configuration" type="all_dll" xsi:type="cobolBuildConfiguration">
@@ -99,6 +107,7 @@
    <files xsi:type="projectFileStore">
       <filetype type="cobol" xsi:type="cobolFileContainer">
          <file compile="true" path="cobol/logon.cob" xsi:type="cobolFile"/>
+         <file compile="true" path="cobol/MFABEND.cob" xsi:type="cobolFile"/>
       </filetype>
       <filetype type="cobol.copybook" xsi:type="cobolFileContainer"/>
       <folders xsi:type="cobolFolderContainer">

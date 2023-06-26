@@ -1,0 +1,4 @@
+[TESTCOVER]
+RESULT /home/oracle/Westpac/prod/testcover/MFABEND.tcz
+ECHO NO
+LOGNAME /home/oracle/Westpac/prod/testcover/testcover_MFABEND.log
