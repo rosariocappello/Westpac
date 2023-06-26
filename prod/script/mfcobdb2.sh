@@ -7,7 +7,7 @@
 
 .  setenv_global.sh
 
- set -x
+  
 if [ $MF_DEBUG_OPTION  = 'Y' ]; then
   set -x
 fi
@@ -76,7 +76,8 @@ echo "LD_LIBRARY_PATH = " $LD_LIBRARY_PATH     >>$logfile
 echo "PATH            = " $PATH                >>$logfile
  
 #***********************************************************
-## As we move up the hierarchy remember to remove the lower level. ENVTOP always## remains.   eg When we move to q0 SYSTEMTST and SUBQATST will need to be
+## As we move up the hierarchy remember to remove the lower level. ENVTOP always## remains.  
+## eg When we move to q0 SYSTEMTST and SUBQATST will need to be
 ## removed.
 
 COBCPY=$ENVTOP/copybook:$COBDIR/cpylib:/opt/microfocus/EnterpriseDeveloper/cpylib
@@ -120,57 +121,57 @@ echo " "    >>$logfile
 #*********************************************************************
 
 if [[ -f $LOCLIST/$PROGNAME.lst ]]; then
-    echo "deleting $LOCLIST/$PROGNAME.lst" >>$logfile
+    echo "deleting $LOCLIST/$PROGNAME.lst"          >>$logfile
     rm -f $LOCLIST/$PROGNAME.lst
 fi
 
 if [[ -f $LOCBIN/$PROGNAME.int ]]; then
-    echo "deleting $LOCBIN/$PROGNAME.int" >>$logfile
+    echo "deleting $LOCBIN/$PROGNAME.int"           >>$logfile
     rm -f $LOCBIN/$PROGNAME.int
 fi
 
 if [[ -f $LOCBIN/$PROGNAME.gnt ]]; then
-    echo "deleting $LOCBIN/$PROGNAME.gnt" >>$logfile
+    echo "deleting $LOCBIN/$PROGNAME.gnt"            >>$logfile
     rm -f $LOCBIN/$PROGNAME.gnt
 fi
 
 if [[ -f $LOCBIN/$PROGNAME.so ]]; then
-    echo "deleting $LOCBIN/$PROGNAME.so" >>$logfile
+    echo "deleting $LOCBIN/$PROGNAME.so"             >>$logfile
     rm -f $LOCBIN/$PROGNAME.so
 fi
 
 if [[ -f $LOCBIN/$PROGNAME.o ]]; then
-    echo "deleting $LOCBIN/$PROGNAME.o" >>$logfile
+    echo "deleting $LOCBIN/$PROGNAME.o"               >>$logfile
     rm -f $LOCBIN/$PROGNAME.o
 fi
 
 if [[ -f $LOCBIN/$PROGNAME.idy ]]; then
-    echo "deleting $LOCBIN/$PROGNAME.idy" >>$logfile
+    echo "deleting $LOCBIN/$PROGNAME.idy"             >>$logfile
     rm -f $LOCBIN/$PROGNAME.idy
 fi
 
 if [[ -f $LOCBIN//$PROGNAME.o ]]; then
-    echo "deleting $LOCBIN/$PROGNAME.o" >>$logfile
+    echo "deleting $LOCBIN/$PROGNAME.o"               >>$logfile
     rm -f $LOCBIN/$PROGNAME.o
 fi
 
 if [[ -f $LOCCS9/$PROGNAME.cs9 ]]; then
-    echo "deleting $LOCCS9/$PROGNAME.cs9" >>$logfile
+    echo "deleting $LOCCS9/$PROGNAME.cs9"              >>$logfile
     rm -f $LOCCS9/$PROGNAME.cs9
 fi
 
 if [[ -f $LOCLIST/$PROGNAME.lis ]]; then
-    echo "deleting $LOCLIST/$PROGNAME.lis" >>$logfile
+    echo "deleting $LOCLIST/$PROGNAME.lis"             >>$logfile
     rm -f $LOCLIST/$PROGNAME.lis
 fi
 
 if [[ -f $LOCBIN/$PROGNAME.sdb ]]; then
-    echo "deleting $LOCBIN/$PROGNAME.sdb" >>$logfile
+    echo "deleting $LOCBIN/$PROGNAME.sdb"              >>$logfile
     rm -f $LOCBIN/$PROGNAME.sdb
 fi
 
 if [[ -f $LOCLIST/$PROGNAME.trc ]]; then
-    echo "deleting $LOCLIST/$PROGNAME.trc" >>$logfile
+    echo "deleting $LOCLIST/$PROGNAME.trc"             >>$logfile
     rm -f $LOCLIST/$PROGNAME.trc
 fi
 
@@ -179,10 +180,10 @@ echo "****" >>$logfile
 echo " "    >>$logfile
 
 if [[ -f $LOCDIR/$PROGNAME.cob.dir ]]; then
-    echo "Dir file $LOCDIR/$PROGNAME.cob.dir "        >>$logfile
+    echo "Dir file $LOCDIR/$PROGNAME.cob.dir"          >>$logfile
 
 else
-    echo "Create Dir file $LOCDIR/$PROGNAME.cob.dir " >>$logfile
+    echo "Create Dir file $LOCDIR/$PROGNAME.cob.dir"   >>$logfile
     cp $LOCDIR/oracle.dir $LOCDIR/$PROGNAME.cob.dir
 fi
 
