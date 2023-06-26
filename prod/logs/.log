@@ -1,11 +1,11 @@
 ****
 COBMODE       =  64
 VERSION       =  1.46
-DATE          =  2023-06-26 15:43:25
+DATE          =  2023-06-26 15:07:44
 USER          =  oracle
 PROGNAME      =  logon
 LOGNAME       =  oracle
 HOSTNAME      =  localhost
-MFPPFLOC      =  /home/oracle/Westpac/prod/profiler
+MFTESTLOC     =  /home/oracle/Westpac/prod/testcover
 COBIDY        =  /home/oracle/Westpac/prod/bin
-/home/oracle/Westpac/prod/bin/logon.so 
+cobtcreport logon.tcz

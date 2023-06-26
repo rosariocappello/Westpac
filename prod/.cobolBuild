@@ -98,6 +98,7 @@
 		<path type="copybook" name="${mf.projectLocation.Orcl1}/cobol"/>
 		<path type="copybook" name="${mf.projectLocation.Orcl1}/copybooks"/>
 		<path type="copybook" name="${mf.projectLocation.Orcl1}/Listing"/>
+		<path type="copybook" name="${mf.projectLocation.Orcl1}/.vscode"/>
 	</mffilelist>
 	<!--  ********************************  -->
 	<!--  * Source File Compile and Link *  -->

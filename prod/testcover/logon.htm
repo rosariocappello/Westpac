@@ -1,0 +1,1513 @@
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<script>
+var whichWin = "T"
+var whichLoc = "?"
+function displayMenu (pName, rName)
+{
+ document.write("    <!-- menu -->               ");
+ document.write("    <table width=\"100%\" border=\"0\"");
+ document.write("     cellspacing=\"0\"          ");
+ document.write("     cellpadding=\"0\"          ");
+ document.write("    class=\"navOutline\">       ");
+ document.write("     <tr>                       ");
+ document.write("      <td>                      ");
+ document.write("       <table width=\"100%\"    ");
+ document.write("        border=\"0\"            ");
+ document.write("        cellspacing=\"1\"       ");
+ document.write("        cellpadding=\"1\">      ");
+ document.write("        <tr class=\"content\">  ");
+ document.write("         <td width=\"20%\"      ");
+ document.write("           class=\"leftNavTitle\">  ");
+ document.write("          &nbsp;                ");
+ document.write("           Micro Focus           ");
+ document.write("           &nbsp;</td>           ");
+ document.write("         <td width=\"80%\"       ");
+ document.write("           class=\"rightNavTitle\">  ");
+ document.write("          &nbsp;                 ");
+ document.write("        " + rName + "   &nbsp;   ");
+ document.write("           &nbsp;  </td>         ");
+ document.write("        </tr>                    ");
+ document.write("        <tr>                     ");
+ document.write("         <td class=\"navBarColor\"  ");
+ document.write("            colspan=\"2\">        ");
+ document.write("         </td>                    ");
+ document.write("        </tr>                     ");
+ document.write("       </table>                   ");
+ document.write("      </td>                       ");
+ document.write("     </tr>                        ");
+ document.write("    </table>                      ");
+ document.write("    <!-- end menu -->             ");
+ }
+ function rad_onclick(radIndex)
+{
+var returnVal= true;
+if (radIndex == 0)
+    {
+    whichWin = "T";
+    }
+else
+    {
+     whichWin  = "N";
+     }
+return returnVal;
+}
+function butCheck_onclick(selection)
+{
+var returnVal= true;
+if ( whichWin == "T" )
+    {
+    window.location =
+    selection.options[selection.options.selectedIndex].value;
+    }
+else
+    {
+     returnVal =
+open(selection.options[selection.options.selectedIndex].value,
+    "_blank");
+     }
+return returnVal;
+}
+function greySelect (selectName)
+{
+   var returnVal = true;
+   var element = (document.getElementById(selectName));
+   element.disabled = true;
+   return returnVal;
+}
+</script>
+<title>logon - TEST COVERAGE</title>
+<link rel="stylesheet" href="tcreport-styles.css " />
+</head>
+<STYLE TYPE="text/css">
+body {
+        background : #FFFFFF;
+        color : #000000;
+         font-family : Helvetica,Lucida,Arial,sans-serif;
+        margin : 0pt;
+}
+
+/* link color */
+a {
+       color : #0050a0;
+        text-decoration : none;
+        background : transparent;
+}
+
+/* active link */
+a:active {
+        color : #0000cc;
+        background : transparent;
+}
+
+/* hover anywhere */
+a:hover {
+        color : #0000cc;
+        background : transparent;
+}
+
+/* link on navBar */
+a.navBar {
+        color : #dddddd;
+        font-weight : bold;
+        background : transparent;
+        font-size : 80%;
+}
+
+/* link hover on navBar */
+a.navBar:hover {
+        color : #00aaff;
+        background : transparent;
+}
+
+/* link inside content tables */
+a.highlightNav {
+        color : #00aaff;
+        font-weight : bold;
+        background : transparent;
+        font-size : 80%;
+}
+
+/* any link text hover  */
+a.highlightNav:hover {
+        color : #00aaff;
+        background : transparent;
+}
+
+/* navigation links on top right of content tables */
+a.rightTitle {
+        color : #dddddd;
+        background : transparent;
+}
+
+/* navig links on top right of content tables (hover) */
+a.rightTitle:hover {
+        color : #00aaff;
+        background : transparent;
+}
+
+/* outline of the navBar at the top */
+table.navOutline {
+        background : #000000;
+        color : #ff0000;
+}
+
+/* outline color of content tables */
+table.outline {
+        background : #000000;
+        color : #ff0000;
+}
+
+/* color of content tables */
+table.content {
+        background : #d0d0d0;
+        color : #000000;
+}
+
+/* row color for content tables */
+tr.content {
+        background : #d0d0d0;
+        color : #000000;
+        font-size : 90%;
+}
+
+/* color of navBar background and text */
+td.navBarColor {
+        background : #000000;
+        color : #cccccc;
+}
+
+td.leftTitle {
+        background : #305080;
+        color : #dddddd;
+        font-weight : bold;
+        font-size : 90%;
+}
+
+td.leftNavTitle {
+        background : #305080;
+        color : #dddddd;
+        font-weight : bold;
+        font-size : 150%;
+}
+
+/* title text */
+td.rightNavTitle {
+        background : #d0d0d0;
+        color : #000000;
+        font-weight : bold;
+        font-size : 150%;
+}
+
+/* top right section of content table */
+td.rightTitle {
+        background : #484848;
+        color : #ffffff;
+        font-weight : bold;
+        font-size : 80%;
+}
+
+/* color of the date on the right of navBar */
+.dateText {
+        color : #808080;
+        background : transparent;
+}
+
+/* any text out of the content tables */
+.normalText {
+        color : #dddddd;
+        background : transparent;
+        font-size : 70%;
+}
+/* any unexecuted lines */
+  p.unex { color : #0050a0; font-family: Courier New }
+</style>
+<body> <form>
+
+<a name="doctop"></a>
+<table width="100%" border="0">
+<tr>
+<td>
+<br>
+<script type="text/javascript">
+    displayMenu ("TCREPORT ","Test Coverage Report", "../");
+</script>
+<table border="1" width="100%" class="content">
+  <tr>
+    <td width="20%">Report Generated</td>
+    <td width="80%"> 26th June 2023 at 15:07                           </td>
+  </tr>
+  <tr>
+    <td width="20%">Results Files</td>
+    <td width="80%">
+    logon.tcz
+    &nbsp
+  </tr>
+  </td>
+  <tr>
+    <td width="20%">Report Parameters</td>
+    <td width="80%">
+None specified
+    </td>
+  </tr>
+</table>
+<br><br>
+
+<table width="100%" border="0"
+  cellspacing="0" cellpadding="0"  class="outline">
+<tr>
+  <td>
+    <table width="100%" border="0"
+    cellspacing="1" cellpadding="3">
+    <tr>
+    <td class="leftTitle" width="20%">
+    &nbsp;Contents&nbsp;</td>
+<td align="right" width="80%" class="rightTitle">&nbsp;</td>
+</tr>
+<tr class="content">
+<td colspan="2">
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<table border="1" width="100%" class="content">
+  <tr>
+    <td width="20%"><b>Program</b></td>
+    <td width="60%"><b>
+   Navigate to Unexecuted Blocks in</b><br>
+<INPUT TYPE="radio" NAME="selectWin" CHECKED
+ value="off"   onclick="return rad_onclick(0)"
+    > This Window
+<INPUT TYPE="radio" NAME="selectWin"
+ value="on"   onclick="return rad_onclick(1)"
+    > New Window
+   </td>
+  <tr>
+    <td>
+       <a href="#logon23062610514768">
+        logon.
+       </a>
+    </td>
+    <td>
+<script>
+function dropdown_action(e){console.log('dropdown_action');document.querySelector('input[name="selectWin"]:checked').value=='on'?window.open(e.value,'_blank'):location = e.value;}
+</script>
+       <select size="1" name="src_link00001"style="width:400" onchange="dropdown_action(this);">
+       <option value="#0000100003">
+    46     perform SIGN-OFF
+            </option>
+       <option value="#0000100004">
+    48     goback
+            </option>
+       <option value="#0000100011">
+    91     perform until EMP-NUMBER = 0
+            </option>
+       <option value="#0000100012">
+    93         perform get-employee-info
+            </option>
+       <option value="#0000100013">
+    94         DISPLAY " "  upon console
+            </option>
+       <option value="#0000100014">
+   100 QUERY-LOOP-exit.
+            </option>
+       <option value="#0000100015">
+   104 get-employee-info section.
+            </option>
+       <option value="#0000100016">
+   118     if sqlcode = 0
+            </option>
+       <option value="#0000100017">
+   119         PERFORM DISPLAY-LINE
+            </option>
+       <option value="#0000100018">
+   120     else
+            </option>
+       <option value="#0000100019">
+   124     ADD 1 TO D-TOTAL-QUERIED.
+            </option>
+       <option value="#0000100020">
+   126 get-employee-info-EXIT.
+            </option>
+       <option value="#0000100023">
+   147 SQL-ERROR SECTION.
+            </option>
+       <option value="#0000100024">
+   164     STOP RUN
+            </option>
+       <option value="#0000100027">
+   183 DISPLAY-LINE SECTION.
+            </option>
+       <option value="#0000100028">
+   190         DISPLAY D-EMP-NAME, D-SALARY, "          NULL"
+            </option>
+       <option value="#0000100029">
+   191     ELSE
+            </option>
+       <option value="#0000100030">
+   197 DISPLAY-LINE-EXIT.
+            </option>
+        </select>
+
+    </td>
+    <td width="20%">
+      <a href="#logon23062610514768SUMMARY">
+      Summary</a>
+   </td>
+  </tr>
+  </td>
+  </table>
+<p>&nbsp;</p>
+<table class="content">
+   <tr>
+      <td>
+         <big>
+            <b>logon.</b>
+         </big>
+      </td>
+      <td>
+<a name="logon23062610514768">
+logon
+ <br> Compiled 26th June 2023 at 10:51:47.68</a>
+      </td>
+   </tr>
+</table>
+<table class="tcov-report-table">
+   <thead>
+      <tr>
+         <th class="tcov-linenumber">line no</th>
+         <th class="tcov-statement"> </th>
+         <th class="tcov-count">count</th>
+      </tr>
+   </thead>
+   <tbody id="0000100000">
+      <tr>
+         <td class="tcov-linenumber">    30</td>
+         <td class="tcov-statement">
+            <pre> BEGIN-PGM SECTION.                                               </pre>
+         </td>
+         <td rowspan="99" class="tcov-count">       1</td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    31</td>
+         <td class="tcov-statement">
+            <pre>                                                                  </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    32</td>
+         <td class="tcov-statement">
+            <pre>    CALL"CBL_DEBUG_START" using  by value ws-flags                </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    33</td>
+         <td class="tcov-statement">
+            <pre>                                         ws-timeout               </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    34</td>
+         <td class="tcov-statement">
+            <pre>                        by reference     ws-identifier            </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    35</td>
+         <td class="tcov-statement">
+            <pre>                        returning        ws-status-code           </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    36</td>
+         <td class="tcov-statement">
+            <pre>                                                                  </pre>
+         </td>
+      </tr>
+   </tbody>
+   <tbody id="0000100001">
+      <tr>
+         <td class="tcov-linenumber">    37</td>
+         <td class="tcov-statement">
+            <pre>     ACCEPT EMP-NUMBER                                            </pre>
+         </td>
+         <td rowspan="99" class="tcov-count">       1</td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    38</td>
+         <td class="tcov-statement">
+            <pre>     EXEC SQL                                                     </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    39</td>
+         <td class="tcov-statement">
+            <pre>         WHENEVER SQLERROR DO PERFORM SQL-ERROR                   </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    40</td>
+         <td class="tcov-statement">
+            <pre>     END-EXEC                                                     </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    41</td>
+         <td class="tcov-statement">
+            <pre>     .                                                            </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    42</td>
+         <td class="tcov-statement">
+            <pre>     PERFORM LOGON                                                </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    43</td>
+         <td class="tcov-statement">
+            <pre>     .                                                            </pre>
+         </td>
+      </tr>
+   </tbody>
+   <tbody id="0000100002">
+      <tr>
+         <td class="tcov-linenumber">    44</td>
+         <td class="tcov-statement">
+            <pre>     PERFORM QUERY-LOOP                                           </pre>
+         </td>
+         <td rowspan="99" class="tcov-count">       1</td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    45</td>
+         <td class="tcov-statement">
+            <pre>     .                                                            </pre>
+         </td>
+      </tr>
+   </tbody>
+   <tbody class="tcov-unexec" id="0000100003">
+      <tr>
+         <td class="tcov-linenumber">    46</td>
+         <td class="tcov-statement">
+            <pre>     perform SIGN-OFF                                             </pre>
+         </td>
+         <td rowspan="99" class="tcov-count">       -</td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    47</td>
+         <td class="tcov-statement">
+            <pre>     .                                                            </pre>
+         </td>
+      </tr>
+   </tbody>
+   <tbody class="tcov-unexec" id="0000100004">
+      <tr>
+         <td class="tcov-linenumber">    48</td>
+         <td class="tcov-statement">
+            <pre>     goback                                                       </pre>
+         </td>
+         <td rowspan="99" class="tcov-count">       -</td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    49</td>
+         <td class="tcov-statement">
+            <pre>     .                                                            </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    50</td>
+         <td class="tcov-statement">
+            <pre>                                                                  </pre>
+         </td>
+      </tr>
+   </tbody>
+   <tbody id="0000100005">
+      <tr>
+         <td class="tcov-linenumber">    51</td>
+         <td class="tcov-statement">
+            <pre> LOGON SECTION.                                                   </pre>
+         </td>
+         <td rowspan="99" class="tcov-count">       1</td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    52</td>
+         <td class="tcov-statement">
+            <pre>                                                                  </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    53</td>
+         <td class="tcov-statement">
+            <pre>     MOVE "mfuser" TO USERNAME-ARR                                </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    54</td>
+         <td class="tcov-statement">
+            <pre>     .                                                            </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    55</td>
+         <td class="tcov-statement">
+            <pre>     MOVE 6 TO USERNAME-LEN                                       </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    56</td>
+         <td class="tcov-statement">
+            <pre>     .                                                            </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    57</td>
+         <td class="tcov-statement">
+            <pre>     MOVE "Welcome01" TO PASSWD-ARR                               </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    58</td>
+         <td class="tcov-statement">
+            <pre>                                                                  </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    59</td>
+         <td class="tcov-statement">
+            <pre>     MOVE 9 TO PASSWD-LEN                                         </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    60</td>
+         <td class="tcov-statement">
+            <pre>     .                                                            </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    61</td>
+         <td class="tcov-statement">
+            <pre>                                                                  </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    62</td>
+         <td class="tcov-statement">
+            <pre>     EXEC SQL                                                     </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    63</td>
+         <td class="tcov-statement">
+            <pre>         CONNECT :USERNAME IDENTIFIED BY :PASSWD                  </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    64</td>
+         <td class="tcov-statement">
+            <pre>     END-EXEC                                                     </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    65</td>
+         <td class="tcov-statement">
+            <pre>     .                                                            </pre>
+         </td>
+      </tr>
+   </tbody>
+   <tbody id="0000100006">
+      <tr>
+         <td class="tcov-linenumber">    66</td>
+         <td class="tcov-statement">
+            <pre>     perform DISPLAY-INFO                                         </pre>
+         </td>
+         <td rowspan="99" class="tcov-count">       1</td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    67</td>
+         <td class="tcov-statement">
+            <pre>                                                                  </pre>
+         </td>
+      </tr>
+   </tbody>
+   <tbody id="0000100007">
+      <tr>
+         <td class="tcov-linenumber">    68</td>
+         <td class="tcov-statement">
+            <pre>     DISPLAY " "                                                  </pre>
+         </td>
+         <td rowspan="99" class="tcov-count">       1</td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    69</td>
+         <td class="tcov-statement">
+            <pre>     .                                                            </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    70</td>
+         <td class="tcov-statement">
+            <pre>     DISPLAY "EMPLOYEE    SALARY    COMMISSION" upon console      </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    71</td>
+         <td class="tcov-statement">
+            <pre>     .                                                            </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    72</td>
+         <td class="tcov-statement">
+            <pre>     DISPLAY "--------    ------    ----------" upon console      </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    73</td>
+         <td class="tcov-statement">
+            <pre>     .                                                            </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    74</td>
+         <td class="tcov-statement">
+            <pre>                                                                  </pre>
+         </td>
+      </tr>
+   </tbody>
+   <tbody id="0000100008">
+      <tr>
+         <td class="tcov-linenumber">    75</td>
+         <td class="tcov-statement">
+            <pre> LOGON-EXIT.                                                      </pre>
+         </td>
+         <td rowspan="99" class="tcov-count">       1</td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    76</td>
+         <td class="tcov-statement">
+            <pre>     EXIT                                                         </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    77</td>
+         <td class="tcov-statement">
+            <pre>     .                                                            </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    78</td>
+         <td class="tcov-statement">
+            <pre>                                                                  </pre>
+         </td>
+      </tr>
+   </tbody>
+   <tbody id="0000100009">
+      <tr>
+         <td class="tcov-linenumber">    79</td>
+         <td class="tcov-statement">
+            <pre> QUERY-LOOP SECTION.                                              </pre>
+         </td>
+         <td rowspan="99" class="tcov-count">       1</td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    80</td>
+         <td class="tcov-statement">
+            <pre>     DISPLAY " "  upon console                                    </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    81</td>
+         <td class="tcov-statement">
+            <pre>     .                                                            </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    82</td>
+         <td class="tcov-statement">
+            <pre>     DISPLAY "ENTER EMP NUMBER (0 TO QUIT): "  upon console       </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    83</td>
+         <td class="tcov-statement">
+            <pre>     .                                                            </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    84</td>
+         <td class="tcov-statement">
+            <pre>                                                                  </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    85</td>
+         <td class="tcov-statement">
+            <pre>     ACCEPT EMP-NUMBER                                            </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    86</td>
+         <td class="tcov-statement">
+            <pre>     IF (EMP-NUMBER = 0)                                          </pre>
+         </td>
+      </tr>
+   </tbody>
+   <tbody id="0000100010">
+      <tr>
+         <td class="tcov-linenumber">    87</td>
+         <td class="tcov-statement">
+            <pre>         PERFORM SIGN-OFF                                         </pre>
+         </td>
+         <td rowspan="99" class="tcov-count">       1</td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    88</td>
+         <td class="tcov-statement">
+            <pre>     END-IF                                                       </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    89</td>
+         <td class="tcov-statement">
+            <pre>     .                                                            </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    90</td>
+         <td class="tcov-statement">
+            <pre>                                                                  </pre>
+         </td>
+      </tr>
+   </tbody>
+   <tbody class="tcov-unexec" id="0000100011">
+      <tr>
+         <td class="tcov-linenumber">    91</td>
+         <td class="tcov-statement">
+            <pre>     perform until EMP-NUMBER = 0                                 </pre>
+         </td>
+         <td rowspan="99" class="tcov-count">       -</td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    92</td>
+         <td class="tcov-statement">
+            <pre>                                                                  </pre>
+         </td>
+      </tr>
+   </tbody>
+   <tbody class="tcov-unexec" id="0000100012">
+      <tr>
+         <td class="tcov-linenumber">    93</td>
+         <td class="tcov-statement">
+            <pre>         perform get-employee-info                                </pre>
+         </td>
+         <td rowspan="99" class="tcov-count">       -</td>
+      </tr>
+   </tbody>
+   <tbody class="tcov-unexec" id="0000100013">
+      <tr>
+         <td class="tcov-linenumber">    94</td>
+         <td class="tcov-statement">
+            <pre>         DISPLAY " "  upon console                                </pre>
+         </td>
+         <td rowspan="99" class="tcov-count">       -</td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    95</td>
+         <td class="tcov-statement">
+            <pre>         DISPLAY "ENTER EMP NUMBER (0 TO QUIT): "   upon console  </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    96</td>
+         <td class="tcov-statement">
+            <pre>         ACCEPT EMP-NUMBER                                        </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    97</td>
+         <td class="tcov-statement">
+            <pre>                                                                  </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    98</td>
+         <td class="tcov-statement">
+            <pre>     end-perform.                                                 </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">    99</td>
+         <td class="tcov-statement">
+            <pre>                                                                  </pre>
+         </td>
+      </tr>
+   </tbody>
+   <tbody class="tcov-unexec" id="0000100014">
+      <tr>
+         <td class="tcov-linenumber">   100</td>
+         <td class="tcov-statement">
+            <pre> QUERY-LOOP-exit.                                                 </pre>
+         </td>
+         <td rowspan="99" class="tcov-count">       -</td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   101</td>
+         <td class="tcov-statement">
+            <pre>       exit.                                                      </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   102</td>
+         <td class="tcov-statement">
+            <pre>     .                                                            </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   103</td>
+         <td class="tcov-statement">
+            <pre>                                                                  </pre>
+         </td>
+      </tr>
+   </tbody>
+   <tbody class="tcov-unexec" id="0000100015">
+      <tr>
+         <td class="tcov-linenumber">   104</td>
+         <td class="tcov-statement">
+            <pre> get-employee-info section.                                       </pre>
+         </td>
+         <td rowspan="99" class="tcov-count">       -</td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   105</td>
+         <td class="tcov-statement">
+            <pre>                                                                  </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   106</td>
+         <td class="tcov-statement">
+            <pre>     MOVE SPACES TO EMP-NAME-ARR                                  </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   107</td>
+         <td class="tcov-statement">
+            <pre>     .                                                            </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   108</td>
+         <td class="tcov-statement">
+            <pre>                                                                  </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   109</td>
+         <td class="tcov-statement">
+            <pre>     .                                                            </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   110</td>
+         <td class="tcov-statement">
+            <pre>                                                                  </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   111</td>
+         <td class="tcov-statement">
+            <pre>      EXEC SQL                                                    </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   112</td>
+         <td class="tcov-statement">
+            <pre>         SELECT ENAME, SAL, COMM                                  </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   113</td>
+         <td class="tcov-statement">
+            <pre>         INTO :EMP-NAME, :SALARY, :COMMISSION:COMM-IND            </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   114</td>
+         <td class="tcov-statement">
+            <pre>         FROM EMP                                                 </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   115</td>
+         <td class="tcov-statement">
+            <pre>         WHERE EMPNO = :EMP-NUMBER                                </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   116</td>
+         <td class="tcov-statement">
+            <pre>      END-EXEC                                                    </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   117</td>
+         <td class="tcov-statement">
+            <pre>     .                                                            </pre>
+         </td>
+      </tr>
+   </tbody>
+   <tbody class="tcov-unexec" id="0000100016">
+      <tr>
+         <td class="tcov-linenumber">   118</td>
+         <td class="tcov-statement">
+            <pre>     if sqlcode = 0                                               </pre>
+         </td>
+         <td rowspan="99" class="tcov-count">       -</td>
+      </tr>
+   </tbody>
+   <tbody class="tcov-unexec" id="0000100017">
+      <tr>
+         <td class="tcov-linenumber">   119</td>
+         <td class="tcov-statement">
+            <pre>         PERFORM DISPLAY-LINE                                     </pre>
+         </td>
+         <td rowspan="99" class="tcov-count">       -</td>
+      </tr>
+   </tbody>
+   <tbody class="tcov-unexec" id="0000100018">
+      <tr>
+         <td class="tcov-linenumber">   120</td>
+         <td class="tcov-statement">
+            <pre>     else                                                         </pre>
+         </td>
+         <td rowspan="99" class="tcov-count">       -</td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   121</td>
+         <td class="tcov-statement">
+            <pre>         DISPLAY "NOT A VALID EMPLOYEE NUMBER - TRY AGAIN."       </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   122</td>
+         <td class="tcov-statement">
+            <pre>     end-if                                                       </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   123</td>
+         <td class="tcov-statement">
+            <pre>     .                                                            </pre>
+         </td>
+      </tr>
+   </tbody>
+   <tbody class="tcov-unexec" id="0000100019">
+      <tr>
+         <td class="tcov-linenumber">   124</td>
+         <td class="tcov-statement">
+            <pre>     ADD 1 TO D-TOTAL-QUERIED.                                    </pre>
+         </td>
+         <td rowspan="99" class="tcov-count">       -</td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   125</td>
+         <td class="tcov-statement">
+            <pre>                                                                  </pre>
+         </td>
+      </tr>
+   </tbody>
+   <tbody class="tcov-unexec" id="0000100020">
+      <tr>
+         <td class="tcov-linenumber">   126</td>
+         <td class="tcov-statement">
+            <pre> get-employee-info-EXIT.                                          </pre>
+         </td>
+         <td rowspan="99" class="tcov-count">       -</td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   127</td>
+         <td class="tcov-statement">
+            <pre>     EXIT                                                         </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   128</td>
+         <td class="tcov-statement">
+            <pre>     .                                                            </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   129</td>
+         <td class="tcov-statement">
+            <pre>                                                                  </pre>
+         </td>
+      </tr>
+   </tbody>
+   <tbody id="0000100021">
+      <tr>
+         <td class="tcov-linenumber">   130</td>
+         <td class="tcov-statement">
+            <pre> SIGN-OFF SECTION.                                                </pre>
+         </td>
+         <td rowspan="99" class="tcov-count">       1</td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   131</td>
+         <td class="tcov-statement">
+            <pre>     DISPLAY " "                                                  </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   132</td>
+         <td class="tcov-statement">
+            <pre>     .                                                            </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   133</td>
+         <td class="tcov-statement">
+            <pre>                                                                  </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   134</td>
+         <td class="tcov-statement">
+            <pre>     DISPLAY "TOTAL NUMBER QUERIED WAS ", D-TOTAL-QUERIED, "."    </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   135</td>
+         <td class="tcov-statement">
+            <pre>     .                                                            </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   136</td>
+         <td class="tcov-statement">
+            <pre>     DISPLAY "HAVE A GOOD DAY."                                   </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   137</td>
+         <td class="tcov-statement">
+            <pre>     .                                                            </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   138</td>
+         <td class="tcov-statement">
+            <pre>     DISPLAY " "                                                  </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   139</td>
+         <td class="tcov-statement">
+            <pre>     .                                                            </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   140</td>
+         <td class="tcov-statement">
+            <pre>     EXEC SQL                                                     </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   141</td>
+         <td class="tcov-statement">
+            <pre>         COMMIT WORK RELEASE                                      </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   142</td>
+         <td class="tcov-statement">
+            <pre>     END-EXEC                                                     </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   143</td>
+         <td class="tcov-statement">
+            <pre>     .                                                            </pre>
+         </td>
+      </tr>
+   </tbody>
+   <tbody id="0000100022">
+      <tr>
+         <td class="tcov-linenumber">   144</td>
+         <td class="tcov-statement">
+            <pre>     GOBACK.                                                      </pre>
+         </td>
+         <td rowspan="99" class="tcov-count">       1</td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   145</td>
+         <td class="tcov-statement">
+            <pre>     .                                                            </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   146</td>
+         <td class="tcov-statement">
+            <pre>                                                                  </pre>
+         </td>
+      </tr>
+   </tbody>
+   <tbody class="tcov-unexec" id="0000100023">
+      <tr>
+         <td class="tcov-linenumber">   147</td>
+         <td class="tcov-statement">
+            <pre> SQL-ERROR SECTION.                                               </pre>
+         </td>
+         <td rowspan="99" class="tcov-count">       -</td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   148</td>
+         <td class="tcov-statement">
+            <pre>     EXEC SQL                                                     </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   149</td>
+         <td class="tcov-statement">
+            <pre>         WHENEVER SQLERROR CONTINUE                               </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   150</td>
+         <td class="tcov-statement">
+            <pre>     END-EXEC                                                     </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   151</td>
+         <td class="tcov-statement">
+            <pre>     .                                                            </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   152</td>
+         <td class="tcov-statement">
+            <pre>     DISPLAY " "                                                  </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   153</td>
+         <td class="tcov-statement">
+            <pre>     .                                                            </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   154</td>
+         <td class="tcov-statement">
+            <pre>     DISPLAY "ORACLE ERROR DETECTED:"                             </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   155</td>
+         <td class="tcov-statement">
+            <pre>     .                                                            </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   156</td>
+         <td class="tcov-statement">
+            <pre>     DISPLAY " "                                                  </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   157</td>
+         <td class="tcov-statement">
+            <pre>     .                                                            </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   158</td>
+         <td class="tcov-statement">
+            <pre>     DISPLAY SQLERRMC                                             </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   159</td>
+         <td class="tcov-statement">
+            <pre>     .                                                            </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   160</td>
+         <td class="tcov-statement">
+            <pre>     EXEC SQL                                                     </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   161</td>
+         <td class="tcov-statement">
+            <pre>         ROLLBACK WORK RELEASE                                    </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   162</td>
+         <td class="tcov-statement">
+            <pre>     END-EXEC                                                     </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   163</td>
+         <td class="tcov-statement">
+            <pre>     .                                                            </pre>
+         </td>
+      </tr>
+   </tbody>
+   <tbody class="tcov-unexec" id="0000100024">
+      <tr>
+         <td class="tcov-linenumber">   164</td>
+         <td class="tcov-statement">
+            <pre>     STOP RUN                                                     </pre>
+         </td>
+         <td rowspan="99" class="tcov-count">       -</td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   165</td>
+         <td class="tcov-statement">
+            <pre>     .                                                            </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   166</td>
+         <td class="tcov-statement">
+            <pre>                                                                  </pre>
+         </td>
+      </tr>
+   </tbody>
+   <tbody id="0000100025">
+      <tr>
+         <td class="tcov-linenumber">   167</td>
+         <td class="tcov-statement">
+            <pre> DISPLAY-INFO SECTION.                                            </pre>
+         </td>
+         <td rowspan="99" class="tcov-count">       1</td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   168</td>
+         <td class="tcov-statement">
+            <pre>                                                                  </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   169</td>
+         <td class="tcov-statement">
+            <pre>     DISPLAY " " upon console                                     </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   170</td>
+         <td class="tcov-statement">
+            <pre>     .                                                            </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   171</td>
+         <td class="tcov-statement">
+            <pre>     DISPLAY "CONNECTED TO ORACLE AS USER    = " USERNAME upon    </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   172</td>
+         <td class="tcov-statement">
+            <pre>       console                                                    </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   173</td>
+         <td class="tcov-statement">
+            <pre>     .                                                            </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   174</td>
+         <td class="tcov-statement">
+            <pre>     DISPLAY "CONNECTED TO ORACLE AS PASSWORD=" PASSWD upon       </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   175</td>
+         <td class="tcov-statement">
+            <pre>       console                                                    </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   176</td>
+         <td class="tcov-statement">
+            <pre>     .                                                            </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   177</td>
+         <td class="tcov-statement">
+            <pre>     Display "SQLCODE = " SQLCODE                                 </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   178</td>
+         <td class="tcov-statement">
+            <pre>     .                                                            </pre>
+         </td>
+      </tr>
+   </tbody>
+   <tbody id="0000100026">
+      <tr>
+         <td class="tcov-linenumber">   179</td>
+         <td class="tcov-statement">
+            <pre> DISPLAY-INFO-EXIT.                                               </pre>
+         </td>
+         <td rowspan="99" class="tcov-count">       1</td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   180</td>
+         <td class="tcov-statement">
+            <pre>     EXIT                                                         </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   181</td>
+         <td class="tcov-statement">
+            <pre>     .                                                            </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   182</td>
+         <td class="tcov-statement">
+            <pre>                                                                  </pre>
+         </td>
+      </tr>
+   </tbody>
+   <tbody class="tcov-unexec" id="0000100027">
+      <tr>
+         <td class="tcov-linenumber">   183</td>
+         <td class="tcov-statement">
+            <pre> DISPLAY-LINE SECTION.                                            </pre>
+         </td>
+         <td rowspan="99" class="tcov-count">       -</td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   184</td>
+         <td class="tcov-statement">
+            <pre>                                                                  </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   185</td>
+         <td class="tcov-statement">
+            <pre>     MOVE EMP-NAME-ARR TO D-EMP-NAME                              </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   186</td>
+         <td class="tcov-statement">
+            <pre>     .                                                            </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   187</td>
+         <td class="tcov-statement">
+            <pre>     MOVE SALARY TO D-SALARY                                      </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   188</td>
+         <td class="tcov-statement">
+            <pre>     .                                                            </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   189</td>
+         <td class="tcov-statement">
+            <pre>     IF COMM-IND = -1                                             </pre>
+         </td>
+      </tr>
+   </tbody>
+   <tbody class="tcov-unexec" id="0000100028">
+      <tr>
+         <td class="tcov-linenumber">   190</td>
+         <td class="tcov-statement">
+            <pre>         DISPLAY D-EMP-NAME, D-SALARY, "          NULL"           </pre>
+         </td>
+         <td rowspan="99" class="tcov-count">       -</td>
+      </tr>
+   </tbody>
+   <tbody class="tcov-unexec" id="0000100029">
+      <tr>
+         <td class="tcov-linenumber">   191</td>
+         <td class="tcov-statement">
+            <pre>     ELSE                                                         </pre>
+         </td>
+         <td rowspan="99" class="tcov-count">       -</td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   192</td>
+         <td class="tcov-statement">
+            <pre>         MOVE COMMISSION TO D-COMMISSION                          </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   193</td>
+         <td class="tcov-statement">
+            <pre>         DISPLAY D-EMP-NAME, D-SALARY, "      ", D-COMMISSION     </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   194</td>
+         <td class="tcov-statement">
+            <pre>     END-IF                                                       </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   195</td>
+         <td class="tcov-statement">
+            <pre>     .                                                            </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   196</td>
+         <td class="tcov-statement">
+            <pre>     .                                                            </pre>
+         </td>
+      </tr>
+   </tbody>
+   <tbody class="tcov-unexec" id="0000100030">
+      <tr>
+         <td class="tcov-linenumber">   197</td>
+         <td class="tcov-statement">
+            <pre> DISPLAY-LINE-EXIT.                                               </pre>
+         </td>
+         <td rowspan="99" class="tcov-count">       -</td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   198</td>
+         <td class="tcov-statement">
+            <pre>     EXIT                                                         </pre>
+         </td>
+      </tr>
+      <tr>
+         <td class="tcov-linenumber">   199</td>
+         <td class="tcov-statement">
+            <pre>     .                                                            </pre>
+         </td>
+      </tr>
+   </tbody>
+</table>
+ <pre>
+       <a name="logon23062610514768SUMMARY">
+logon Summary</a>
+Total number of times called      1
+Executed     13 of     31 basic blocks                   41.93%
+Executed     36 of     73 statements                     49.31%
+Executed      7 of     13 sections/paras                 53.84%
+Executed      1 of      1 CALL statements               100.00%
+
+ </pre>
+</form> </body>
+<script src="tcreport-script.js "></script>
+</html>

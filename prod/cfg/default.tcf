@@ -1,0 +1,4 @@
+[TESTCOVER]
+RESULT /home/oracle/Westpac/prod/testcover/run0001.tcz
+ECHO NO
+LOGNAME /home/oracle/Westpac/prod/testcover/testcover.log

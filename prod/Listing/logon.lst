@@ -1,9 +1,14 @@
-* Micro Focus COBOL                  V8.0 revision 000 22-Jun-23 13:42 Page   1
+* Micro Focus COBOL                  V8.0 revision 000 26-Jun-23 10:51 Page   1
 * /home/oracle/Westpac/prod/cobol/logon.cob
-* Options: int("logon.int") verbose
-*          use(/home/oracle/Westpac/prod/dir/logon.cob.dir)
-*          INT(/home/oracle/Westpac/prod/bin/)
-*          LIST(/home/oracle/Westpac/prod/Listing/logon.lst)
+* Directives File: /home/oracle/Westpac/prod/bin/logon.cob.dir
+* Accepted - showdir
+* Accepted - P(cobsql) COBSQLTYPE=ORACLE8 DISPLAY KEEPCOMP MAKESYN VERBOSE KEEPCBL
+* Accepted - INT"/home/oracle/Westpac/prod/bin/"
+* Accepted - ANIM
+* Accepted - LISTPATH"/home/oracle/Westpac/prod/Listing"
+* Accepted - ERRFORMAT(2)
+* Accepted - STDERR
+* End Of Directives File: /home/oracle/Westpac/prod/bin/logon.cob.dir
      1 IDENTIFICATION DIVISION.
      2 PROGRAM-ID. LOGON.
      3 ENVIRONMENT DIVISION.
@@ -53,13 +58,13 @@
     47     .
     48     goback
     49     .
+* Micro Focus COBOL                  V8.0 revision 000 26-Jun-23 10:51 Page   2
+* /home/oracle/Westpac/prod/cobol/logon.cob
     50
     51 LOGON SECTION.
     52
     53     MOVE "mfuser" TO USERNAME-ARR
     54     .
-* Micro Focus COBOL                  V8.0 revision 000 22-Jun-23 13:42 Page   2
-* /home/oracle/Westpac/prod/cobol/logon.cob
     55     MOVE 6 TO USERNAME-LEN
     56     .
     57     MOVE "Welcome01" TO PASSWD-ARR
@@ -113,13 +118,13 @@
    105
    106     MOVE SPACES TO EMP-NAME-ARR
    107     .
+* Micro Focus COBOL                  V8.0 revision 000 26-Jun-23 10:51 Page   3
+* /home/oracle/Westpac/prod/cobol/logon.cob
    108
    109     .
    110
    111      EXEC SQL
    112         SELECT ENAME, SAL, COMM
-* Micro Focus COBOL                  V8.0 revision 000 22-Jun-23 13:42 Page   3
-* /home/oracle/Westpac/prod/cobol/logon.cob
    113         INTO :EMP-NAME, :SALARY, :COMMISSION:COMM-IND
    114         FROM EMP
    115         WHERE EMPNO = :EMP-NUMBER
@@ -173,13 +178,13 @@
    163     .
    164     STOP RUN
    165     .
+* Micro Focus COBOL                  V8.0 revision 000 26-Jun-23 10:51 Page   4
+* /home/oracle/Westpac/prod/cobol/logon.cob
    166
    167 DISPLAY-INFO SECTION.
    168
    169     DISPLAY " " upon console
    170     .
-* Micro Focus COBOL                  V8.0 revision 000 22-Jun-23 13:42 Page   4
-* /home/oracle/Westpac/prod/cobol/logon.cob
    171     DISPLAY "CONNECTED TO ORACLE AS USER    = " USERNAME upon
    172       console
    173     .
@@ -233,13 +238,13 @@
    199*COMP5                 DEFINE                        Command Line
    199*UNIX                  DEFINE                        Pre-defined
    199*Version 19.3.0.0.0
+* Micro Focus COBOL                  V8.0 revision 000 26-Jun-23 10:51 Page   5
+* /home/oracle/Westpac/prod/cobol/logon.cob
    199*Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reser
    199*                              Precompiler Options
    199*-------------------------------------------------------------------------
    199*Option Name    Current Value        Where set
    199*-------------------------------------------------------------------------
-* Micro Focus COBOL                  V8.0 revision 000 22-Jun-23 13:42 Page   5
-* /home/oracle/Westpac/prod/cobol/logon.cob
    199*asacc             no                default
    199*assume_sqlcode    no                default
    199*auto_connect      no                default
@@ -293,13 +298,13 @@
    199*plan_fixed        yes               default
    199*plan_prefix       none              default
    199*plan_run          no                default
+* Micro Focus COBOL                  V8.0 revision 000 26-Jun-23 10:51 Page   6
+* /home/oracle/Westpac/prod/cobol/logon.cob
    199*prefetch          1                 default
    199*release_cursor    no                default
    199*runoutline        no                default
    199*select_error      yes               default
    199*sqlcheck          syntax            default
-* Micro Focus COBOL                  V8.0 revision 000 22-Jun-23 13:42 Page   6
-* /home/oracle/Westpac/prod/cobol/logon.cob
    199*stmt_cache        0                 default
    199*threads           no                default
    199*trim_password     no                default
@@ -326,4 +331,4 @@
 * (C) Copyright 1984-2023 Micro Focus or one of its affiliates.
 *                                                        REF GNR-085800000AM
 * Total Messages:     0
-* Data:        1760     Code:        3195
+* Data:        1936     Code:        3892
