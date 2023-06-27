@@ -1,4 +1,4 @@
-* Micro Focus COBOL                  V8.0 revision 000 27-Jun-23 13:45 Page   1
+* Micro Focus COBOL                  V8.0 revision 000 27-Jun-23 15:53 Page   1
 * /home/oracle/Westpac/prod/cobol/logon.cob
 * Options: int("logon.int") verbose
 *          use(/home/oracle/Westpac/prod/dir/logon.cob.dir)
@@ -58,7 +58,7 @@
     52
     53     MOVE "mfuser" TO USERNAME-ARR
     54     .
-* Micro Focus COBOL                  V8.0 revision 000 27-Jun-23 13:45 Page   2
+* Micro Focus COBOL                  V8.0 revision 000 27-Jun-23 15:53 Page   2
 * /home/oracle/Westpac/prod/cobol/logon.cob
     55     MOVE 6 TO USERNAME-LEN
     56     .
@@ -118,7 +118,7 @@
    110         SELECT ENAME, SAL, COMM
    111         INTO :EMP-NAME, :SALARY, :COMMISSION:COMM-IND
    112         FROM EMP
-* Micro Focus COBOL                  V8.0 revision 000 27-Jun-23 13:45 Page   3
+* Micro Focus COBOL                  V8.0 revision 000 27-Jun-23 15:53 Page   3
 * /home/oracle/Westpac/prod/cobol/logon.cob
    113         WHERE EMPNO = :EMP-NUMBER
    114      END-EXEC
@@ -178,7 +178,7 @@
    168     .
    169     DISPLAY "CONNECTED TO ORACLE AS USER    = " USERNAME upon
    170       console
-* Micro Focus COBOL                  V8.0 revision 000 27-Jun-23 13:45 Page   4
+* Micro Focus COBOL                  V8.0 revision 000 27-Jun-23 15:53 Page   4
 * /home/oracle/Westpac/prod/cobol/logon.cob
    171     .
    172     DISPLAY "CONNECTED TO ORACLE AS PASSWORD=" PASSWD upon
@@ -238,7 +238,7 @@
    197*-------------------------------------------------------------------------
    197*asacc             no                default
    197*assume_sqlcode    no                default
-* Micro Focus COBOL                  V8.0 revision 000 27-Jun-23 13:45 Page   5
+* Micro Focus COBOL                  V8.0 revision 000 27-Jun-23 15:53 Page   5
 * /home/oracle/Westpac/prod/cobol/logon.cob
    197*auto_connect      no                default
    197*charset_picn      nchar_charset     default
@@ -298,7 +298,7 @@
    197*sqlcheck          syntax            default
    197*stmt_cache        0                 default
    197*threads           no                default
-* Micro Focus COBOL                  V8.0 revision 000 27-Jun-23 13:45 Page   6
+* Micro Focus COBOL                  V8.0 revision 000 27-Jun-23 15:53 Page   6
 * /home/oracle/Westpac/prod/cobol/logon.cob
    197*trim_password     no                default
    197*type_code         oracle            default

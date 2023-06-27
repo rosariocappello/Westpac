@@ -1,0 +1,11 @@
+****
+ES_SERVER     =  Westpac
+COBMODE       =  64
+VERSION       =  1.46
+DATE          =  2023-06-27 15:53:44
+USER          =  oracle
+logon.cob
+MFABEND.cob
+
+Compiling program logon.cob
+
