@@ -1,4 +1,4 @@
-Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 26 10:27:52 2023
+Pro*COBOL: Release 19.0.0.0.0 - Production on Tue Jun 27 13:45:51 2023
 Version 19.3.0.0.0
 
 Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
@@ -26,7 +26,7 @@ Open file: /home/oracle/Westpac/prod/cobol/logon.cob
     20           05 D-SALARY PIC Z(4)9.99.
     21           05 D-COMMISSION PIC Z(4)9.99.
     22         01 D-TOTAL-QUERIED PIC 9(4) VALUE ZERO.
-    23  
+    23         01 C Pic 9.
     24         01 ws-flags pic x(4) comp-5 value 1.
     25         01 ws-timeout pic s9(18) comp-5 value 0.
     26         01 ws-identifier PIC x(4) VALUE "HELP".
@@ -35,10 +35,10 @@ Open file: /home/oracle/Westpac/prod/cobol/logon.cob
     29         PROCEDURE DIVISION.
     30         BEGIN-PGM SECTION.
     31  
-    32            CALL"CBL_DEBUG_START" using  by value ws-flags
-    33                                                 ws-timeout
-    34                                by reference     ws-identifier
-    35                                returning        ws-status-code
+    32        *   CALL"CBL_DEBUG_START" using  by value ws-flags
+    33        *                                        ws-timeout
+    34        *                       by reference     ws-identifier
+    35        *                       returning        ws-status-code
     36  
     37             ACCEPT EMP-NUMBER
     38             EXEC SQL
@@ -64,7 +64,7 @@ Open file: /home/oracle/Westpac/prod/cobol/logon.cob
     58  
     59             MOVE 9 TO PASSWD-LEN
     60             .
-Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 26 10:27:52 2023
+Pro*COBOL: Release 19.0.0.0.0 - Production on Tue Jun 27 13:45:51 2023
 Version 19.3.0.0.0
 
 Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
@@ -116,110 +116,108 @@ Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
    105             
    106             MOVE SPACES TO EMP-NAME-ARR
    107             .
-   108   
-   109             .
-   110  
-   111              EXEC SQL
-   112                 SELECT ENAME, SAL, COMM
-   113                 INTO :EMP-NAME, :SALARY, :COMMISSION:COMM-IND
-   114                 FROM EMP
-   115                 WHERE EMPNO = :EMP-NUMBER
-   116              END-EXEC
-   117             .
-   118             if sqlcode = 0 
-   119                 PERFORM DISPLAY-LINE
-   120             else
-   121                 DISPLAY "NOT A VALID EMPLOYEE NUMBER - TRY AGAIN."
-Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 26 10:27:52 2023
+   108  
+   109              EXEC SQL
+   110                 SELECT ENAME, SAL, COMM
+   111                 INTO :EMP-NAME, :SALARY, :COMMISSION:COMM-IND
+   112                 FROM EMP
+   113                 WHERE EMPNO = :EMP-NUMBER
+   114              END-EXEC
+   115             .
+   116             if sqlcode = 0 
+   117                 PERFORM DISPLAY-LINE
+   118             else
+   119                 DISPLAY "NOT A VALID EMPLOYEE NUMBER - TRY AGAIN."
+   120             end-if
+   121             .
+Pro*COBOL: Release 19.0.0.0.0 - Production on Tue Jun 27 13:45:51 2023
 Version 19.3.0.0.0
 
 Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
 
-   122             end-if
-   123             .
-   124             ADD 1 TO D-TOTAL-QUERIED.
-   125  
-   126         get-employee-info-EXIT.
-   127             EXIT
-   128             .
-   129  
-   130         SIGN-OFF SECTION.
-   131             DISPLAY " "
-   132             .
-   133  
-   134             DISPLAY "TOTAL NUMBER QUERIED WAS ", D-TOTAL-QUERIED, "."
+   122             ADD 1 TO D-TOTAL-QUERIED.
+   123  
+   124         get-employee-info-EXIT.
+   125             EXIT
+   126             .
+   127  
+   128         SIGN-OFF SECTION.
+   129             DISPLAY " "
+   130             .
+   131  
+   132             DISPLAY "TOTAL NUMBER QUERIED WAS ", D-TOTAL-QUERIED, "."
+   133             .
+   134             DISPLAY "HAVE A GOOD DAY."
    135             .
-   136             DISPLAY "HAVE A GOOD DAY."
+   136             DISPLAY " "
    137             .
-   138             DISPLAY " "
-   139             .
-   140             EXEC SQL
-   141                 COMMIT WORK RELEASE
-   142             END-EXEC
+   138             EXEC SQL
+   139                 COMMIT WORK RELEASE
+   140             END-EXEC
+   141             .
+   142             GOBACK.
    143             .
-   144             GOBACK.
-   145             .
-   146  
-   147         SQL-ERROR SECTION.
-   148             EXEC SQL
-   149                 WHENEVER SQLERROR CONTINUE
-   150             END-EXEC
+   144  
+   145         SQL-ERROR SECTION.
+   146             EXEC SQL
+   147                 WHENEVER SQLERROR CONTINUE
+   148             END-EXEC
+   149             .
+   150             DISPLAY " "
    151             .
-   152             DISPLAY " "
+   152             DISPLAY "ORACLE ERROR DETECTED:"
    153             .
-   154             DISPLAY "ORACLE ERROR DETECTED:"
+   154             DISPLAY " "
    155             .
-   156             DISPLAY " "
+   156             DISPLAY SQLERRMC
    157             .
-   158             DISPLAY SQLERRMC
-   159             .
-   160             EXEC SQL
-   161                 ROLLBACK WORK RELEASE
-   162             END-EXEC
+   158             EXEC SQL
+   159                 ROLLBACK WORK RELEASE
+   160             END-EXEC
+   161             .
+   162             STOP RUN
    163             .
-   164             STOP RUN
-   165             .
+   164  
+   165         DISPLAY-INFO SECTION.
    166  
-   167         DISPLAY-INFO SECTION.
-   168  
-   169             DISPLAY " " upon console
-   170             .
-   171             DISPLAY "CONNECTED TO ORACLE AS USER    = " USERNAME upon
-   172               console
-   173             .
-   174             DISPLAY "CONNECTED TO ORACLE AS PASSWORD=" PASSWD upon
-   175               console
+   167             DISPLAY " " upon console
+   168             .
+   169             DISPLAY "CONNECTED TO ORACLE AS USER    = " USERNAME upon
+   170               console
+   171             .
+   172             DISPLAY "CONNECTED TO ORACLE AS PASSWORD=" PASSWD upon
+   173               console
+   174             .
+   175             Display "SQLCODE = " SQLCODE
    176             .
-   177             Display "SQLCODE = " SQLCODE
-   178             .
-   179         DISPLAY-INFO-EXIT.
-   180             EXIT
-   181             .
+   177         DISPLAY-INFO-EXIT.
+   178             EXIT
+   179             .
+   180  
+   181         DISPLAY-LINE SECTION.
    182  
-Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 26 10:27:52 2023
+Pro*COBOL: Release 19.0.0.0.0 - Production on Tue Jun 27 13:45:51 2023
 Version 19.3.0.0.0
 
 Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
 
-   183         DISPLAY-LINE SECTION.
-   184  
-   185             MOVE EMP-NAME-ARR TO D-EMP-NAME
+   183             MOVE EMP-NAME-ARR TO D-EMP-NAME
+   184             .
+   185             MOVE SALARY TO D-SALARY
    186             .
-   187             MOVE SALARY TO D-SALARY
-   188             .
-   189             IF COMM-IND = -1
-   190                 DISPLAY D-EMP-NAME, D-SALARY, "          NULL"
-   191             ELSE
-   192                 MOVE COMMISSION TO D-COMMISSION
-   193                 DISPLAY D-EMP-NAME, D-SALARY, "      ", D-COMMISSION
-   194             END-IF
-   195             .
-   196             .
-   197         DISPLAY-LINE-EXIT.
-   198             EXIT
-   199             .
+   187             IF COMM-IND = -1
+   188                 DISPLAY D-EMP-NAME, D-SALARY, "          NULL"
+   189             ELSE
+   190                 MOVE COMMISSION TO D-COMMISSION
+   191                 DISPLAY D-EMP-NAME, D-SALARY, "      ", D-COMMISSION
+   192             END-IF
+   193             .
+   194             .
+   195         DISPLAY-LINE-EXIT.
+   196             EXIT
+   197             .
 Close file: /home/oracle/Westpac/prod/cobol/logon.cob
-Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 26 10:27:52 2023
+Pro*COBOL: Release 19.0.0.0.0 - Production on Tue Jun 27 13:45:51 2023
 Version 19.3.0.0.0
 
 Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
@@ -229,27 +227,27 @@ Host Variables
 --------------
 
 05  COMM-IND OF EMP-REC-VARS                            Short Integer
-  /home/oracle/Westpac/prod/cobol/logon.cob        14       113
+  /home/oracle/Westpac/prod/cobol/logon.cob        14       111
 
 05  COMMISSION OF EMP-REC-VARS                          Decimal(7,2)
-  /home/oracle/Westpac/prod/cobol/logon.cob        13       113
+  /home/oracle/Westpac/prod/cobol/logon.cob        13       111
 
 05  EMP-NAME OF EMP-REC-VARS                            Varchar(10)
-  /home/oracle/Westpac/prod/cobol/logon.cob        10       113       113
+  /home/oracle/Westpac/prod/cobol/logon.cob        10       111       111
 
 05  EMP-NUMBER OF EMP-REC-VARS                          Short Integer
-  /home/oracle/Westpac/prod/cobol/logon.cob        11       115
+  /home/oracle/Westpac/prod/cobol/logon.cob        11       113
 
 01  PASSWD                                              Varchar(10)
   /home/oracle/Westpac/prod/cobol/logon.cob         8        63        63
 
 05  SALARY OF EMP-REC-VARS                              Decimal(7,2)
-  /home/oracle/Westpac/prod/cobol/logon.cob        12       113
+  /home/oracle/Westpac/prod/cobol/logon.cob        12       111
 
 01  USERNAME                                            Varchar(10)
   /home/oracle/Westpac/prod/cobol/logon.cob         7        63        63
 
-Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 26 10:27:52 2023
+Pro*COBOL: Release 19.0.0.0.0 - Production on Tue Jun 27 13:45:51 2023
 Version 19.3.0.0.0
 
 Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
@@ -264,7 +262,7 @@ COMP5                 DEFINE                        Command Line
 
 UNIX                  DEFINE                        Pre-defined
 
-Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 26 10:27:52 2023
+Pro*COBOL: Release 19.0.0.0.0 - Production on Tue Jun 27 13:45:51 2023
 Version 19.3.0.0.0
 
 Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
@@ -341,7 +339,7 @@ unsafe_null       no                default
 userid            *none*            default                                     
 varchar           no                default                                     
 xref              yes               default                                     
-Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 26 10:27:52 2023
+Pro*COBOL: Release 19.0.0.0.0 - Production on Tue Jun 27 13:45:51 2023
 Version 19.3.0.0.0
 
 Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
@@ -355,8 +353,8 @@ Number of messages at severity I: 0
 Number of messages at severity W: 0
 Number of messages at severity E: 0
 Number of messages at severity F: 0
-Number of input lines: 199
-Number of host variables declared: 17
+Number of input lines: 197
+Number of host variables declared: 18
 Number of cursor names: 0
 Number of statement names: 0
-Maximum memory (bytes) used: 1018779
+Maximum memory (bytes) used: 1019420

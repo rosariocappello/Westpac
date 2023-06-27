@@ -4,6 +4,36 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+   
+                {
+                    "name": "Debug COBOL Program",
+                    "type": "cobol",
+                    "request": "launch",
+                    "program": "${workspaceFolder}/bin/MFABEND.so",
+                    "stopOnEntry": false,
+                    "cwd": "${workspaceFolder}"
+                },
+   
+        
+        {
+            "type": "cobol",
+            "request": "launch",
+            "name": "COBOL (native): Wait for attachment",
+            "waitForAttachment": {
+                "any": {}
+            }
+        },
+        {
+            "type": "cobol",
+            "request": "attach",
+            "name": "COBOL (native): Attach to process",
+            "processId": "${command:pickProcess}",
+            "is64bit": true,
+            "env": [{"name": "COBIDY", "value": "${workspaceFolder}/bin"}],
+            "env": [{"name": "COBPATH", "value": "${workspaceFolder}/bin"}],
+            "env": [{"name": "COBCPY", "value": "${workspaceFolder}/cobol"}],
+            "stopOnEntry": true
+        },
         {
             "type": "bashdb",
             "request": "launch",

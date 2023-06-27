@@ -1,0 +1,764 @@
+001000
+001000      $SET ADDRSV "COMP-5"
+001000      $SET ADDSYN "PROCEDURE-POINTER" = "CSQL-PROC-POINTER"
+001000      $SET ADDSYN "COMP-X" = "CSQL-X"
+032000       IDENTIFICATION DIVISION.
+032000       PROGRAM-ID. LOGON.
+032000       ENVIRONMENT DIVISION.
+032000       DATA DIVISION.
+032000       WORKING-STORAGE SECTION.
+001000       01 MF-CSQL-TRACE-OPTION     PIC X(2) CSQL-X GLOBAL VALUE 0.      *>COBSQL
+001000       01 MF-CSQL-TRACE-PROVIDER   PIC X(2) CSQL-X GLOBAL VALUE 4 .     *>COBSQL
+001000       01 MF-CSQL-TRACE-SQLSTATUS  PIC X(4) CSQL-X GLOBAL VALUE 0.      *>COBSQL
+001000       01 MF-CSQL-TRACE-STMTCOUNT  PIC X(2) CSQL-X GLOBAL VALUE 0.      *>COBSQL
+001000       01 MF-CSQL-TRACE-DETAIL     PIC X(256) GLOBAL VALUE SPACES.      *>COBSQL
+001000       01 MF-CSQL-SMFTRACE         csql-proc-pointer GLOBAL.            *>COBSQL
+001000       01 MF-CSQL-SMFTRACE-NAME    PIC X(8) GLOBAL VALUE "mfsqlsmf".    *>COBSQL
+001000       01  SQLFPN GLOBAL.
+001000           02  SQLFPN-FILE-LEN PIC S9(4) COMP-5 VALUE +41.
+001000           02  SQLFPN-FILENAME PIC X(41) VALUE "/home/oracle/Westpac/pro
+001000      -    "d/cobol/logon.cob".
+001000
+001000       01  SQ0001 GLOBAL.
+001000           02  FILLER PIC X(73) VALUE "select ENAME  ,SAL  ,COMM   into
+001000      -    ":b1,:b2,:b3:i3  from EMP where EMPNO=:b4".
+001000
+001000       01  SQLCTX GLOBAL PIC S9(9) COMP-5 VALUE +115014605.
+001000
+001000
+001000       01  SQLEXD GLOBAL.
+001000           02  SQL-SQLVSN   PIC S9(18) COMP-5 VALUE +13.
+001000           02  SQL-ARRSIZ   PIC S9(9) COMP-5 VALUE +4.
+001000           02  SQL-ITERS    PIC S9(9) COMP-5.
+001000           02  SQL-OFFSET   PIC S9(9) COMP-5.
+001000           02  SQL-SELERR   PIC S9(4) COMP-5.
+001000           02  SQL-SQLETY   PIC S9(4) COMP-5.
+001000           02  SQL-OCCURS   PIC S9(9) COMP-5.
+001000           02  SQL-DUMMY    PIC S9(9) COMP-5.
+001000           02  SQL-CUD      PIC S9(18) COMP-5.
+001000           02  SQL-SQLEST   PIC S9(18) COMP-5.
+001000           02  SQL-STMT     PIC S9(18) COMP-5.
+001000           02  SQL-SQLADTP  PIC S9(18) COMP-5 VALUE 0.
+001000           02  SQL-SQLTDSP  PIC S9(18) COMP-5 VALUE 0.
+001000           02  SQL-SQPHSV   PIC S9(18) COMP-5.
+001000           02  SQL-SQPHSL   PIC S9(18) COMP-5.
+001000           02  SQL-SQPHSS   PIC S9(18) COMP-5.
+001000           02  SQL-SQPIND   PIC S9(18) COMP-5.
+001000           02  SQL-SQPINS   PIC S9(18) COMP-5.
+001000           02  SQL-SQPARM   PIC S9(18) COMP-5.
+001000           02  SQL-SQPARC   PIC S9(18) COMP-5.
+001000           02  SQL-SQPADTO  PIC S9(18) COMP-5.
+001000           02  SQL-SQPTDSO  PIC S9(18) COMP-5.
+001000           02  SQL-SQPHR1   PIC S9(9) COMP-5.
+001000           02  SQL-SQPHR2   PIC S9(9) COMP-5.
+001000           02  SQL-SQPHR3   PIC S9(9) COMP-5.
+001000           02  SQL-SQPHR4   PIC S9(9) COMP-5.
+001000           02  SQL-SQPHR5   PIC S9(9) COMP-5.
+001000           02  SQL-SQFOFF   PIC S9(9) COMP-5.
+001000           02  SQL-SQCMOD   PIC S9(9) COMP-5.
+001000           02  SQL-SQFMOD   PIC S9(9) COMP-5.
+001000           02  SQL-SQPMEM   PIC S9(9) COMP-5.
+001000           02  SQL-DUMMYPF  PIC S9(9) COMP-5.
+001000           02  SQL-SQHSTV   PIC S9(18) COMP-5 OCCURS 4 TIMES.
+001000           02  SQL-SQHSTL   PIC S9(18) COMP-5 OCCURS 4 TIMES.
+001000           02  SQL-SQHSTS   PIC S9(18) COMP-5 OCCURS 4 TIMES.
+001000           02  SQL-SQINDV   PIC S9(18) COMP-5 OCCURS 4 TIMES.
+001000           02  SQL-SQINDS   PIC S9(18) COMP-5 OCCURS 4 TIMES.
+001000           02  SQL-SQHARM   PIC S9(18) COMP-5 OCCURS 4 TIMES.
+001000           02  SQL-SQHARC   PIC S9(18) COMP-5 OCCURS 4 TIMES.
+001000           02  SQL-SQADTO   PIC S9(4) COMP-5 OCCURS 4 TIMES.
+001000           02  SQL-SQTDSO   PIC S9(4) COMP-5 OCCURS 4 TIMES.
+001000
+001000
+001000       01  SQL-RUNTIME-VARS.
+001000           02  SQL-IAPXIT-SUCCESS  PIC S9(9) COMP-5 VALUE    +0.
+001000           02  SQL-IAPXIT-FAILURE  PIC S9(9) COMP-5 VALUE +1403.
+001000           02  SQL-IAPXIT-FATALERR PIC S9(9) COMP-5 VALUE  +535.
+001000
+001000       01  SQLCUD GLOBAL.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +13.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +4130.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +1.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +5.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +27.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +62.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +4.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +4.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +1.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +1.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +9.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +1.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +9.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +1.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +10.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +1.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +10.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +36.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +1.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +73.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +4.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +109.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +4.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +1.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +1.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +2.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +9.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +2.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +7.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +7.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +2.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +2.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +7.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +7.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +2.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +1.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +3.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +67.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +2.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +12.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +30.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +138.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +1.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +82.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +3.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +14.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +32.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +158.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +1.
+001000           02     FILLER PIC S9(4) COMP-5 VALUE +0.
+002000           EXEC SQL BEGIN DECLARE SECTION END-EXEC.
+002000       01 USERNAME PIC X(10) varying.
+001127       01  USERNAME.
+001127           02  USERNAME-LEN  PIC S9(4) COMP-5.
+001127           02  USERNAME-ARR  PIC X(10).
+002000       01 PASSWD PIC X(10) varying.
+001127       01  PASSWD.
+001127           02  PASSWD-LEN  PIC S9(4) COMP-5.
+001127           02  PASSWD-ARR  PIC X(10).
+032000       01 EMP-REC-VARS.
+002000         05 EMP-NAME PIC X(10) VARYING.
+001127         05  EMP-NAME.
+001127             06  EMP-NAME-LEN  PIC S9(4) COMP-5.
+001127             06  EMP-NAME-ARR  PIC X(10).
+002000         05 EMP-NUMBER PIC S9(4) COMP VALUE ZERO.
+001000         05 EMP-NUMBER PIC S9(4)
+001000                                 COMP-5
+001000                                      VALUE ZERO.
+032000         05 SALARY PIC S9(5)V99 COMP-3 VALUE ZERO.
+032000         05 COMMISSION PIC S9(5)V99 COMP-3 VALUE ZERO.
+002000         05 COMM-IND PIC S9(4) COMP VALUE ZERO.
+001000         05 COMM-IND PIC S9(4)
+001000                               COMP-5
+001000                                    VALUE ZERO.
+002000           EXEC SQL END DECLARE SECTION END-EXEC.
+002000           EXEC SQL INCLUDE SQLCA END-EXEC.
+001000       01  SQLCA GLOBAL.
+001000           05  SQLCAID               PIC X(8).
+001000           05  SQLCABC               PIC S9(9) COMP-5.
+001000           05  SQLCODE               PIC S9(9) COMP-5.
+001000           05  SQLERRM.
+001000               49 SQLERRML           PIC S9(4) COMP-5.
+001000               49 SQLERRMC           PIC X(70).
+001000           05  SQLERRP               PIC X(8).
+001000           05  SQLERRD OCCURS 6 TIMES
+001000                                     PIC S9(9) COMP-5.
+001000           05  SQLWARN.
+001000               10 SQLWARN0           PIC X(1).
+001000               10 SQLWARN1           PIC X(1).
+001000               10 SQLWARN2           PIC X(1).
+001000               10 SQLWARN3           PIC X(1).
+001000               10 SQLWARN4           PIC X(1).
+001000               10 SQLWARN5           PIC X(1).
+001000               10 SQLWARN6           PIC X(1).
+001000               10 SQLWARN7           PIC X(1).
+001000           05  SQLEXT                PIC X(8).
+032000
+032000       01 DISPLAY-VARIABLES.
+032000         05 D-EMP-NAME PIC X(10).
+032000         05 D-SALARY PIC Z(4)9.99.
+032000         05 D-COMMISSION PIC Z(4)9.99.
+032000       01 D-TOTAL-QUERIED PIC 9(4) VALUE ZERO.
+032000       01 C Pic 9.
+032000       01 ws-flags pic x(4) comp-5 value 1.
+032000       01 ws-timeout pic s9(18) comp-5 value 0.
+032000       01 ws-identifier PIC x(4) VALUE "HELP".
+032000       01 ws-status-code pic x(4) comp-5 value zero.
+032000
+032000       PROCEDURE DIVISION.
+032000       BEGIN-PGM SECTION.
+032000
+032000      *   CALL"CBL_DEBUG_START" using  by value ws-flags
+032000      *                                        ws-timeout
+032000      *                       by reference     ws-identifier
+032000      *                       returning        ws-status-code
+032000
+032000           ACCEPT EMP-NUMBER
+002000           EXEC SQL
+001012           ADD 0 TO RETURN-CODE                                         *>COBSQL
+002000               WHENEVER SQLERROR DO PERFORM SQL-ERROR
+002000           END-EXEC
+001000
+032000           .
+032000           PERFORM LOGON
+032000           .
+032000           PERFORM QUERY-LOOP
+032000           .
+032000           perform SIGN-OFF
+032000           .
+032000           goback
+032000           .
+032000
+032000       LOGON SECTION.
+032000
+032000           MOVE "mfuser" TO USERNAME-ARR
+032000           .
+032000           MOVE 6 TO USERNAME-LEN
+032000           .
+032000           MOVE "Welcome01" TO PASSWD-ARR
+032000
+032000           MOVE 9 TO PASSWD-LEN
+032000           .
+032000
+002000           EXEC SQL
+001012           ADD 0 TO RETURN-CODE                                         *>COBSQL
+001000           MOVE  3  TO MF-CSQL-TRACE-OPTION                             *>COBSQL
+001000           MOVE 0 TO MF-CSQL-TRACE-SQLSTATUS                            *>COBSQL
+001000           MOVE  0001 TO MF-CSQL-TRACE-STMTCOUNT                        *>COBSQL
+001000           CALL "mfsqlsm2" USING BY VALUE MF-CSQL-TRACE-OPTION          *>COBSQL
+001000                               BY VALUE MF-CSQL-TRACE-PROVIDER          *>COBSQL
+001000                               BY VALUE MF-CSQL-TRACE-STMTCOUNT         *>COBSQL
+001000                               BY VALUE MF-CSQL-TRACE-SQLSTATUS         *>COBSQL
+001000                               BY REFERENCE MF-CSQL-TRACE-DETAIL        *>COBSQL
+001000           END-CALL                                                     *>COBSQL
+002000               CONNECT :USERNAME IDENTIFIED BY :PASSWD
+002000           END-EXEC
+001000
+001000           MOVE 10 TO SQL-ITERS
+001000           MOVE 5 TO SQL-OFFSET
+001000           MOVE 0 TO SQL-OCCURS
+001000           CALL "SQLADR" USING
+001000               SQLCUD
+001000               SQL-CUD
+001000           CALL "SQLADR" USING
+001000               SQLCA
+001000               SQL-SQLEST
+001000           MOVE 4352 TO SQL-SQLETY
+001000           CALL "SQLADRVC" USING
+001000               USERNAME-LEN IN
+001000               USERNAME
+001000               USERNAME-ARR IN
+001000               USERNAME
+001000               SQL-SQHSTV(1)
+001000           MOVE 12 TO SQL-SQHSTL(1)
+001000           MOVE 12 TO SQL-SQHSTS(1)
+001000           MOVE 0 TO SQL-SQINDV(1)
+001000           MOVE 0 TO SQL-SQINDS(1)
+001000           MOVE 0 TO SQL-SQHARM(1)
+001000           CALL "SQLADRVC" USING
+001000               PASSWD-LEN IN
+001000               PASSWD
+001000               PASSWD-ARR IN
+001000               PASSWD
+001000               SQL-SQHSTV(2)
+001000           MOVE 12 TO SQL-SQHSTL(2)
+001000           MOVE 12 TO SQL-SQHSTS(2)
+001000           MOVE 0 TO SQL-SQINDV(2)
+001000           MOVE 0 TO SQL-SQINDS(2)
+001000           MOVE 0 TO SQL-SQHARM(2)
+001000           CALL "SQLADR" USING
+001000               SQL-SQHSTV(1)
+001000               SQL-SQPHSV
+001000           CALL "SQLADR" USING
+001000               SQL-SQHSTL(1)
+001000               SQL-SQPHSL
+001000           CALL "SQLADR" USING
+001000               SQL-SQHSTS(1)
+001000               SQL-SQPHSS
+001000           CALL "SQLADR" USING
+001000               SQL-SQINDV(1)
+001000               SQL-SQPIND
+001000           CALL "SQLADR" USING
+001000               SQL-SQINDS(1)
+001000               SQL-SQPINS
+001000           CALL "SQLADR" USING
+001000               SQL-SQHARM(1)
+001000               SQL-SQPARM
+001000           CALL "SQLADR" USING
+001000               SQL-SQHARC(1)
+001000               SQL-SQPARC
+001000           CALL "SQLBEX" USING
+001000               SQLCTX
+001000               SQLEXD
+001000               SQLFPN
+001000           IF SQLCODE IN SQLCA IS LESS THAN 0
+001000               THEN PERFORM SQL-ERROR END-IF
+001000           MOVE  4  TO MF-CSQL-TRACE-OPTION                             *>COBSQL
+001000           MOVE SQLCODE IN SQLCA TO MF-CSQL-TRACE-SQLSTATUS             *>COBSQL
+001000           CALL "mfsqlsm2" USING BY VALUE MF-CSQL-TRACE-OPTION          *>COBSQL
+001000                               BY VALUE MF-CSQL-TRACE-PROVIDER          *>COBSQL
+001000                               BY VALUE MF-CSQL-TRACE-STMTCOUNT         *>COBSQL
+001000                               BY VALUE MF-CSQL-TRACE-SQLSTATUS         *>COBSQL
+001000                               BY REFERENCE MF-CSQL-TRACE-DETAIL        *>COBSQL
+001000           END-CALL                                                     *>COBSQL
+032000           .
+032000           perform DISPLAY-INFO
+032000
+032000           DISPLAY " "
+032000           .
+032000           DISPLAY "EMPLOYEE    SALARY    COMMISSION" upon console
+032000           .
+032000           DISPLAY "--------    ------    ----------" upon console
+032000           .
+032000
+032000       LOGON-EXIT.
+032000           EXIT
+032000           .
+032000
+032000       QUERY-LOOP SECTION.
+032000           DISPLAY " "  upon console
+032000           .
+032000           DISPLAY "ENTER EMP NUMBER (0 TO QUIT): "  upon console
+032000           .
+032000
+032000           ACCEPT EMP-NUMBER
+032000           IF (EMP-NUMBER = 0)
+032000               PERFORM SIGN-OFF
+032000           END-IF
+032000           .
+032000
+032000           perform until EMP-NUMBER = 0
+032000
+032000               perform get-employee-info
+032000               DISPLAY " "  upon console
+032000               DISPLAY "ENTER EMP NUMBER (0 TO QUIT): "   upon console
+032000               ACCEPT EMP-NUMBER
+032000
+032000           end-perform.
+032000
+032000       QUERY-LOOP-exit.
+032000             exit.
+032000           .
+032000
+032000       get-employee-info section.
+032000
+032000           MOVE SPACES TO EMP-NAME-ARR
+032000           .
+032000
+002000            EXEC SQL
+001013            ADD 0 TO RETURN-CODE                                        *>COBSQL
+001000           MOVE  3  TO MF-CSQL-TRACE-OPTION                             *>COBSQL
+001000           MOVE 0 TO MF-CSQL-TRACE-SQLSTATUS                            *>COBSQL
+001000           MOVE  0002 TO MF-CSQL-TRACE-STMTCOUNT                        *>COBSQL
+001000           CALL "mfsqlsm2" USING BY VALUE MF-CSQL-TRACE-OPTION          *>COBSQL
+001000                               BY VALUE MF-CSQL-TRACE-PROVIDER          *>COBSQL
+001000                               BY VALUE MF-CSQL-TRACE-STMTCOUNT         *>COBSQL
+001000                               BY VALUE MF-CSQL-TRACE-SQLSTATUS         *>COBSQL
+001000                               BY REFERENCE MF-CSQL-TRACE-DETAIL        *>COBSQL
+001000           END-CALL                                                     *>COBSQL
+002000               SELECT ENAME, SAL, COMM
+002000               INTO :EMP-NAME, :SALARY, :COMMISSION:COMM-IND
+002000               FROM EMP
+002000               WHERE EMPNO = :EMP-NUMBER
+002000            END-EXEC
+001000
+001000            CALL "SQLADR" USING SQ0001 SQL-STMT
+001000            MOVE 1 TO SQL-ITERS
+001000            MOVE 36 TO SQL-OFFSET
+001000            MOVE 0 TO SQL-OCCURS
+001000            MOVE 1 TO SQL-SELERR
+001000            MOVE 0 TO SQL-SQPMEM
+001000            CALL "SQLADR" USING
+001000                SQLCUD
+001000                SQL-CUD
+001000            CALL "SQLADR" USING
+001000                SQLCA
+001000                SQL-SQLEST
+001000            MOVE 4352 TO SQL-SQLETY
+001000            CALL "SQLADRVC" USING
+001000                EMP-NAME-LEN IN
+001000                EMP-NAME IN
+001000                EMP-REC-VARS
+001000                EMP-NAME-ARR IN
+001000                EMP-NAME IN
+001000                EMP-REC-VARS
+001000                SQL-SQHSTV(1)
+001000            MOVE 12 TO SQL-SQHSTL(1)
+001000            MOVE 12 TO SQL-SQHSTS(1)
+001000            MOVE 0 TO SQL-SQINDV(1)
+001000            MOVE 0 TO SQL-SQINDS(1)
+001000            MOVE 0 TO SQL-SQHARM(1)
+001000            CALL "SQLADR" USING
+001000                SALARY IN
+001000                EMP-REC-VARS
+001000                SQL-SQHSTV(2)
+001000            MOVE 4 TO SQL-SQHSTL(2)
+001000            MOVE 4 TO SQL-SQHSTS(2)
+001000            MOVE 0 TO SQL-SQINDV(2)
+001000            MOVE 0 TO SQL-SQINDS(2)
+001000            MOVE 0 TO SQL-SQHARM(2)
+001000            CALL "SQLADR" USING
+001000                COMMISSION IN
+001000                EMP-REC-VARS
+001000                SQL-SQHSTV(3)
+001000            MOVE 4 TO SQL-SQHSTL(3)
+001000            MOVE 4 TO SQL-SQHSTS(3)
+001000            CALL "SQLADR" USING
+001000                COMM-IND IN
+001000                EMP-REC-VARS
+001000                SQL-SQINDV(3)
+001000            MOVE 0 TO SQL-SQINDS(3)
+001000            MOVE 0 TO SQL-SQHARM(3)
+001000            CALL "SQLADR" USING
+001000                EMP-NUMBER IN
+001000                EMP-REC-VARS
+001000                SQL-SQHSTV(4)
+001000            MOVE 2 TO SQL-SQHSTL(4)
+001000            MOVE 2 TO SQL-SQHSTS(4)
+001000            MOVE 0 TO SQL-SQINDV(4)
+001000            MOVE 0 TO SQL-SQINDS(4)
+001000            MOVE 0 TO SQL-SQHARM(4)
+001000            CALL "SQLADR" USING
+001000                SQL-SQHSTV(1)
+001000                SQL-SQPHSV
+001000            CALL "SQLADR" USING
+001000                SQL-SQHSTL(1)
+001000                SQL-SQPHSL
+001000            CALL "SQLADR" USING
+001000                SQL-SQHSTS(1)
+001000                SQL-SQPHSS
+001000            CALL "SQLADR" USING
+001000                SQL-SQINDV(1)
+001000                SQL-SQPIND
+001000            CALL "SQLADR" USING
+001000                SQL-SQINDS(1)
+001000                SQL-SQPINS
+001000            CALL "SQLADR" USING
+001000                SQL-SQHARM(1)
+001000                SQL-SQPARM
+001000            CALL "SQLADR" USING
+001000                SQL-SQHARC(1)
+001000                SQL-SQPARC
+001000            CALL "SQLBEX" USING
+001000                SQLCTX
+001000                SQLEXD
+001000                SQLFPN
+001000            IF SQLCODE IN SQLCA IS LESS THAN 0
+001000                THEN PERFORM SQL-ERROR END-IF
+001000           MOVE  4  TO MF-CSQL-TRACE-OPTION                             *>COBSQL
+001000           MOVE SQLCODE IN SQLCA TO MF-CSQL-TRACE-SQLSTATUS             *>COBSQL
+001000           CALL "mfsqlsm2" USING BY VALUE MF-CSQL-TRACE-OPTION          *>COBSQL
+001000                               BY VALUE MF-CSQL-TRACE-PROVIDER          *>COBSQL
+001000                               BY VALUE MF-CSQL-TRACE-STMTCOUNT         *>COBSQL
+001000                               BY VALUE MF-CSQL-TRACE-SQLSTATUS         *>COBSQL
+001000                               BY REFERENCE MF-CSQL-TRACE-DETAIL        *>COBSQL
+001000           END-CALL                                                     *>COBSQL
+032000           .
+032000           if sqlcode = 0
+032000               PERFORM DISPLAY-LINE
+032000           else
+032000               DISPLAY "NOT A VALID EMPLOYEE NUMBER - TRY AGAIN."
+032000           end-if
+032000           .
+032000           ADD 1 TO D-TOTAL-QUERIED.
+032000
+032000       get-employee-info-EXIT.
+032000           EXIT
+032000           .
+032000
+032000       SIGN-OFF SECTION.
+032000           DISPLAY " "
+032000           .
+032000
+032000           DISPLAY "TOTAL NUMBER QUERIED WAS ", D-TOTAL-QUERIED, "."
+032000           .
+032000           DISPLAY "HAVE A GOOD DAY."
+032000           .
+032000           DISPLAY " "
+032000           .
+002000           EXEC SQL
+001012           ADD 0 TO RETURN-CODE                                         *>COBSQL
+001000           MOVE  3  TO MF-CSQL-TRACE-OPTION                             *>COBSQL
+001000           MOVE 0 TO MF-CSQL-TRACE-SQLSTATUS                            *>COBSQL
+001000           MOVE  0003 TO MF-CSQL-TRACE-STMTCOUNT                        *>COBSQL
+001000           CALL "mfsqlsm2" USING BY VALUE MF-CSQL-TRACE-OPTION          *>COBSQL
+001000                               BY VALUE MF-CSQL-TRACE-PROVIDER          *>COBSQL
+001000                               BY VALUE MF-CSQL-TRACE-STMTCOUNT         *>COBSQL
+001000                               BY VALUE MF-CSQL-TRACE-SQLSTATUS         *>COBSQL
+001000                               BY REFERENCE MF-CSQL-TRACE-DETAIL        *>COBSQL
+001000           END-CALL                                                     *>COBSQL
+002000               COMMIT WORK RELEASE
+002000           END-EXEC
+001000
+001000           MOVE 1 TO SQL-ITERS
+001000           MOVE 67 TO SQL-OFFSET
+001000           MOVE 0 TO SQL-OCCURS
+001000           CALL "SQLADR" USING
+001000               SQLCUD
+001000               SQL-CUD
+001000           CALL "SQLADR" USING
+001000               SQLCA
+001000               SQL-SQLEST
+001000           MOVE 4352 TO SQL-SQLETY
+001000           CALL "SQLBEX" USING
+001000               SQLCTX
+001000               SQLEXD
+001000               SQLFPN
+001000           IF SQLCODE IN SQLCA IS LESS THAN 0
+001000               THEN PERFORM SQL-ERROR END-IF
+001000           MOVE  4  TO MF-CSQL-TRACE-OPTION                             *>COBSQL
+001000           MOVE SQLCODE IN SQLCA TO MF-CSQL-TRACE-SQLSTATUS             *>COBSQL
+001000           CALL "mfsqlsm2" USING BY VALUE MF-CSQL-TRACE-OPTION          *>COBSQL
+001000                               BY VALUE MF-CSQL-TRACE-PROVIDER          *>COBSQL
+001000                               BY VALUE MF-CSQL-TRACE-STMTCOUNT         *>COBSQL
+001000                               BY VALUE MF-CSQL-TRACE-SQLSTATUS         *>COBSQL
+001000                               BY REFERENCE MF-CSQL-TRACE-DETAIL        *>COBSQL
+001000           END-CALL                                                     *>COBSQL
+032000           .
+032000           GOBACK.
+032000           .
+032000
+032000       SQL-ERROR SECTION.
+002000           EXEC SQL
+001012           ADD 0 TO RETURN-CODE                                         *>COBSQL
+002000               WHENEVER SQLERROR CONTINUE
+002000           END-EXEC
+001000
+032000           .
+032000           DISPLAY " "
+032000           .
+032000           DISPLAY "ORACLE ERROR DETECTED:"
+032000           .
+032000           DISPLAY " "
+032000           .
+032000           DISPLAY SQLERRMC
+032000           .
+002000           EXEC SQL
+001012           ADD 0 TO RETURN-CODE                                         *>COBSQL
+001000           MOVE  3  TO MF-CSQL-TRACE-OPTION                             *>COBSQL
+001000           MOVE 0 TO MF-CSQL-TRACE-SQLSTATUS                            *>COBSQL
+001000           MOVE  0004 TO MF-CSQL-TRACE-STMTCOUNT                        *>COBSQL
+001000           CALL "mfsqlsm2" USING BY VALUE MF-CSQL-TRACE-OPTION          *>COBSQL
+001000                               BY VALUE MF-CSQL-TRACE-PROVIDER          *>COBSQL
+001000                               BY VALUE MF-CSQL-TRACE-STMTCOUNT         *>COBSQL
+001000                               BY VALUE MF-CSQL-TRACE-SQLSTATUS         *>COBSQL
+001000                               BY REFERENCE MF-CSQL-TRACE-DETAIL        *>COBSQL
+001000           END-CALL                                                     *>COBSQL
+002000               ROLLBACK WORK RELEASE
+002000           END-EXEC
+001000
+001000           MOVE 1 TO SQL-ITERS
+001000           MOVE 82 TO SQL-OFFSET
+001000           MOVE 0 TO SQL-OCCURS
+001000           CALL "SQLADR" USING
+001000               SQLCUD
+001000               SQL-CUD
+001000           CALL "SQLADR" USING
+001000               SQLCA
+001000               SQL-SQLEST
+001000           MOVE 4352 TO SQL-SQLETY
+001000           CALL "SQLBEX" USING
+001000               SQLCTX
+001000               SQLEXD
+001000               SQLFPN
+001000           MOVE  4  TO MF-CSQL-TRACE-OPTION                             *>COBSQL
+001000           MOVE SQLCODE IN SQLCA TO MF-CSQL-TRACE-SQLSTATUS             *>COBSQL
+001000           CALL "mfsqlsm2" USING BY VALUE MF-CSQL-TRACE-OPTION          *>COBSQL
+001000                               BY VALUE MF-CSQL-TRACE-PROVIDER          *>COBSQL
+001000                               BY VALUE MF-CSQL-TRACE-STMTCOUNT         *>COBSQL
+001000                               BY VALUE MF-CSQL-TRACE-SQLSTATUS         *>COBSQL
+001000                               BY REFERENCE MF-CSQL-TRACE-DETAIL        *>COBSQL
+001000           END-CALL                                                     *>COBSQL
+032000           .
+032000           STOP RUN
+032000           .
+032000
+032000       DISPLAY-INFO SECTION.
+032000
+032000           DISPLAY " " upon console
+032000           .
+032000           DISPLAY "CONNECTED TO ORACLE AS USER    = " USERNAME upon
+032000             console
+032000           .
+032000           DISPLAY "CONNECTED TO ORACLE AS PASSWORD=" PASSWD upon
+032000             console
+032000           .
+032000           Display "SQLCODE = " SQLCODE
+032000           .
+032000       DISPLAY-INFO-EXIT.
+032000           EXIT
+032000           .
+032000
+032000       DISPLAY-LINE SECTION.
+032000
+032000           MOVE EMP-NAME-ARR TO D-EMP-NAME
+032000           .
+032000           MOVE SALARY TO D-SALARY
+032000           .
+032000           IF COMM-IND = -1
+032000               DISPLAY D-EMP-NAME, D-SALARY, "          NULL"
+032000           ELSE
+032000               MOVE COMMISSION TO D-COMMISSION
+032000               DISPLAY D-EMP-NAME, D-SALARY, "      ", D-COMMISSION
+032000           END-IF
+032000           .
+032000           .
+032000       DISPLAY-LINE-EXIT.
+032000           EXIT
+032000           .
+005000      *Host Variables
+005000      *--------------
+005000      *05  COMM-IND OF EMP-REC-VARS                            Short Integer
+005000      *  /home/oracle/Westpac/prod/cobol/logon.cob        14       111
+005000      *05  COMMISSION OF EMP-REC-VARS                          Decimal(7,2)
+005000      *  /home/oracle/Westpac/prod/cobol/logon.cob        13       111
+005000      *05  EMP-NAME OF EMP-REC-VARS                            Varchar(10)
+005000      *  /home/oracle/Westpac/prod/cobol/logon.cob        10       111       111
+005000      *05  EMP-NUMBER OF EMP-REC-VARS                          Short Integer
+005000      *  /home/oracle/Westpac/prod/cobol/logon.cob        11       113
+005000      *01  PASSWD                                              Varchar(10)
+005000      *  /home/oracle/Westpac/prod/cobol/logon.cob         8        63        63
+005000      *05  SALARY OF EMP-REC-VARS                              Decimal(7,2)
+005000      *  /home/oracle/Westpac/prod/cobol/logon.cob        12       111
+005000      *01  USERNAME                                            Varchar(10)
+005000      *  /home/oracle/Westpac/prod/cobol/logon.cob         7        63        63
+005000      *Version 19.3.0.0.0
+005000      *Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reser
+005000      *SQL Identifiers
+005000      *---------------
+005000      *BIT64                 DEFINE                        Command Line
+005000      *COMP5                 DEFINE                        Command Line
+005000      *UNIX                  DEFINE                        Pre-defined
+005000      *Version 19.3.0.0.0
+005000      *Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reser
+005000      *                              Precompiler Options
+005000      *------------------------------------------------------------------------------
+005000      *Option Name    Current Value        Where set
+005000      *------------------------------------------------------------------------------
+005000      *asacc             no                default
+005000      *assume_sqlcode    no                default
+005000      *auto_connect      no                default
+005000      *charset_picn      nchar_charset     default
+005000      *charset_picx      db_charset        default
+005000      *close_on_commit   no                default
+005000      *common_parser     no                default
+005000      *comp5             yes               /opt/oracle/product/19c/dbhome_1/precomp/a
+005000      *config            default config    default
+005000      *cwh_sql99         yes               default
+005000      *date_format       local             default
+005000      *db2_array         no                default
+005000      *dbms              native            default
+005000      *declare_section   no                default
+005000      *define            COMP5             /opt/oracle/product/19c/dbhome_1/precomp/a
+005000      *                  BIT64             /opt/oracle/product/19c/dbhome_1/precomp/a
+005000      *                  *none*            /opt/oracle/product/19c/dbhome_1/precomp/a
+005000      *dynamic           oracle            default
+005000      *end_of_fetch      1403              default
+005000      *errors            yes               default
+005000      *file_id           0                 default
+005000      *fips              no                default
+005000      *format            ansi              default
+005000      *hold_cursor       no                default
+005000      *host              cobol             default
+005000      *implicit_svpt     no                default
+005000      *iname             /home/oracle/Westpcommand linel/logon.cob
+005000      *include           *none*            default
+005000      *ireclen           80                default
+005000      *litdelim          quote             default
+005000      *lname             /home/oracle/Westpcommand linel/logon.lis
+005000      *lreclen           132               default
+005000      *ltype             long              default
+005000      *maxliteral        256               default
+005000      *maxopencursors    10                default
+005000      *max_row_insert    0                 default
+005000      *memforprefetch    0                 default
+005000      *mode              oracle            default
+005000      *nested            yes               default
+005000      *nls_local         no                default
+005000      *oname             /home/oracle/Westpcommand linel/logon.cs9
+005000      *oraca             no                default
+005000      *oreclen           80                default
+005000      *outline           no                default
+005000      *outlnprefix       *none*            default
+005000      *pagelen           66                default
+005000      *picn_endian       big               default
+005000      *picx              charf             default
+005000      *plan_baseline     no                default
+005000      *plan_enabled      yes               default
+005000      *plan_fixed        yes               default
+005000      *plan_prefix       none              default
+005000      *plan_run          no                default
+005000      *prefetch          1                 default
+005000      *release_cursor    no                default
+005000      *runoutline        no                default
+005000      *select_error      yes               default
+005000      *sqlcheck          syntax            default
+005000      *stmt_cache        0                 default
+005000      *threads           no                default
+005000      *trim_password     no                default
+005000      *type_code         oracle            default
+005000      *unsafe_null       no                default
+005000      *userid            *none*            default
+005000      *varchar           no                default
+005000      *xref              yes               default
+005000      *Version 19.3.0.0.0
+005000      *Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reser
+005000      *Statistics
+005000      *----------
+005000      *Return code: 0
+005000      *Number of messages at severity I: 0
+005000      *Number of messages at severity W: 0
+005000      *Number of messages at severity E: 0
+005000      *Number of messages at severity F: 0
+005000      *Number of input lines: 197
+005000      *Number of host variables declared: 18
+005000      *Number of cursor names: 0
+005000      *Number of statement names: 0
+005000      *Maximum memory (bytes) used: 1019420
+001000

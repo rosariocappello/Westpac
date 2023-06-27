@@ -1,0 +1,32 @@
+****
+COBMODE       =  64
+VERSION       =  1.46
+DATE          =  2023-06-27 14:13:38
+USER          =  oracle
+PROGNAME      =  logon
+LOGNAME       =  oracle
+HOSTNAME      =  localhost
+MFPPFLOC      =  /home/oracle/Westpac/prod/profiler
+COBIDY        =  /home/oracle/Westpac/prod/bin
+TESTCOVER     =  /home/oracle/Westpac/prod/cfg/logon.tcf
+MFTRACE_CONFIG=  /home/oracle/Westpac/prod/cfg/ctf.cfg
+COBCONFIG     =  /home/oracle/Westpac/prod/cfg/cobconfig
+ 
+tcf file /home/oracle/Westpac/prod/cfg/logon.tcf 
+ 
+****
+ 
+[TESTCOVER]
+RESULT /home/oracle/Westpac/prod/testcover/logon.tcz
+ECHO NO
+LOGNAME /home/oracle/Westpac/prod/testcover/testcover_logon.log
+ 
+****
+ 
+set core_on_error=131
+set core_filename="coredumptest.%p%t_%d"
+ 
+****
+ 
+/home/oracle/Westpac/prod/bin/logon.so 
+logon.so compiled with a return code of 0 

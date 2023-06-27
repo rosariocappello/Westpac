@@ -1,4 +1,4 @@
-* Micro Focus COBOL                  V8.0 revision 000 27-Jun-23 07:48 Page   1
+* Micro Focus COBOL                  V8.0 revision 000 27-Jun-23 13:45 Page   1
 * /home/oracle/Westpac/prod/cobol/MFABEND.cob
 * Options: int("MFABEND.int") verbose
 *          use(/home/oracle/Westpac/prod/dir/MFABEND.cob.dir)
@@ -58,7 +58,7 @@
     52      call "CBL_CREATE_STACKDUMP" using by value flags
     53                                        by value process
     54                                      by reference stackdump-name
-* Micro Focus COBOL                  V8.0 revision 000 27-Jun-23 07:48 Page   2
+* Micro Focus COBOL                  V8.0 revision 000 27-Jun-23 13:45 Page   2
 * /home/oracle/Westpac/prod/cobol/MFABEND.cob
     55                           returning status-code
     56
@@ -118,7 +118,7 @@
     61*mode              oracle            default
     61*nested            yes               default
     61*nls_local         no                default
-* Micro Focus COBOL                  V8.0 revision 000 27-Jun-23 07:48 Page   3
+* Micro Focus COBOL                  V8.0 revision 000 27-Jun-23 13:45 Page   3
 * /home/oracle/Westpac/prod/cobol/MFABEND.cob
     61*oname             /home/oracle/Westpcommand linel/MFABEND.cs9
     61*oraca             no                default
@@ -164,4 +164,4 @@
 * (C) Copyright 1984-2023 Micro Focus or one of its affiliates.
 *                                                        REF GNR-085800000AM
 * Total Messages:     0
-* Data:        1920     Code:         863
+* Data:        1872     Code:         646

@@ -1,5 +1,2 @@
 set core_on_error=131
-set faultfind_config=0
-SET faultfind_level=1024
-set faultfind_outfile="faultfind.log"
-set faultfind_recsize=1024
+set core_filename="coredumptest.%p%t_%d"

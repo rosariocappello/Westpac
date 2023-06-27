@@ -1,1 +1,0 @@
-./mfcobdb2.sh logon.cob

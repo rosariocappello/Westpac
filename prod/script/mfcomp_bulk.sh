@@ -1,5 +1,8 @@
 #!/bin/bash
 
+export PATH=$PATH:/home/oracle/Westpac/prod/script
+
+
 .  setenv_global.sh
 
 if [ $MF_DEBUG_OPTION  = 'Y' ]; then

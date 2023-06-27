@@ -39,8 +39,8 @@ export COBIDY
 BINLOC=$ENVTOP/bin
 export BINLOC
  
-rem COBCONFIG=$ENVTOP/cfg/cobconfig
-rem export COBCONFIG
+COBCONFIG=$ENVTOP/cfg/cobconfig
+export COBCONFIG
  
 export COBPRFDIR=$MFPPFLOC
 export COBPRFDIR
@@ -86,7 +86,7 @@ echo " "    >>$logfile
 echo "****" >>$logfile
 echo " "    >>$logfile
 
-rem cat $COBCONFIG                                                 >>$logfile
+cat $COBCONFIG                                                 >>$logfile
 
 echo " "    >>$logfile
 echo "****" >>$logfile

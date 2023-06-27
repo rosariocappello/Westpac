@@ -1,0 +1,4 @@
+set faultfind_config=0
+SET faultfind_level=1024
+set faultfind_outfile="faultfind.log"
+set faultfind_recsize=1024

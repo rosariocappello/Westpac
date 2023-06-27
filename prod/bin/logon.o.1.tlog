@@ -1,2 +1,0 @@
-#/opt/microfocus/VisualCOBOL/bin/cobchecker64 /home/oracle/Westpac/prod/cobol/logon.cob "int(""logon.int"")" "USE""/home/oracle/Westpac/prod/bin/logon.cob.dir"""
-^/home/oracle/Westpac/prod/cobol/logon.cob
