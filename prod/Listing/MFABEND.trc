@@ -112,7 +112,7 @@
 032000            move space to filename
 032000            string  ws-logname  delimited by space
 032000                    "/" delimited by size
-032000                    "SSXABEND.%d.%f.%p.%t"  delimited by size
+032000                    "MFABEND_Core.%d.%f.%p.%t"  delimited by size
 032000                     x"00"delimited by size
 032000              into filename
 032000            end-string.
@@ -120,7 +120,7 @@
 032000            move space to stackdump-name
 032000            string  ws-logname  delimited by space
 032000                    "/" delimited by size
-032000                    "SSXABEND_Stack.%d.%f.%p.%t"  delimited by size
+032000                    "MFABEND_Stack.%d.%f.%p.%t"  delimited by size
 032000                     x"00"delimited by size
 032000              into stackdump-name
 032000            end-string.
@@ -140,7 +140,7 @@
 032000                MOVE 0001 TO ABDCODE.
 032000                MOVE 0 TO TIMING.
 032000                CALL "CEE3ABD" USING ABDCODE , TIMING.
-032000
+032000                MOVE 99 TO RETURN-CODE
 032000           stop run.
 005000      *SQL Identifiers
 005000      *---------------
@@ -232,5 +232,5 @@
 005000      *Number of host variables declared: 12
 005000      *Number of cursor names: 0
 005000      *Number of statement names: 0
-005000      *Maximum memory (bytes) used: 998143
+005000      *Maximum memory (bytes) used: 998265
 001000

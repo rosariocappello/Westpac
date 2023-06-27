@@ -84,7 +84,7 @@ COBCPY=$ENVTOP/copybook:$COBDIR/cpylib:/opt/microfocus/EnterpriseDeveloper/cpyli
 export COBCPY
 echo "COBCPY          = " $COBCPY >>$logfile
 
-COBIDY=$ENVTOP/cobidy
+COBIDY=$ENVTOP/bin
 export COBIDY
 echo "COBIDY          = " $COBIDY >>$logfile
 

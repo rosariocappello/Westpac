@@ -1,4 +1,4 @@
-* Micro Focus COBOL                  V8.0 revision 000 26-Jun-23 21:49 Page   1
+* Micro Focus COBOL                  V8.0 revision 000 27-Jun-23 07:48 Page   1
 * /home/oracle/Westpac/prod/cobol/MFABEND.cob
 * Options: int("MFABEND.int") verbose
 *          use(/home/oracle/Westpac/prod/dir/MFABEND.cob.dir)
@@ -35,7 +35,7 @@
     29      move space to filename
     30      string  ws-logname  delimited by space
     31              "/" delimited by size
-    32              "SSXABEND.%d.%f.%p.%t"  delimited by size
+    32              "MFABEND_Core.%d.%f.%p.%t"  delimited by size
     33               x"00"delimited by size
     34        into filename
     35      end-string.
@@ -43,7 +43,7 @@
     37      move space to stackdump-name
     38      string  ws-logname  delimited by space
     39              "/" delimited by size
-    40              "SSXABEND_Stack.%d.%f.%p.%t"  delimited by size
+    40              "MFABEND_Stack.%d.%f.%p.%t"  delimited by size
     41               x"00"delimited by size
     42        into stackdump-name
     43      end-string.
@@ -58,14 +58,14 @@
     52      call "CBL_CREATE_STACKDUMP" using by value flags
     53                                        by value process
     54                                      by reference stackdump-name
-* Micro Focus COBOL                  V8.0 revision 000 26-Jun-23 21:49 Page   2
+* Micro Focus COBOL                  V8.0 revision 000 27-Jun-23 07:48 Page   2
 * /home/oracle/Westpac/prod/cobol/MFABEND.cob
     55                           returning status-code
     56
     57          MOVE 0001 TO ABDCODE.
     58          MOVE 0 TO TIMING.
     59          CALL "CEE3ABD" USING ABDCODE , TIMING.
-    60
+    60          MOVE 99 TO RETURN-CODE
     61     stop run.
     61*SQL Identifiers
     61*---------------
@@ -118,7 +118,7 @@
     61*mode              oracle            default
     61*nested            yes               default
     61*nls_local         no                default
-* Micro Focus COBOL                  V8.0 revision 000 26-Jun-23 21:49 Page   3
+* Micro Focus COBOL                  V8.0 revision 000 27-Jun-23 07:48 Page   3
 * /home/oracle/Westpac/prod/cobol/MFABEND.cob
     61*oname             /home/oracle/Westpcommand linel/MFABEND.cs9
     61*oraca             no                default
@@ -159,9 +159,9 @@
     61*Number of host variables declared: 12
     61*Number of cursor names: 0
     61*Number of statement names: 0
-    61*Maximum memory (bytes) used: 998143
+    61*Maximum memory (bytes) used: 998265
 * Micro Focus COBOL                  V8.0 revision 000 Compiler
 * (C) Copyright 1984-2023 Micro Focus or one of its affiliates.
 *                                                        REF GNR-085800000AM
 * Total Messages:     0
-* Data:        1872     Code:         630
+* Data:        1920     Code:         863

@@ -1,5 +1,6 @@
 #!/bin/bash
 
-.  /home/oracle/Westpac/prod/script/mfcobdb2.sh logon.cob
+export PATH=$PATH:/home/oracle/Westpac/prod/script
+.  /home/oracle/Westpac/prod/script/runpgm.sh MFABEND
 
 exit

@@ -29,7 +29,7 @@
             move space to filename
             string  ws-logname  delimited by space
                     "/" delimited by size 
-                    "MFABEND.%d.%f.%p.%t"  delimited by size 
+                    "MFABEND_Core.%d.%f.%p.%t"  delimited by size 
                      x"00"delimited by size 
               into filename
             end-string.
@@ -57,5 +57,5 @@
                 MOVE 0001 TO ABDCODE.
                 MOVE 0 TO TIMING.
                 CALL "CEE3ABD" USING ABDCODE , TIMING.
-
+                MOVE 99 TO RETURN-CODE
            stop run.

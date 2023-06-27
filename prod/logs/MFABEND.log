@@ -1,0 +1,30 @@
+****
+COBMODE       =  64
+VERSION       =  1.46
+DATE          =  2023-06-27 08:02:23
+USER          =  oracle
+PROGNAME      =  MFABEND
+LOGNAME       =  oracle
+HOSTNAME      =  localhost
+MFPPFLOC      =  /home/oracle/Westpac/prod/profiler
+COBIDY        =  /home/oracle/Westpac/prod/bin
+TESTCOVER     =  /home/oracle/Westpac/prod/cfg/MFABEND.tcf
+MFTRACE_CONFIG=  /home/oracle/Westpac/prod/cfg/ctf.cfg
+COBCONFIG     = 
+ 
+tcf file /home/oracle/Westpac/prod/cfg/MFABEND.tcf 
+ 
+****
+ 
+[TESTCOVER]
+RESULT /home/oracle/Westpac/prod/testcover/MFABEND.tcz
+ECHO NO
+LOGNAME /home/oracle/Westpac/prod/testcover/testcover_MFABEND.log
+ 
+****
+ 
+ 
+****
+ 
+/home/oracle/Westpac/prod/bin/MFABEND.so 
+MFABEND.so compiled with a return code of 1 

@@ -101,7 +101,7 @@
             move space to filename
             string  ws-logname  delimited by space
                     "/" delimited by size 
-                    "SSXABEND.%d.%f.%p.%t"  delimited by size 
+                    "MFABEND_Core.%d.%f.%p.%t"  delimited by size 
                      x"00"delimited by size 
               into filename
             end-string.
@@ -109,7 +109,7 @@
             move space to stackdump-name
             string  ws-logname  delimited by space
                     "/" delimited by size 
-                    "SSXABEND_Stack.%d.%f.%p.%t"  delimited by size 
+                    "MFABEND_Stack.%d.%f.%p.%t"  delimited by size      
                      x"00"delimited by size 
               into stackdump-name
             end-string.
@@ -129,5 +129,5 @@
                 MOVE 0001 TO ABDCODE.
                 MOVE 0 TO TIMING.
                 CALL "CEE3ABD" USING ABDCODE , TIMING.
-
+                MOVE 99 TO RETURN-CODE
            stop run.
