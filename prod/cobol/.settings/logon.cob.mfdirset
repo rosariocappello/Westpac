@@ -10,8 +10,8 @@
     </x:preprocessor>
     <x:directive handler="project.cobolSettings" id="coverage" name="TESTCOVER"/>
     <x:directive handler="project.cobolSettings" id="genListFile" name="LIST()"/>
-    <x:directive handler="project.cobolSettings" id="additional" name="showdir"/>
     <x:directive handler="project.cobolSettings" id="profile" name="PROFILE"/>
+    <x:directive handler="project.cobolSettings" id="additional" name="showdir"/>
     <x:directive handler="project.cobolSettings" id="retainDirectivesFile" name="retainDirectivesFile"/>
     <x:setting handler="project.cobolSettings" id="override" value="true"/>
 </x:dirset>

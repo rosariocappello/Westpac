@@ -1,4 +1,4 @@
-Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 19 19:05:32 2023
+Pro*COBOL: Release 19.0.0.0.0 - Production on Tue Jul 4 12:32:21 2023
 Version 19.3.0.0.0
 
 Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
@@ -64,7 +64,7 @@ Open file: /home/oracle/Westpac/remote/testconn.cbl
     58                  END-EXEC.
     59             if sqlcode not = 0
     60                 display "Error: cannot connect "
-Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 19 19:05:32 2023
+Pro*COBOL: Release 19.0.0.0.0 - Production on Tue Jul 4 12:32:21 2023
 Version 19.3.0.0.0
 
 Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
@@ -130,7 +130,7 @@ Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
    119               usr delimited space
    120               "/" delimited size
    121               pass delimited space
-Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 19 19:05:32 2023
+Pro*COBOL: Release 19.0.0.0.0 - Production on Tue Jul 4 12:32:21 2023
 Version 19.3.0.0.0
 
 Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
@@ -188,7 +188,7 @@ Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
    172             stop run
    173             .
 Close file: /home/oracle/Westpac/remote/testconn.cbl
-Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 19 19:05:32 2023
+Pro*COBOL: Release 19.0.0.0.0 - Production on Tue Jul 4 12:32:21 2023
 Version 19.3.0.0.0
 
 Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
@@ -206,7 +206,7 @@ Host Variables
 01  USR                                                 Varchar(32)
   /home/oracle/Westpac/remote/testconn.cbl        17        56        56       151       151
 
-Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 19 19:05:32 2023
+Pro*COBOL: Release 19.0.0.0.0 - Production on Tue Jul 4 12:32:21 2023
 Version 19.3.0.0.0
 
 Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
@@ -221,7 +221,7 @@ COMP5                 DEFINE                        Command Line
 
 UNIX                  DEFINE                        Pre-defined
 
-Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 19 19:05:32 2023
+Pro*COBOL: Release 19.0.0.0.0 - Production on Tue Jul 4 12:32:21 2023
 Version 19.3.0.0.0
 
 Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
@@ -298,7 +298,7 @@ unsafe_null       no                default
 userid            *none*            default                                     
 varchar           no                default                                     
 xref              yes               default                                     
-Pro*COBOL: Release 19.0.0.0.0 - Production on Mon Jun 19 19:05:32 2023
+Pro*COBOL: Release 19.0.0.0.0 - Production on Tue Jul 4 12:32:21 2023
 Version 19.3.0.0.0
 
 Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.

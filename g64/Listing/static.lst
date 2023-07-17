@@ -1,0 +1,319 @@
+* Micro Focus COBOL                  V8.0 revision 000 04-Jul-23 15:23 Page   1
+* /home/oracle/Westpac/g64/static.cbl
+* Directives File: /home/oracle/Westpac/g64/New_Configuration.bin/static.cbl.dir
+* Accepted - showdir
+* Accepted - SQL(DB)
+* Accepted - SQL(DBMAN)
+* Accepted - SQL(PASS)
+* Accepted - SQL(TARGETDB)
+* Accepted - INT"/home/oracle/Westpac/g64/New_Configuration.bin/"
+* Accepted - ANIM
+* Accepted - LISTPATH"/home/oracle/Westpac/g64/Listing"
+* Accepted - ERRFORMAT(2)
+* Accepted - STDERR
+* End Of Directives File: /home/oracle/Westpac/g64/New_Configuration.bin/static.cbl.dir
+     1$SET SQL(dbman=ODBC)
+     2****************************************************************
+     3* Copyright (C) Micro Focus 1988-2019. All rights reserved.
+     4*
+     5* This sample code is supplied for demonstration purposes only
+     6* on an "as is" basis and is for use at your own risk.
+     7*
+     8****************************************************************
+     9 working-storage section.
+    10
+    11*  Include the SQL Communications Area. This includes the
+    12*  definitions of SQLCODE, etc
+*   13 EXEC SQL INCLUDE SQLCA END-EXEC
+    14 01 SQLCA.
+    15     05  SQLCAID         PIC X(8)         VALUE "SQLCA   ".
+    16     05  SQLCABC         PIC S9(9) COMP-5 VALUE 136.
+    17     05  SQLCODE         PIC S9(9) COMP-5 VALUE 0.
+    18     05  SQLERRM.
+    19         49  SQLERRML    PIC S9(4) COMP-5.
+    20         49  SQLERRMC    PIC X(70).
+    21     05  SQLERRP         PIC X(8).
+    22     05  SQLERRD         PIC S9(9) COMP-5 OCCURS 6 VALUE 0.
+    23     05  SQLWARN.
+    24         10  SQLWARN0    PIC X.
+    25         10  SQLWARN1    PIC X.
+    26         10  SQLWARN2    PIC X.
+    27         10  SQLWARN3    PIC X.
+    28         10  SQLWARN4    PIC X.
+    29         10  SQLWARN5    PIC X.
+    30         10  SQLWARN6    PIC X.
+    31         10  SQLWARN7    PIC X.
+    32     05  SQLEXT.
+    33         10  SQLWARN8    PIC X.
+    34         10  SQLWARN9    PIC X.
+    35         10  SQLWARN10   PIC X.
+    36         10  SQLWARNA    REDEFINES SQLWARN10 PIC X .
+    37     05  SQLSTATE    PIC X(5).
+    38
+    39     EXEC SQL BEGIN DECLARE SECTION END-EXEC
+    40 01 svr          pic x(32).
+    41 01 usr          pic x(32).
+    42 01 char-col     pic x(10).
+    43 01 int-col      pic S9(4) comp-5.
+    44     EXEC SQL END DECLARE SECTION END-EXEC
+    45
+    46*
+* Micro Focus COBOL                  V8.0 revision 000 04-Jul-23 15:23 Page   2
+* /home/oracle/Westpac/g64/static.cbl
+    47 procedure division.
+    48 loop-point.
+    49     display "Create/insert/update/drop test"
+    50     display " "
+    51*    Connect to an SQL Server.
+    52     display "Enter data source (e.g. odbcdemo) "
+    53     with no advancing
+    54 accept svr
+    55   display "Enter username[('.'|'/')password] (e.g. scott/tiger) "
+    56      with no advancing
+    57     accept usr
+    58
+    59*    Connect to the specified database
+    60 EXEC SQL
+    61         CONNECT TO :svr USER :usr WITH NO PROMPT
+    62 END-EXEC
+    63 if sqlcode not = 0
+    64  display "Error: cannot connect "
+    65  display sqlcode
+    66  display sqlerrmc
+    67  stop run
+    68 end-if
+    69
+    70     display 'Drop table'
+    71     EXEC SQL
+    72         drop table mfesqltest
+    73     END-EXEC
+    74     if sqlcode not = 0
+    75          display "Error(anticipated) : cannot drop table "
+    76          display sqlcode
+    77          display sqlerrmc
+    78     end-if
+    79
+    80     display 'Create table'
+    81     EXEC SQL
+    82         create table mfesqltest (
+    83             char_col char(10),
+    84             int_col  integer)
+    85     END-EXEC
+    86     if sqlcode not = 0
+    87          display "Error: cannot create table "
+    88          display sqlcode
+    89          display sqlerrmc
+    90          stop run
+    91     end-if
+    92
+    93     display 'Insert row'
+    94     move "ORIGINAL" to char-col
+    95     move 9999 to int-col
+    96     EXEC SQL
+    97         insert into mfesqltest
+    98             (char_col,int_col) values
+    99             (:char-col, :int-col)
+   100     END-EXEC
+   101     if sqlcode not = 0
+   102          display "Error: cannot insert row "
+   103          display sqlcode
+   104          display sqlerrmc
+* Micro Focus COBOL                  V8.0 revision 000 04-Jul-23 15:23 Page   3
+* /home/oracle/Westpac/g64/static.cbl
+   105          stop run
+   106     end-if
+   107
+   108     display 'Commit'
+   109     EXEC SQL
+   110         commit transaction
+   111     END-EXEC
+   112     if sqlcode not = 0
+   113          display "Error: commit "
+   114          display sqlcode
+   115          display sqlerrmc
+   116          stop run
+   117     end-if
+   118
+   119     display 'Update row'
+   120     move "UPDATED" to char-col
+   121     move 9999 to int-col
+   122     EXEC SQL
+   123         update mfesqltest set char_col = :CHAR-COL
+   124             where int_col = :INT-COL
+   125     END-EXEC
+   126     if sqlcode not = 0
+   127          display "Error: cannot update row "
+   128          display sqlcode
+   129          display sqlerrmc
+   130          stop run
+   131     end-if
+   132
+   133     display 'Verify data before rollback'
+   134     move 9999 to int-col
+   135     EXEC SQL
+   136         declare vcurs cursor for
+   137             select char_col from mfesqltest
+   138                 where int_col = :INT-COL
+   139     END-EXEC
+   140     EXEC SQL
+   141         open vcurs
+   142     END-EXEC
+   143     if sqlcode not = 0
+   144          display "Error: cannot open cursor "
+   145          display sqlcode
+   146          display sqlerrmc
+   147          stop run
+   148     end-if
+   149     move spaces to char-col
+   150     EXEC SQL
+   151         fetch vcurs into :char-col
+   152     END-EXEC
+   153     if sqlcode not = 0
+   154          display "Error: cannot read row "
+   155          display sqlcode
+   156          display sqlerrmc
+   157          stop run
+   158     end-if
+   159     if char-col <> "UPDATED"
+   160         display "Data has wrong value(" char-col ")"
+   161         stop run
+   162     end-if
+* Micro Focus COBOL                  V8.0 revision 000 04-Jul-23 15:23 Page   4
+* /home/oracle/Westpac/g64/static.cbl
+   163     EXEC SQL
+   164         fetch vcurs into :char-col
+   165     END-EXEC
+   166     if sqlcode not = 100
+   167          display "SQLCODE <> 100 reading second row"
+   168          display sqlcode
+   169          display sqlerrmc
+   170          display char-col
+   171          stop run
+   172     end-if
+   173     EXEC SQL
+   174         close vcurs
+   175     END-EXEC
+   176     if sqlcode not = 0
+   177          display "Error: cannot close cursor "
+   178          display sqlcode
+   179          display sqlerrmc
+   180          stop run
+   181     end-if
+   182
+   183     display 'Rollback'
+   184     EXEC SQL
+   185         rollback
+   186     END-EXEC
+   187     if sqlcode not = 0
+   188          display "Error: rollback "
+   189          display sqlcode
+   190          display sqlerrmc
+   191          stop run
+   192     end-if
+   193
+   194     display 'Verify data after rollback'
+   195     move 9999 to int-col
+   196     EXEC SQL
+   197         open vcurs
+   198     END-EXEC
+   199     if sqlcode not = 0
+   200          display "Error: cannot open cursor "
+   201          display sqlcode
+   202          display sqlerrmc
+   203          stop run
+   204     end-if
+   205     move spaces to char-col
+   206     EXEC SQL
+   207         fetch vcurs into :char-col
+   208     END-EXEC
+   209     if sqlcode not = 0
+   210          display "Error: cannot read row "
+   211          display sqlcode
+   212          display sqlerrmc
+   213          stop run
+   214     end-if
+   215     if char-col <> "ORIGINAL"
+   216         display "Data has wrong value(" char-col ")"
+   217         stop run
+   218     end-if
+   219     EXEC SQL
+   220         fetch vcurs into :char-col
+* Micro Focus COBOL                  V8.0 revision 000 04-Jul-23 15:23 Page   5
+* /home/oracle/Westpac/g64/static.cbl
+   221     END-EXEC
+   222     if sqlcode not = 100
+   223          display "SQLCODE <> 100 reading second row"
+   224          display sqlcode
+   225          display sqlerrmc
+   226          display char-col
+   227          stop run
+   228     end-if
+   229     EXEC SQL
+   230         close vcurs
+   231     END-EXEC
+   232     if sqlcode not = 0
+   233          display "Error: cannot close cursor "
+   234          display sqlcode
+   235          display sqlerrmc
+   236          stop run
+   237     end-if
+   238
+   239*    Start a new transaction to avoid mixing DML and DDL
+   240*    as this will upset some data sources
+   241     EXEC SQL commit END-EXEC
+   242     if sqlcode not = 0
+   243          display "Error: on commit before drop "
+   244          display sqlcode
+   245          display sqlerrmc
+   246          stop run
+   247     end-if
+   248
+   249     display 'Drop table'
+   250     EXEC SQL
+   251         drop table mfesqltest
+   252     END-EXEC
+   253     if sqlcode not = 0
+   254          display "Error: cannot drop table "
+   255          display sqlcode
+   256          display sqlerrmc
+   257          stop run
+   258     end-if
+   259
+   260     display 'Disconnect'
+   261 EXEC SQL
+   262         commit work release
+   263 END-EXEC
+   264 if sqlcode not = 0
+   265          display "Error: commit release "
+   266  display sqlcode
+   267  display sqlerrmc
+   268 end-if
+   269
+   270     display 'Create table after commit release'
+   271     EXEC SQL
+   272         create table mfesqltest (
+   273             char_col char(10),
+   274             int_col  integer)
+   275     END-EXEC
+   276     if sqlcode not = 0
+   277          display "Cannot create table as expected"
+   278          display sqlcode
+* Micro Focus COBOL                  V8.0 revision 000 04-Jul-23 15:23 Page   6
+* /home/oracle/Westpac/g64/static.cbl
+   279          display sqlerrmc
+   280     else
+   281          display "Error: create table was OK"
+   282          display sqlcode
+   283          display sqlerrmc
+   284          stop run
+   285     end-if
+   286
+   287     display "Test completed without error"
+   288
+   289 stop run.
+   290
+* Micro Focus COBOL                  V8.0 revision 000 Compiler
+* (C) Copyright 1984-2023 Micro Focus or one of its affiliates.
+*                                                        REF GNR-085800000AM
+* Total Messages:     0
+* Data:      136608     Code:        9406

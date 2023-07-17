@@ -1,4 +1,4 @@
-#/opt/microfocus/VisualCOBOL/bin/cobchecker64 /home/oracle/Westpac/remoteodbc/catalog.cbl "int(""catalog.int"")" "USE""/home/oracle/Westpac/remoteodbc/New_Configuration.bin/mfant1642089597137229495.dir"""
+#/opt/microfocus/VisualCOBOL/bin/cobchecker64 /home/oracle/Westpac/remoteodbc/catalog.cbl "int(""catalog.int"")" "USE""/home/oracle/Westpac/remoteodbc/New_Configuration.bin/catalog.cbl.dir"""
 ^/home/oracle/Westpac/remoteodbc/catalog.cbl
 !/opt/microfocus/VisualCOBOL/cpylib/sqlca.cpy
 +/opt/microfocus/VisualCOBOL/cpylib/sqlca.cpy

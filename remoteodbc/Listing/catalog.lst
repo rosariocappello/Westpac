@@ -1,0 +1,232 @@
+* Micro Focus COBOL                  V8.0 revision 000 04-Jul-23 13:15 Page   1
+* /home/oracle/Westpac/remoteodbc/catalog.cbl
+* Directives File: /home/oracle/Westpac/remoteodbc/New_Configuration.bin/catalog.cbl.dir
+* Accepted - showdir
+* Accepted - SQL(DB)
+* Accepted - SQL(DBMAN)
+* Accepted - SQL(TARGETDB)
+* Accepted - INT"/home/oracle/Westpac/remoteodbc/New_Configuration.bin/"
+* Accepted - ANIM
+* Accepted - LISTPATH"/home/oracle/Westpac/remoteodbc/Listing"
+* Accepted - ERRFORMAT(2)
+* Accepted - STDERR
+* End Of Directives File: /home/oracle/Westpac/remoteodbc/New_Configuration.bin/catalog.cbl.dir
+     1$SET SQL(dbman=ODBC, db2)
+     2****************************************************************
+     3* Copyright (C) Micro Focus 1988-2019. All rights reserved.
+     4*
+     5* This sample code is supplied for demonstration purposes only
+     6* on an "as is" basis and is for use at your own risk.
+     7*
+     8****************************************************************
+     9 working-storage section.
+    10
+    11*  Include the SQL Communications Area. This includes the
+    12*  definitions of SQLCODE, etc
+*   13 EXEC SQL INCLUDE SQLCA END-EXEC
+    14 01 SQLCA.
+    15     05  SQLCAID         PIC X(8)         VALUE "SQLCA   ".
+    16     05  SQLCABC         PIC S9(9) COMP-5 VALUE 136.
+    17     05  SQLCODE         PIC S9(9) COMP-5 VALUE 0.
+    18     05  SQLERRM.
+    19         49  SQLERRML    PIC S9(4) COMP-5.
+    20         49  SQLERRMC    PIC X(70).
+    21     05  SQLERRP         PIC X(8).
+    22     05  SQLERRD         PIC S9(9) COMP-5 OCCURS 6 VALUE 0.
+    23     05  SQLWARN.
+    24         10  SQLWARN0    PIC X.
+    25         10  SQLWARN1    PIC X.
+    26         10  SQLWARN2    PIC X.
+    27         10  SQLWARN3    PIC X.
+    28         10  SQLWARN4    PIC X.
+    29         10  SQLWARN5    PIC X.
+    30         10  SQLWARN6    PIC X.
+    31         10  SQLWARN7    PIC X.
+    32     05  SQLEXT.
+    33         10  SQLWARN8    PIC X.
+    34         10  SQLWARN9    PIC X.
+    35         10  SQLWARN10   PIC X.
+    36         10  SQLWARNA    REDEFINES SQLWARN10 PIC X .
+    37     05  SQLSTATE    PIC X(5).
+    38
+    39 EXEC SQL BEGIN DECLARE SECTION END-EXEC
+    40 01  type-catalog.
+    41     03  typ-name        pic x(32).
+    42     03  typ-datatype    pic s9(4) comp-5.
+    43     03  typ-precision   pic s9(9) comp-5.
+    44     03  typ-lit-prefix  pic x(10).
+    45     03  typ-lit-suffix  pic x(10).
+    46     03  typ-create-pars pic x(32).
+    47     03  typ-nullable    pic s9(4) comp-5.
+* Micro Focus COBOL                  V8.0 revision 000 04-Jul-23 13:15 Page   2
+* /home/oracle/Westpac/remoteodbc/catalog.cbl
+    48     03  typ-case-sens   pic s9(4) comp-5.
+    49     03  typ-searchable  pic s9(4) comp-5.
+    50     03  typ-unsigned    pic s9(4) comp-5.
+    51     03  typ-money       pic s9(4) comp-5.
+    52     03  typ-auto-inc    pic s9(4) comp-5.
+    53     03  typ-local-name  pic x(32).
+    54     03  typ-min-scale   pic s9(4) comp-5.
+    55     03  typ-max-scale   pic s9(4) comp-5.
+    56 01  type-indicators.
+    57     03  typ-inds        pic s9(4) comp-5 occurs 15.
+    58
+    59 01  table-catalog.
+    60     03  tab-qualifier   pic x(32).
+    61     03  tab-owner       pic x(32).
+    62     03  tab-name        pic x(32).
+    63     03  tab-type        pic x(32).
+    64 01  table-indicators.
+    65     03  tab-inds        pic s9(4) comp-5 occurs 4.
+    66
+    67 01  column-catalog.
+    68     03  col-qualifier   pic x(32).
+    69     03  col-owner       pic x(32).
+    70     03  col-table-name  pic x(32).
+    71     03  col-name        pic x(32).
+    72     03  col-data-type   pic s9(4) comp-5.
+    73     03  col-type-name   pic x(32).
+    74     03  col-precision   pic s9(9) comp-5.
+    75     03  col-length      pic s9(9) comp-5.
+    76     03  col-scale       pic s9(4) comp-5.
+    77     03  col-radix       pic s9(4) comp-5.
+    78     03  col-nullable    pic s9(4) comp-5.
+    79     03  col-remarks     pic x(254).
+    80 01  column-indicators.
+    81     03  col-inds        pic s9(4) comp-5 occurs 12.
+    82
+    83 01 Svr                    pic x(32).
+    84 01 Usr                    pic x(32).
+    85 01 Pass                   pic x(32).
+    86 01 Usr-Pass               pic x(64).
+    87
+    88 EXEC SQL END DECLARE SECTION END-EXEC
+    89
+    90 01  c                   pic x.
+    91
+    92 procedure division.
+    93 main-proc.
+    94*    Find out which database we are using and connect to it
+    95     display "Enter data source name :"
+    96             with no advancing
+    97     accept Svr
+    98     display "Enter username :"
+    99              with no advancing
+   100     accept Usr
+   101     display "Enter password :"
+   102              with no advancing
+   103     accept Pass
+   104     string
+   105         Usr delimited space
+* Micro Focus COBOL                  V8.0 revision 000 04-Jul-23 13:15 Page   3
+* /home/oracle/Westpac/remoteodbc/catalog.cbl
+   106         "." delimited size
+   107         Pass delimited space
+   108     into Usr-Pass
+   109     exec sql
+   110         connect to :Svr user :Usr-Pass
+   111     end-exec
+   112
+   113     if sqlcode not = 0
+   114         display "Error: not connected to database"
+   115         display "sqlcode = " sqlcode
+   116         display "sqlerrmc = " sqlerrmc
+   117         stop run
+   118     end-if
+   119
+   120     display "List of all ODBC datatypes for current session"
+   121
+   122     exec sql
+   123         declare dcurs cursor for
+   124             query odbc datatypes
+   125     end-exec
+   126
+   127     exec sql open dcurs end-exec
+   128
+   129     if sqlcode not = 0
+   130         display "Error: querying datatype catalog"
+   131         display "sqlcode = " sqlcode
+   132         display "sqlerrmc = " sqlerrmc
+   133         stop run
+   134     end-if
+   135
+   136     exec sql fetch dcurs into :type-catalog:typ-inds end-exec
+   137
+   138     perform until sqlcode < 0 or sqlcode = 100
+   139         if typ-inds(6) = 0
+   140              display typ-name "(" typ-create-pars ")"
+   141         else
+   142              display typ-name
+   143         end-if
+   144         exec sql fetch dcurs into :type-catalog:typ-inds end-exec
+   145     end-perform
+   146
+   147     exec sql close dcurs end-exec
+   148
+   149
+   150     display "List of all tables in ODBC catalog"
+   151
+   152     exec sql
+   153         declare tcurs cursor for
+   154             query odbc tables
+   155     end-exec
+   156
+   157     exec sql open tcurs end-exec
+   158
+   159     if sqlcode not = 0
+   160         display "Error: querying table catalog"
+   161         display "sqlcode = " sqlcode
+   162         display "sqlerrmc = " sqlerrmc
+   163         stop run
+* Micro Focus COBOL                  V8.0 revision 000 04-Jul-23 13:15 Page   4
+* /home/oracle/Westpac/remoteodbc/catalog.cbl
+   164     end-if
+   165
+   166     exec sql fetch tcurs into :table-catalog:tab-inds end-exec
+   167
+   168     perform until sqlcode < 0 or sqlcode = 100
+   169         display tab-name tab-type tab-owner
+   170         exec sql fetch tcurs into
+   171             :table-catalog:tab-inds
+   172         end-exec
+   173     end-perform
+   174
+   175     exec sql close tcurs end-exec
+   176
+   177
+   178     display "List of columns for table staff"
+   179
+   180     exec sql
+   181         declare ccurs cursor for
+   182             query odbc columns tablename 'STAFF'
+   183     end-exec
+   184
+   185     exec sql open ccurs end-exec
+   186
+   187     if sqlcode not = 0
+   188         display "Error: querying table column catalog"
+   189         display "sqlcode = " sqlcode
+   190         display "sqlerrmc = " sqlerrmc
+   191         stop run
+   192     end-if
+   193
+   194     exec sql fetch ccurs into :column-catalog:col-inds end-exec
+   195
+   196     perform until sqlcode < 0 or sqlcode = 100
+   197         display col-name col-type-name
+   198         exec sql fetch ccurs into
+   199             :column-catalog:col-inds
+   200         end-exec
+   201     end-perform
+   202
+   203     exec sql close ccurs end-exec
+   204
+   205     exec sql disconnect current end-exec
+   206
+   207     stop run.
+   208
+* Micro Focus COBOL                  V8.0 revision 000 Compiler
+* (C) Copyright 1984-2023 Micro Focus or one of its affiliates.
+*                                                        REF GNR-085800000AM
+* Total Messages:     0
+* Data:      137488     Code:       11236

@@ -45,6 +45,7 @@
                   <option id="runtimeModel" name="linkSettings" value="shared"/>
                   <option id="platform" name="linkSettings" value="Unix/Linux"/>
                   <option id="bitism" name="linkSettings" value="64 bit"/>
+                  <option id="verbose" name="linkSettings" value="verbose"/>
                </options>
                <additional_files/>
             </link_settings>

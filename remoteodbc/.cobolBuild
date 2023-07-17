@@ -102,13 +102,13 @@
 	<!--  ********************************  -->
 	<!-- Configuration:New_Configuration -->
 	<target name="FileCompile.New_Configuration.cobol">
-		<cobol debug="true" configuration="New Configuration" analysisData="${analysisData}" threadCount="${mf.buildThreadCount}" settingsDir="${mf.settingsDir}" analysisDataDir="${analysisDataDir}" useDirectiveSet="${mf.useDirectiveSet}" srcfile="${fullFileName}" destdir="${basedir}/New_Configuration.bin" is64bit="true" userenv="${userenv.filename}" failonerror="${mf.cobolFailOnError}" srcdir="${basedir}" forceCompile="${mf.forceCompile}" connectionName="${mf.connectionName}" projectName="${mf.projectName}" desttype="obj">
+		<cobol debug="true" configuration="New Configuration" analysisData="${analysisData}" retainDirectivesFile="true" threadCount="${mf.buildThreadCount}" genListingFile="true" settingsDir="${mf.settingsDir}" analysisDataDir="${analysisDataDir}" useDirectiveSet="${mf.useDirectiveSet}" srcfile="${fullFileName}" destdir="${basedir}/New_Configuration.bin" is64bit="true" userenv="${userenv.filename}" failonerror="${mf.cobolFailOnError}" srcdir="${basedir}" forceCompile="${mf.forceCompile}" connectionName="${mf.connectionName}" projectName="${mf.projectName}" desttype="obj">
 			<mffilelist refid="cobol.copybook.locations"/>
 			<mfdirlist refid="cobol_directive_set_1"/>
 		</cobol>
 		<for param="baseName" parallel="true" delimiter="," threadCount="${mf.buildThreadCount}" list="${fileBaseName}">
 			<sequential>
-				<cobollink debug="true" destfile="@{baseName}" entrypoint="${mf.entryPoint.cfg.New_Configuration}" destdir="${mf.destDir.cfg.New_Configuration}" is64bit="true" objectdir="${basedir}/New_Configuration.bin" userenv="${userenv.filename}" failonerror="${mf.cobollinkFailOnError}" desttype="dll/cso" threadedRts="false">
+				<cobollink destfile="@{baseName}" entrypoint="${mf.entryPoint.cfg.New_Configuration}" destdir="${mf.destDir.cfg.New_Configuration}" is64bit="true" objectdir="${basedir}/New_Configuration.bin" userenv="${userenv.filename}" failonerror="${mf.cobollinkFailOnError}" desttype="dll/cso" threadedRts="false" verbose="true">
 					<mffilelist srcdir="${basedir}/New_Configuration.bin">
 						<file name="@{baseName}${mf.objext}"/>
 					</mffilelist>
@@ -168,7 +168,7 @@
 		<executefilecompile filesList="${filesList}"/>
 	</target>
 	<target name="cobol.compile.cfg.New_Configuration">
-		<cobol debug="true" configuration="New Configuration" analysisData="${analysisData}" threadCount="${mf.buildThreadCount}" settingsDir="${mf.settingsDir}" analysisDataDir="${analysisDataDir}" useDirectiveSet="${mf.useDirectiveSet}" destdir="${basedir}/New_Configuration.bin" is64bit="true" userenv="${userenv.filename}" failonerror="${mf.cobolFailOnError}" forceCompile="${mf.forceCompile}" connectionName="${mf.connectionName}" projectName="${mf.projectName}" desttype="obj">
+		<cobol debug="true" configuration="New Configuration" analysisData="${analysisData}" retainDirectivesFile="true" threadCount="${mf.buildThreadCount}" genListingFile="true" settingsDir="${mf.settingsDir}" analysisDataDir="${analysisDataDir}" useDirectiveSet="${mf.useDirectiveSet}" destdir="${basedir}/New_Configuration.bin" is64bit="true" userenv="${userenv.filename}" failonerror="${mf.cobolFailOnError}" forceCompile="${mf.forceCompile}" connectionName="${mf.connectionName}" projectName="${mf.projectName}" desttype="obj">
 			<mffilelist refid="cobol.copybook.locations"/>
 			<mfdirlist refid="cobol_directive_set_1"/>
 			<mffilelist refid="cobol_file_set_1"/>
@@ -176,27 +176,27 @@
 	</target>
 	<target name="cobol.link.cfg.New_Configuration">
 		<parallel threadCount="${mf.buildThreadCount}">
-			<cobollink debug="true" destfile="catalog" entrypoint="${mf.entryPoint.cfg.New_Configuration}" destdir="${mf.destDir.cfg.New_Configuration}" is64bit="true" objectdir="${basedir}/New_Configuration.bin" userenv="${userenv.filename}" failonerror="${mf.cobollinkFailOnError}" desttype="dll/cso" threadedRts="false">
+			<cobollink destfile="catalog" entrypoint="${mf.entryPoint.cfg.New_Configuration}" destdir="${mf.destDir.cfg.New_Configuration}" is64bit="true" objectdir="${basedir}/New_Configuration.bin" userenv="${userenv.filename}" failonerror="${mf.cobollinkFailOnError}" desttype="dll/cso" threadedRts="false" verbose="true">
 				<mffilelist srcdir="${basedir}/New_Configuration.bin">
 					<file name="catalog${mf.objext}"/>
 				</mffilelist>
 			</cobollink>
-			<cobollink debug="true" destfile="dynquery" entrypoint="${mf.entryPoint.cfg.New_Configuration}" destdir="${mf.destDir.cfg.New_Configuration}" is64bit="true" objectdir="${basedir}/New_Configuration.bin" userenv="${userenv.filename}" failonerror="${mf.cobollinkFailOnError}" desttype="dll/cso" threadedRts="false">
+			<cobollink destfile="dynquery" entrypoint="${mf.entryPoint.cfg.New_Configuration}" destdir="${mf.destDir.cfg.New_Configuration}" is64bit="true" objectdir="${basedir}/New_Configuration.bin" userenv="${userenv.filename}" failonerror="${mf.cobollinkFailOnError}" desttype="dll/cso" threadedRts="false" verbose="true">
 				<mffilelist srcdir="${basedir}/New_Configuration.bin">
 					<file name="dynquery${mf.objext}"/>
 				</mffilelist>
 			</cobollink>
-			<cobollink debug="true" destfile="logono" entrypoint="${mf.entryPoint.cfg.New_Configuration}" destdir="${mf.destDir.cfg.New_Configuration}" is64bit="true" objectdir="${basedir}/New_Configuration.bin" userenv="${userenv.filename}" failonerror="${mf.cobollinkFailOnError}" desttype="dll/cso" threadedRts="false">
+			<cobollink destfile="logono" entrypoint="${mf.entryPoint.cfg.New_Configuration}" destdir="${mf.destDir.cfg.New_Configuration}" is64bit="true" objectdir="${basedir}/New_Configuration.bin" userenv="${userenv.filename}" failonerror="${mf.cobollinkFailOnError}" desttype="dll/cso" threadedRts="false" verbose="true">
 				<mffilelist srcdir="${basedir}/New_Configuration.bin">
 					<file name="logono${mf.objext}"/>
 				</mffilelist>
 			</cobollink>
-			<cobollink debug="true" destfile="static" entrypoint="${mf.entryPoint.cfg.New_Configuration}" destdir="${mf.destDir.cfg.New_Configuration}" is64bit="true" objectdir="${basedir}/New_Configuration.bin" userenv="${userenv.filename}" failonerror="${mf.cobollinkFailOnError}" desttype="dll/cso" threadedRts="false">
+			<cobollink destfile="static" entrypoint="${mf.entryPoint.cfg.New_Configuration}" destdir="${mf.destDir.cfg.New_Configuration}" is64bit="true" objectdir="${basedir}/New_Configuration.bin" userenv="${userenv.filename}" failonerror="${mf.cobollinkFailOnError}" desttype="dll/cso" threadedRts="false" verbose="true">
 				<mffilelist srcdir="${basedir}/New_Configuration.bin">
 					<file name="static${mf.objext}"/>
 				</mffilelist>
 			</cobollink>
-			<cobollink debug="true" destfile="testconn" entrypoint="${mf.entryPoint.cfg.New_Configuration}" destdir="${mf.destDir.cfg.New_Configuration}" is64bit="true" objectdir="${basedir}/New_Configuration.bin" userenv="${userenv.filename}" failonerror="${mf.cobollinkFailOnError}" desttype="dll/cso" threadedRts="false">
+			<cobollink destfile="testconn" entrypoint="${mf.entryPoint.cfg.New_Configuration}" destdir="${mf.destDir.cfg.New_Configuration}" is64bit="true" objectdir="${basedir}/New_Configuration.bin" userenv="${userenv.filename}" failonerror="${mf.cobollinkFailOnError}" desttype="dll/cso" threadedRts="false" verbose="true">
 				<mffilelist srcdir="${basedir}/New_Configuration.bin">
 					<file name="testconn${mf.objext}"/>
 				</mffilelist>
@@ -210,7 +210,7 @@
 	<target name="deploy.cfg.New_Configuration">
 	</target>
 	<target name="clean.cfg.New_Configuration">
-		<cobolclean debug="true" destdir="${basedir}/New_Configuration.bin" desttype="dll">
+		<cobolclean debug="true" destdir="${basedir}/New_Configuration.bin" retainDirectivesFile="true" desttype="dll" genListingFile="true">
 			<mffilelist refid="cobol_file_set_1"/>
 		</cobolclean>
 	</target>

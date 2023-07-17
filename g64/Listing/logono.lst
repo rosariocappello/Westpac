@@ -1,0 +1,87 @@
+* Micro Focus COBOL                  V8.0 revision 000 04-Jul-23 15:23 Page   1
+* /home/oracle/Westpac/g64/logono.cbl
+* Directives File: /home/oracle/Westpac/g64/New_Configuration.bin/logono.cbl.dir
+* Accepted - showdir
+* Accepted - SQL(DB)
+* Accepted - SQL(DBMAN)
+* Accepted - SQL(PASS)
+* Accepted - SQL(TARGETDB)
+* Accepted - INT"/home/oracle/Westpac/g64/New_Configuration.bin/"
+* Accepted - ANIM
+* Accepted - LISTPATH"/home/oracle/Westpac/g64/Listing"
+* Accepted - ERRFORMAT(2)
+* Accepted - STDERR
+* End Of Directives File: /home/oracle/Westpac/g64/New_Configuration.bin/logono.cbl.dir
+     1 IDENTIFICATION DIVISION.
+     2 PROGRAM-ID. logono
+     3
+     4 DATA DIVISION.
+     5 WORKING-STORAGE SECTION.
+     6     EXEC SQL BEGIN DECLARE SECTION END-EXEC.
+     7 01 USERNAME PIC X(10) varying.
+     8 01 PASSWD PIC X(10) varying.
+     9 01 EMP-REC-VARS.
+    10   05 EMP-NAME PIC X(10) VARYING.
+    11   05 EMP-NUMBER PIC S9(4) COMP VALUE ZERO.
+    12   05 SALARY PIC S9(5)V99 COMP-3 VALUE ZERO.
+    13   05 COMMISSION PIC S9(5)V99 COMP-3 VALUE ZERO.
+    14   05 COMM-IND PIC S9(4) COMP VALUE ZERO.
+    15     EXEC SQL END DECLARE SECTION END-EXEC.
+*   16     EXEC SQL INCLUDE SQLCA END-EXEC.
+    17 01 SQLCA.
+    18     05  SQLCAID         PIC X(8)         VALUE "SQLCA   ".
+    19     05  SQLCABC         PIC S9(9) COMP-5 VALUE 136.
+    20     05  SQLCODE         PIC S9(9) COMP-5 VALUE 0.
+    21     05  SQLERRM.
+    22         49  SQLERRML    PIC S9(4) COMP-5.
+    23         49  SQLERRMC    PIC X(70).
+    24     05  SQLERRP         PIC X(8).
+    25     05  SQLERRD         PIC S9(9) COMP-5 OCCURS 6 VALUE 0.
+    26     05  SQLWARN.
+    27         10  SQLWARN0    PIC X.
+    28         10  SQLWARN1    PIC X.
+    29         10  SQLWARN2    PIC X.
+    30         10  SQLWARN3    PIC X.
+    31         10  SQLWARN4    PIC X.
+    32         10  SQLWARN5    PIC X.
+    33         10  SQLWARN6    PIC X.
+    34         10  SQLWARN7    PIC X.
+    35     05  SQLEXT.
+    36         10  SQLWARN8    PIC X.
+    37         10  SQLWARN9    PIC X.
+    38         10  SQLWARN10   PIC X.
+    39         10  SQLWARNA    REDEFINES SQLWARN10 PIC X .
+    40     05  SQLSTATE    PIC X(5).
+    41
+    42 PROCEDURE DIVISION.
+    43 MAIN-PROCEDURE.
+    44     MOVE "mfuser" TO USERNAME-ARR
+    45     .
+    46     MOVE 6 TO USERNAME-LEN
+* Micro Focus COBOL                  V8.0 revision 000 04-Jul-23 15:23 Page   2
+* /home/oracle/Westpac/g64/logono.cbl
+    47     .
+    48     MOVE "Welcome01" TO PASSWD-ARR
+    49
+    50     MOVE 9 TO PASSWD-LEN
+    51     .
+    52
+    53     EXEC SQL
+    54         CONNECT :USERNAME IDENTIFIED BY :PASSWD
+    55     END-EXEC
+    56
+    57     MOVE SQLCODE TO SQLCODE
+    58     IF SQLCODE NOT EQUAL ZERO
+    59         DISPLAY "DB connection failed with SQLCODE: " SQLCODE
+    60     else
+    61         DISPLAY "DB connection successful."
+    62     END-IF
+    63
+    64     GOBACK
+    65
+    66
+* Micro Focus COBOL                  V8.0 revision 000 Compiler
+* (C) Copyright 1984-2023 Micro Focus or one of its affiliates.
+*                                                        REF GNR-085800000AM
+* Total Messages:     0
+* Data:      136576     Code:         804

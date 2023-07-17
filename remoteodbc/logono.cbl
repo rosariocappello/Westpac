@@ -3,7 +3,7 @@
 
        DATA DIVISION.
        WORKING-STORAGE SECTION.
-       01 WS-DB-NAME PIC X(30) VALUE 'OracleODBC-19'.
+       01 WS-DB-NAME PIC X(30) VALUE 'Myorcl'.
        01 WS-DB-USER PIC X(30) VALUE 'mfuser'.
        01 WS-DB-PASS PIC X(30) VALUE 'Welcome01'.
       *01 WS-DB-HANDLE    USAGE IS SQL-HANDLE.
@@ -11,9 +11,18 @@
 
        PROCEDURE DIVISION.
        MAIN-PROCEDURE.
+           
+           MOVE "mfuser" TO USERNAME-ARR
+           .
+           MOVE 6 TO USERNAME-LEN
+           .
+           MOVE "Welcome01" TO PASSWD-ARR
+
+           MOVE 9 TO PASSWD-LEN
+           .
+
            EXEC SQL
-              CONNECT TO :WS-DB-NAME USER :WS-DB-USER 
-                                     USING :WS-DB-PASS
+               CONNECT :USERNAME IDENTIFIED BY :PASSWD
            END-EXEC
 
            MOVE SQLCODE TO SQLCODE

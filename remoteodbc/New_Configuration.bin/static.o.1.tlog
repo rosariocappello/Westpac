@@ -1,0 +1,4 @@
+#/opt/microfocus/VisualCOBOL/bin/cobchecker64 /home/oracle/Westpac/remoteodbc/static.cbl "int(""static.int"")" "USE""/home/oracle/Westpac/remoteodbc/New_Configuration.bin/static.cbl.dir"""
+^/home/oracle/Westpac/remoteodbc/static.cbl
+!/opt/microfocus/VisualCOBOL/cpylib/sqlca.cpy
++/opt/microfocus/VisualCOBOL/cpylib/sqlca.cpy

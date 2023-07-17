@@ -83,8 +83,8 @@
    </settings>
    <files xsi:type="projectFileStore">
       <filetype type="cobol" xsi:type="cobolFileContainer">
-         <file compile="true" path="logon.cbl" xsi:type="cobolFile"/>
-         <file compile="true" path="testconn.cbl" xsi:type="cobolFile"/>
+         <file compile="true" path="MFABEND.cob" xsi:type="cobolFile"/>
+         <file compile="true" path="logon.cob" xsi:type="cobolFile"/>
       </filetype>
       <filetype type="cobol.copybook" xsi:type="cobolFileContainer"/>
       <folders xsi:type="cobolFolderContainer">

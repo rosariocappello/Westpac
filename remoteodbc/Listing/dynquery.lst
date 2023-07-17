@@ -1,0 +1,584 @@
+* Micro Focus COBOL                  V8.0 revision 000 04-Jul-23 13:15 Page   1
+* /home/oracle/Westpac/remoteodbc/dynquery.cbl
+* Directives File: /home/oracle/Westpac/remoteodbc/New_Configuration.bin/dynquery.cbl.dir
+* Accepted - showdir
+* Accepted - SQL(DB)
+* Accepted - SQL(DBMAN)
+* Accepted - SQL(TARGETDB)
+* Accepted - INT"/home/oracle/Westpac/remoteodbc/New_Configuration.bin/"
+* Accepted - ANIM
+* Accepted - LISTPATH"/home/oracle/Westpac/remoteodbc/Listing"
+* Accepted - ERRFORMAT(2)
+* Accepted - STDERR
+* End Of Directives File: /home/oracle/Westpac/remoteodbc/New_Configuration.bin/dynquery.cbl.dir
+     1$set sql(dbman=odbc)
+     2****************************************************************
+     3* Copyright (C) Micro Focus 1988-2019. All rights reserved.
+     4*
+     5* This sample code is supplied for demonstration purposes only
+     6* on an "as is" basis and is for use at your own risk.
+     7*
+     8****************************************************************
+     9*
+    10*  This program is a primitive database query tool. It
+    11*  basically loops until the user enters "quit".
+    12*  When it receives an SQL statement from the user, it
+    13*  prepares it. If the statement will return results, a
+    14*  cursor is used to retrieve the results, otherwise
+    15*  the statement is simply executed.
+    16*
+    17*  The program handles a limited number of data types, so
+    18*  it will not handle all SQL statements.
+    19*
+    20*  This program provides a detailed example of how to use
+    21*  the SQLDA data structure, in conjunction with Dynamic
+    22*  SQL statements.
+    23*
+    24************************************************************
+    25
+    26 working-storage section.
+    27
+    28*  Include the SQLCA structure
+*   29 exec sql include sqlca end-exec.
+    30 01 SQLCA.
+    31     05  SQLCAID         PIC X(8)         VALUE "SQLCA   ".
+    32     05  SQLCABC         PIC S9(9) COMP-5 VALUE 136.
+    33     05  SQLCODE         PIC S9(9) COMP-5 VALUE 0.
+    34     05  SQLERRM.
+    35         49  SQLERRML    PIC S9(4) COMP-5.
+    36         49  SQLERRMC    PIC X(70).
+    37     05  SQLERRP         PIC X(8).
+    38     05  SQLERRD         PIC S9(9) COMP-5 OCCURS 6 VALUE 0.
+    39     05  SQLWARN.
+    40         10  SQLWARN0    PIC X.
+    41         10  SQLWARN1    PIC X.
+    42         10  SQLWARN2    PIC X.
+    43         10  SQLWARN3    PIC X.
+    44         10  SQLWARN4    PIC X.
+    45         10  SQLWARN5    PIC X.
+    46         10  SQLWARN6    PIC X.
+    47         10  SQLWARN7    PIC X.
+* Micro Focus COBOL                  V8.0 revision 000 04-Jul-23 13:15 Page   2
+* /home/oracle/Westpac/remoteodbc/dynquery.cbl (/opt/microfocus/VisualCOBOL/cpy)
+    48     05  SQLEXT.
+    49         10  SQLWARN8    PIC X.
+    50         10  SQLWARN9    PIC X.
+    51         10  SQLWARN10   PIC X.
+    52         10  SQLWARNA    REDEFINES SQLWARN10 PIC X .
+    53     05  SQLSTATE    PIC X(5).
+    54
+    55*  Include the SQLDA structure
+*   56 exec sql include sqlda78 end-exec.
+    57 01 SQLDA sync.
+    58    05 SQLDAID               PIC X(8)  VALUE "SQLDA  ".
+    59    05 SQLDABC               PIC S9(9) COMP-5 value 0.
+    60    05 SQLN                  PIC S9(4) COMP-5 value 0.
+    61    05 SQLD                  PIC S9(4) COMP-5 value 0.
+    62    05 SQLVAR OCCURS 0 TO 1489 TIMES DEPENDING ON SQLD.
+    63       10 SQLTYPE            PIC S9(4) COMP-5.
+    64       10 SQLLEN             PIC S9(4) COMP-5.
+    65$IF P64 SET
+    66       *> For 64-bit environments, ensure that SQLDATA is
+    67       *> aligned on an 8-byte boundary.
+    68       10 FILLER             PIC S9(9) COMP-5.
+    69$END
+    70       10 SQLDATA            USAGE POINTER.
+    71       10 SQLIND             USAGE POINTER.
+    72       10 SQLNAME.
+    73          15 SQLNAMEL        PIC S9(4) COMP-5.
+    74          15 SQLNAMEC        PIC X(30).
+    75
+    76* Codes for COMP fields
+    77 78 ESQL-COMP-IND                VALUE 4096.
+    78 78 ESQL-COMP-LEN                VALUE 8192.
+    79 78 ESQL-COMP-DATA               VALUE 8192.
+    80
+    81* Values for SQLTYPE
+    82 78  ESQL-DATE-CHAR              VALUE 384.
+    83 78  ESQL-DATE-CHAR-NULL         VALUE 385.
+    84 78  ESQL-DATE-REC               VALUE 386.
+    85 78  ESQL-DATE-REC-NULL          VALUE 387.
+    86 78  ESQL-TIME-CHAR              VALUE 388.
+    87 78  ESQL-TIME-CHAR-NULL         VALUE 389.
+    88 78  ESQL-TIME-REC               VALUE 390.
+    89 78  ESQL-TIME-REC-NULL          VALUE 391.
+    90 78  ESQL-TIMESTAMP-CHAR         VALUE 392.
+    91 78  ESQL-TIMESTAMP-CHAR-NULL    VALUE 393.
+    92 78  ESQL-TIMESTAMP-REC          VALUE 394.
+    93 78  ESQL-TIMESTAMP-REC-NULL     VALUE 395.
+    94 78  ESQL_TIMESTAMP_OFFSET_CHAR   VALUE 396.
+    95 78  ESQL_TIMESTAMP_OFFSET_CHAR_NULL VALUE 397.
+    96 78  ESQL_TIMESTAMP_OFFSET_REC       VALUE 398.
+    97 78  ESQL_TIMESTAMP_OFFSET_REC_NULL  VALUE 399.
+    98
+    99 78  ESQL-LONGVARBINARY          VALUE 404.
+   100 78  ESQL-LONGVARBINARY-NULL     VALUE 405.
+   101 78  ESQL-LONGVARCHAR            VALUE 408.
+   102 78  ESQL-LONGVARCHAR-NULL       VALUE 409.
+   103 78  ESQL-BINARY                 VALUE 444.
+   104 78  ESQL-BINARY-NULL            VALUE 445.
+   105 78  ESQL-VARBINARY              VALUE 446.
+* Micro Focus COBOL                  V8.0 revision 000 04-Jul-23 13:15 Page   3
+* /home/oracle/Westpac/remoteodbc/dynquery.cbl (/opt/microfocus/VisualCOBOL/cpy)
+   106 78  ESQL-VARBINARY-NULL         VALUE 447.
+   107 78  ESQL-VARCHAR                VALUE 448.
+   108 78  ESQL-VARCHAR-NULL           VALUE 449.
+   109
+   110 78  ESQL-CHARVARYING            VALUE 450.  *> added esq03n31
+   111 78  ESQL-CHARVARYING-NULL       VALUE 451.  *> added esq03n31
+   112
+   113 78  ESQL-CHAR                   VALUE 452.
+   114 78  ESQL-CHAR-NULL              VALUE 453.
+   115
+   116 78  ESQL-CHAR-FIXED             VALUE 454.  *> added esq03n31
+   117 78  ESQL-CHAR-FIXED-NULL        VALUE 455.  *> added esq03n31
+   118
+   119 78  ESQL-VARGRAPH               VALUE 464.
+   120 78  ESQL-VARGRAPH-NULL          VALUE 465.
+   121 78  ESQL-GRAPHIC                VALUE 468.
+   122 78  ESQL-GRAPHIC-NULL           VALUE 469.
+   123 78  ESQL-LONGRAPH               VALUE 472.
+   124 78  ESQL-LONGRAPH-NULL          VALUE 473.
+   125
+   126 78  ESQL-DOUBLE                 VALUE 480.
+   127 78  ESQL-DOUBLE-NULL            VALUE 481.
+   128 78  ESQL-REAL                   VALUE 482.
+   129 78  ESQL-REAL-NULL              VALUE 483.
+   130 78  ESQL-DECIMAL                VALUE 484.
+   131 78  ESQL-DECIMAL-NULL           VALUE 485.
+   132 78  ESQL-BIGINT                 VALUE 492.
+   133 78  ESQL-BIGINT-NULL            VALUE 493.
+   134 78  ESQL-INTEGER                VALUE 496.
+   135 78  ESQL-INTEGER-NULL           VALUE 497.
+   136 78  ESQL-SMALLINT               VALUE 500.
+   137 78  ESQL-SMALLINT-NULL          VALUE 501.
+   138 78  ESQL-TINYINT                VALUE 502.
+   139 78  ESQL-TINYINT-NULL           VALUE 503.
+   140
+   141 78  ESQL-UDISP-UNSIGN               VALUE 510.
+   142 78  ESQL-UDISP-UNSIGN-NULL          VALUE 511.
+   143 78  ESQL-UDISP-SIGN-LEAD-SEP        VALUE 512.
+   144 78  ESQL-UDISP-SIGN-LEAD-SEP-NULL   VALUE 513.
+   145 78  ESQL-UDISP-SIGN-TRAIL-SEP       VALUE 514.
+   146 78  ESQL-UDISP-SIGN-TRAIL-SEP-NULL  VALUE 515.
+   147 78  ESQL-UDISP-SIGN-LEAD-INC        VALUE 516.
+   148 78  ESQL-UDISP-SIGN-LEAD-INC-NULL   VALUE 517.
+   149 78  ESQL-UDISP-SIGN-TRAIL-INC       VALUE 518.
+   150 78  ESQL-UDISP-SIGN-TRAIL-INC-NULL  VALUE 519.
+   151
+   152 78  ESQL-UNAT-UNSIGN               VALUE 520.
+   153 78  ESQL-UNAT-UNSIGN-NULL          VALUE 521.
+   154 78  ESQL-UNAT-SIGN-LEAD-SEP        VALUE 522.
+   155 78  ESQL-UNAT-SIGN-LEAD-SEP-NULL   VALUE 523.
+   156 78  ESQL-UNAT-SIGN-TRAIL-SEP       VALUE 524.
+   157 78  ESQL-UNAT-SIGN-TRAIL-SEP-NULL  VALUE 525.
+   158*78  ESQL-UNAT-SIGN-LEAD-INC        VALUE 526.
+   159*78  ESQL-UNAT-SIGN-LEAD-INC-NULL   VALUE 527.
+   160*78  ESQL-UNAT-SIGN-TRAIL-INC       VALUE 528.
+   161*78  ESQL-UNAT-SIGN-TRAIL-INC-NULL  VALUE 529.
+   162
+   163 78  ESQL-WCHAR                      VALUE 1080.
+* Micro Focus COBOL                  V8.0 revision 000 04-Jul-23 13:15 Page   4
+* /home/oracle/Westpac/remoteodbc/dynquery.cbl (/opt/microfocus/VisualCOBOL/cpy)
+   164 78  ESQL-WCHAR_NULL                 VALUE 1081.
+   165 78  ESQL-WVARCHAR                   VALUE 1090.
+   166 78  ESQL-WVARCHAR_NULL              VALUE 1091.
+   167 78  ESQL-WLONGVARCHAR               VALUE 1100.
+   168 78  ESQL-WLONGVARCHAR_NULL          VALUE 1101.
+   169
+   170 78  ESQL_UTINYINT                   VALUE 1200.
+   171 78  ESQL_UTINYINT_NULL              VALUE 1201.
+   172 78  ESQL_USMALLINT                  VALUE 1202.
+   173 78  ESQL_USMALLINT_NULL             VALUE 1203.
+   174 78  ESQL_UINTEGER                   VALUE 1204.
+   175 78  ESQL_UINTEGER_NULL              VALUE 1205.
+   176 78  ESQL_UBIGINT                    VALUE 1206.
+   177 78  ESQL_UBIGINT_NULL               VALUE 1207.
+   178
+   179 78  ESQL-PICX-VARYING               VALUE 1208.
+   180 78  ESQL-PICX-VARYING-NULL          VALUE 1209.
+   181
+   182 01 Dyn-Vars occurs 255 times.
+   183  03 Dyn-Null              pic s9(4) comp-5.
+   184  03 Tinyint-Var           pic s9(2) comp-5.
+   185  03 Smallint-Var          pic s9(4) comp-5.
+   186  03 Integer-Var           pic s9(9) comp-5.
+   187  03 Decimal-Var           pic s9(13)v9(5) comp-3.
+   188  03 Float-Var             comp-2.
+   189  03 Char-Var              pic x(100).
+   190  03 Col-Len               pic s9(4) comp-5.
+   191
+   192 01 Disp-Dec               pic +(13).z(5).
+   193 01 Sql-Type               pic s9(4) comp-5.
+   194 01 Remain-1               pic 9(4) value 0.
+   195 01 Index1                 pic 9(4) value 0.
+   196 01 Stmt                   pic x(20).
+   197 01 Precision-and-Scale    pic s9(4) comp-5.
+   198 01 filler redefines Precision-and-Scale.
+   199  03 Precision             pic s9(2) comp-5.
+   200  03 Scale                 pic s9(2) comp-5.
+   201
+   202 exec sql begin declare section end-exec.
+   203
+   204 01 Stmtbuf                pic x(80).
+   205
+   206 01 Svr                    pic x(32).
+   207 01 Usr                    pic x(32).
+   208 01 Pass                   pic x(32).
+   209 01 Usr-Pass               pic x(64).
+   210
+   211 exec sql end declare section end-exec.
+   212
+   213 01 Meta-data.
+   214  03 FILLER                pic x.
+   215  03 Colno                 pic z(3)9.
+   216  03 FILLER                pic x(3) value spaces.
+   217  03 Coltype               pic 9(3).
+   218  03 FILLER                pic x(1) value spaces.
+   219  03 Collen                pic z(4)9.
+   220  03 Colpoint              pic x.
+   221  03 Colscale              pic 9.
+* Micro Focus COBOL                  V8.0 revision 000 04-Jul-23 13:15 Page   5
+* /home/oracle/Westpac/remoteodbc/dynquery.cbl
+   222  03 FILLER                pic x(2) value spaces.
+   223  03 Colname               pic x(30).
+   224
+   225 01 Meta-data-title.
+   226  03 FILLER                pic x(6) value "Column".
+   227  03 FILLER                pic x(1) value spaces.
+   228  03 FILLER                pic x(4) value "Type".
+   229  03 FILLER                pic x(1) value spaces.
+   230  03 FILLER                pic x(6) value "Length".
+   231  03 FILLER                pic x(3) value spaces.
+   232  03 FILLER                pic x(30) value "Name".
+   233
+   234 01 Meta-data-title-2      pic x(51) value all "-".
+   235
+   236 procedure division.
+   237*    Find out which database we are using and connect to it
+   238     display "Enter data source name :"
+   239             with no advancing
+   240     accept Svr
+   241     display "Enter username :"
+   242              with no advancing
+   243     accept Usr
+   244     display "Enter password :"
+   245              with no advancing
+   246     accept Pass
+   247     string
+   248         Usr delimited space
+   249         "." delimited size
+   250         Pass delimited space
+   251     into Usr-Pass
+   252     exec sql
+   253         connect to :Svr user :Usr-Pass
+   254     end-exec
+   255     if Sqlcode not = 0
+   256         perform Display-Sqlca
+   257         stop run
+   258     end-if
+   259*    Now loop, processing SQL statements until the user
+   260*    enters 'quit'
+   261     perform until Stmtbuf equal "quit"
+   262     display "Enter SQL statement to be executed or "
+   263         with no advancing
+   264     display "'quit' to terminate: "
+   265         accept Stmtbuf
+   266     if Stmtbuf not = "quit"
+   267         move spaces to Sqlerrmc
+   268*        Issuing a PREPARE INTO with sqln = 1 and Sqld = 0
+   269*        will return the number of columns in the result set
+   270*        in sqld.
+   271         move 1 to Sqln
+   272         move 0 to Sqld
+   273         exec sql
+   274            prepare st into :Sqlda from :Stmtbuf
+   275         end-exec
+   276         move "Prepare Statement" to Stmt
+   277         perform Display-Sqlca
+   278         if Sqld not = 0
+   279*            If there are columns in the result set, it must
+* Micro Focus COBOL                  V8.0 revision 000 04-Jul-23 13:15 Page   6
+* /home/oracle/Westpac/remoteodbc/dynquery.cbl
+   280*            be a select statement
+   281             perform Select-Statement
+   282         else
+   283*            If there is not a result set, simply execute
+   284*            the statement
+   285             exec sql
+   286                 execute st
+   287             end-exec
+   288             if Sqlcode = 0
+   289                 display "Rows Affected = " Sqlerrd(3)
+   290                 move "Non-Select statement" to Stmt
+   291             end-if
+   292             perform Display-Sqlca
+   293         end-if
+   294     end-if
+   295 end-perform
+   296*    Disconnect from the server
+   297 exec sql disconnect all end-exec
+   298 stop run.
+   299
+   300 Select-Statement section.
+   301*    Sqld was set by the PREPARE above. It contains the number
+   302*    of columns in the result set created by the SELECT statement
+   303     move Sqld to Sqln
+   304
+   305*    Declare a cursor to retrieve the results
+   306     exec sql
+   307         declare cur cursor for st2
+   308     end-exec
+   309*    Now PREPARE the statement and get details of each column
+   310*    in the Sqlvar structures in Sqlda.
+   311*
+   312*    Calculate the size of the Sqlda
+   313$IF P64 SET
+   314     compute Sqldabc = 16 + 56 * Sqln
+   315$ELSE
+   316X    compute Sqldabc = 16 + 44 * Sqln
+   317$END
+   318     exec sql
+   319         prepare st2 into :Sqlda from :Stmtbuf
+   320     end-exec
+   321
+   322*    Display the meta data, the information on each
+   323*    column such as name, type and size. Also, initialize
+   324*    a sqlvar stucture for each column
+   325     display " "
+   326     display Meta-Data-Title
+   327     display Meta-Data-Title-2
+   328     move 0 to Index1
+   329     perform Display-Info-And-Initialize
+   330         varying Index1 from 1 by 1
+   331         until Index1 > Sqld
+   332
+   333*    Open the cursor to retrieve the results
+   334     exec sql
+   335         open cur
+   336     end-exec
+   337     if Sqlcode not = 0
+* Micro Focus COBOL                  V8.0 revision 000 04-Jul-23 13:15 Page   7
+* /home/oracle/Westpac/remoteodbc/dynquery.cbl
+   338         perform Display-Sqlca
+   339     else
+   340         move 'Fetch row' to Stmt
+   341         perform until Sqlcode < 0 or Sqlcode = 100
+   342*            Retrieve one row of data from the database
+   343             exec sql
+   344                 fetch cur using descriptor :Sqlda
+   345             end-exec
+   346             if Sqlcode not < 0 and Sqlcode not = 100
+   347                 move 0 to Index1
+   348                 display " "
+   349                 perform Display-Data Sqld times
+   350             end-if
+   351             if Sqlcode not = 100
+   352                 perform Display-Sqlca
+   353             end-if
+   354         end-perform
+   355     end-if
+   356*    Close the cursor
+   357     exec sql
+   358         close cur
+   359     end-exec.
+   360
+   361 Display-Info-And-Initialize section.
+   362     divide Sqltype(Index1) by 2 giving Sql-type
+   363         remainder Remain-1
+   364     move Sqltype(Index1) to Sql-Type
+   365     move 0 to Dyn-Null(Index1)
+   366     if Remain-1 not = 0
+   367*        If the type is an odd number, null values are
+   368*        allowed in the column. We need to set the
+   369*        address of the associated indicator variable
+   370         subtract 1 from Sql-Type
+   371         set Sqlind(Index1) to address of Dyn-Null(Index1)
+   372     end-if
+   373*    Display the name, type and length of the column
+   374     move spaces to Meta-Data
+   375     move Index1 to Colno
+   376     move Sqlnamec(Index1) to Colname
+   377     move Sqltype(Index1) to Coltype
+   378     if Sql-Type not = ESQL-DECIMAL
+   379         move Sqllen(Index1) to Collen
+   380     else
+   381*        If the type is decimal, the sqllen field
+   382*        is split into two parts. The first byte
+   383*        gives the precision (i.e. the total number
+   384*        of digits) and the second byte gives the
+   385*        scale (i.e. the number of digits after the
+   386*        decimal point).
+   387         move Sqllen(Index1) to Precision-and-Scale
+   388         move Precision to Collen
+   389         move "." to Colpoint
+   390         move Scale to Colscale
+   391     end-if
+   392     display Meta-Data
+   393*    Now set up the address of the appropriate variable
+   394*    to retrieve the data into.
+   395     evaluate Sql-Type
+* Micro Focus COBOL                  V8.0 revision 000 04-Jul-23 13:15 Page   8
+* /home/oracle/Westpac/remoteodbc/dynquery.cbl
+   396
+   397         when ESQL-TINYINT
+   398*            1-byte integer
+   399             set Sqldata(Index1) to
+   400                 address of Tinyint-Var(Index1)
+   401
+   402         when ESQL-SMALLINT
+   403*            2-byte integer
+   404             set Sqldata(Index1) to
+   405                 address of Smallint-Var(Index1)
+   406
+   407         when ESQL-INTEGER
+   408*            4-byte integer
+   409             set Sqldata(Index1) to
+   410                 address of Integer-Var(Index1)
+   411
+   412         when ESQL-DECIMAL
+   413*            Decimal
+   414             set Sqldata(Index1) to
+   415                 address of Decimal-Var(Index1)
+   416*            Change the precision and scale to
+   417*            say that we are returning into a 18
+   418*            digit (x"12") field with 5 decimal
+   419*            places
+   420             move 18                   to  precision
+   421             move 5                    to  scale
+   422             move Precision-and-Scale  to  Sqllen(Index1)
+   423
+   424         when ESQL-CHAR
+   425*            Char or varchar
+   426             set Sqldata(Index1) to
+   427                 address of Char-Var(Index1)
+   428
+   429         when ESQL-LONGVARCHAR
+   430*            Char or varchar
+   431             move ESQL-CHAR to Sqltype(Index1)
+   432             set Sqldata(Index1) to
+   433                 address of Char-Var(Index1)
+   434             move 18 to Sqllen(Index1)
+   435
+   436         when ESQL-TIMESTAMP-REC
+   437*            Change the type to indicate that the
+   438*            data should be returned in character
+   439*            format
+   440             move ESQL-TIMESTAMP-CHAR to Sqltype(Index1)
+   441             set Sqldata(Index1) to
+   442                 address of Char-Var(Index1)
+   443             move 100 to Sqllen(Index1)
+   444
+   445         when ESQL-DATE-REC
+   446             move ESQL-DATE-CHAR to Sqltype(Index1)
+   447             set Sqldata(Index1) to
+   448                 address of Char-Var(Index1)
+   449             move 100 to Sqllen(Index1)
+   450
+   451         when ESQL-TIME-REC
+   452             move ESQL-TIME-CHAR to Sqltype(Index1)
+   453             set Sqldata(Index1) to
+* Micro Focus COBOL                  V8.0 revision 000 04-Jul-23 13:15 Page   9
+* /home/oracle/Westpac/remoteodbc/dynquery.cbl
+   454                 address of Char-Var(Index1)
+   455             move 100 to Sqllen(Index1)
+   456
+   457         when ESQL-TIMESTAMP-CHAR
+   458         when ESQL-DATE-CHAR
+   459         when ESQL-TIME-CHAR
+   460             set Sqldata(Index1) to
+   461                 address of Char-Var(Index1)
+   462
+   463         when ESQL-DOUBLE
+   464*            8-byte floating point
+   465             set Sqldata(Index1) to
+   466                 address of Float-Var(Index1)
+   467
+   468         when other
+   469*            Data-type not handled
+   470             display "Unable to handle data-type " Sql-Type
+   471             exec sql disconnect all end-exec
+   472             stop run
+   473
+   474     end-evaluate
+   475*    Save the length so that it can be restored
+   476*    after each Fetch. The sqllen field can be
+   477*    affected by a Fetch statement
+   478     move Sqllen(Index1) to Col-Len(Index1).
+   479
+   480 Display-Data section.
+   481     add 1 to Index1
+   482     move Sqlnamec(Index1) to Colname
+   483     display Colname(1:20) " : " with no advancing
+   484     if Dyn-Null(Index1) < 0
+   485         display "* * * NULL * * * "
+   486     else
+   487         evaluate Sqltype(Index1)
+   488             when ESQL-TINYINT
+   489             when ESQL-TINYINT-NULL
+   490                 display Tinyint-Var(Index1)
+   491
+   492             when ESQL-SMALLINT
+   493             when ESQL-SMALLINT-NULL
+   494                 display Smallint-Var(Index1)
+   495
+   496             when ESQL-INTEGER
+   497             when ESQL-INTEGER-NULL
+   498                 display Integer-Var(Index1)
+   499
+   500             when ESQL-DECIMAL
+   501             when ESQL-DECIMAL-NULL
+   502                 move Decimal-Var(Index1) to Disp-Dec
+   503                 display Disp-Dec
+   504
+   505             when ESQL-DOUBLE
+   506             when ESQL-DOUBLE-NULL
+   507                 move Float-Var(Index1) to Disp-Dec
+   508                 display Disp-Dec
+   509
+   510             when ESQL-LONGVARCHAR
+   511             when ESQL-LONGVARCHAR-NULL
+* Micro Focus COBOL                  V8.0 revision 000 04-Jul-23 13:15 Page  10
+* /home/oracle/Westpac/remoteodbc/dynquery.cbl
+   512             when ESQL-CHAR
+   513             when ESQL-CHAR-NULL
+   514             when ESQL-TIMESTAMP-CHAR
+   515             when ESQL-TIMESTAMP-CHAR-NULL
+   516             when ESQL-TIMESTAMP-REC
+   517             when ESQL-TIMESTAMP-REC-NULL
+   518             when ESQL-DATE-CHAR
+   519             when ESQL-DATE-CHAR-NULL
+   520             when ESQL-DATE-REC
+   521             when ESQL-DATE-REC-NULL
+   522             when ESQL-TIME-CHAR
+   523             when ESQL-TIME-CHAR-NULL
+   524             when ESQL-TIME-REC
+   525             when ESQL-TIME-REC-NULL
+   526                 display Char-Var(Index1)
+   527                 move " " to Char-Var(Index1)
+   528
+   529         end-evaluate
+   530     end-if.
+   531*    Reset the length field
+   532     move Col-len(index1) to Sqllen(Index1).
+   533
+   534 Display-Sqlca section.
+   535     if Sqlcode not = 0
+   536         display Stmt ":"
+   537         display "  Sqlcode  = " Sqlcode
+   538     end-if
+   539     if Sqlstate not = "00000"
+   540         display "  Sqlstate = " Sqlstate
+   541     end-if
+   542     if Sqlcode < 0
+   543         display "  Sqlerrmc = " Sqlerrmc
+   544     end-if
+   545     if Sqlcode = 1
+   546         display "  Sqlwarn  = " Sqlwarn
+   547     end-if.
+   548
+* Micro Focus COBOL                  V8.0 revision 000 Compiler
+* (C) Copyright 1984-2023 Micro Focus or one of its affiliates.
+*                                                        REF GNR-085800000AM
+* Total Messages:     0
+* Data:      253344     Code:        6797

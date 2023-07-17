@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <x:dirset xmlns:x="http://microfocus.com/directivesset" schemaVersion="1.1">
-    <x:preprocessor bgpEnabled="true" editable="false" enabled="false" handler="PSQL" id="Oracle Pro*COBOL(COBSQL)" location="P(cobsql)" predefinedId="0" stackable="true">
-        <x:directive handler="PSQL" id="PSQL.display" name="DISPLAY"/>
-        <x:directive handler="PSQL" id="PSQL.sqldebug" name="SQLDEBUG"/>
-        <x:directive handler="PSQL" id="PSQL.makesyn" name="NOMAKESYN"/>
-        <x:directive handler="PSQL" id="PSQL.verbose" name="VERBOSE"/>
-        <x:directive handler="PSQL" id="PSQL.keepcbl" name="KEEPCBL"/>
-    </x:preprocessor>
+    <x:ecm enabled="false" handler="OpenESQL" id="project.sqlSettings" postfix=")" prefix="SQL(">
+        <x:directive handler="OpenESQL" id="OESQL.db" name="DB=Myorcl"/>
+        <x:directive handler="OpenESQL" id="OESQL.dbman" name="DBMAN=ODBC"/>
+        <x:directive handler="OpenESQL" id="OESQL.pass" name="PASS=mfuser.Welcome01"/>
+        <x:directive handler="OpenESQL" id="OESQL.targetdb" name="TARGETDB=ORACLE"/>
+    </x:ecm>
+    <x:directive handler="project.cobolSettings" id="genListFile" name="LIST()"/>
+    <x:directive handler="project.cobolSettings" id="additional" name="showdir"/>
+    <x:directive handler="project.cobolSettings" id="retainDirectivesFile" name="retainDirectivesFile"/>
 </x:dirset>

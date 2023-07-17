@@ -1,0 +1,7 @@
+#/opt/microfocus/VisualCOBOL/bin/cobchecker64 /home/oracle/Westpac/g64/dynquery.cbl "int(""dynquery.int"")" "USE""/home/oracle/Westpac/g64/New_Configuration.bin/dynquery.cbl.dir"""
+^/home/oracle/Westpac/g64/dynquery.cbl
+!/opt/microfocus/VisualCOBOL/cpylib/sqlca.cpy
++/opt/microfocus/VisualCOBOL/cpylib/sqlca.cpy
+-/opt/microfocus/VisualCOBOL/cpylib/sqlca.cpy
+!/opt/microfocus/VisualCOBOL/cpylib/sqlda78.cpy
++/opt/microfocus/VisualCOBOL/cpylib/sqlda78.cpy

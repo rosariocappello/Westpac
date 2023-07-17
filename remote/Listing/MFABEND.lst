@@ -1,0 +1,78 @@
+* Micro Focus COBOL                  V8.0 revision 000 04-Jul-23 12:39 Page   1
+* /home/oracle/Westpac/remote/MFABEND.cob
+* Directives File: /home/oracle/Westpac/remote/New_Configuration.bin/MFABEND.cob.dir
+* Accepted - showdir
+* Accepted - INT"/home/oracle/Westpac/remote/New_Configuration.bin/"
+* Accepted - ANIM
+* Accepted - LISTPATH"/home/oracle/Westpac/remote/Listing"
+* Accepted - ERRFORMAT(2)
+* Accepted - STDERR
+* End Of Directives File: /home/oracle/Westpac/remote/New_Configuration.bin/MFABEND.cob.dir
+     1 IDENTIFICATION DIVISION.
+     2 PROGRAM-ID. MFABEND.
+     3
+     4 ENVIRONMENT DIVISION.
+     5 CONFIGURATION SECTION.
+     6
+     7 DATA DIVISION.
+     8 WORKING-STORAGE SECTION.
+     9 01  C                             pic 9.
+    10 01  flags                         pic x(4) comp-5 value 0.
+    11 01  status-code                   pic x(4) comp-5 value 0.
+    12 01  process                       pic x(4) comp-5 value 0.
+    13 01  ws-process                    pic x(4) comp-5 value 0.
+    14 01  filename                      pic x(256).
+    15 01  stackdump-name                pic x(256).
+    16 01  ABDCODE                       PIC S9(9) BINARY.
+    17 01  RESCODE                       PIC S9(9) BINARY.
+    18 01  TIMING                        PIC S9(9) BINARY.
+    19 01  WS-LOGNAME                    pic x(256).
+    20 01  ws-return-code                pic x(4) comp-5 value 0.
+    21
+    22 PROCEDURE DIVISION.
+    23
+    24      display 'LOGDIR'
+    25           upon environment-name
+    26      accept WS-LOGNAME
+    27           from environment-value
+    28
+    29      move space to filename
+    30      string  ws-logname  delimited by space
+    31              "/" delimited by size
+    32              "MFABEND_Core.%d.%f.%p.%t"  delimited by size
+    33               x"00"delimited by size
+    34        into filename
+    35      end-string.
+    36
+    37      move space to stackdump-name
+    38      string  ws-logname  delimited by space
+    39              "/" delimited by size
+    40              "MFABEND_Stack.%d.%f.%p.%t"  delimited by size
+    41               x"00"delimited by size
+    42        into stackdump-name
+    43      end-string.
+    44
+    45
+    46     call "CBL_CREATE_CORE" using by value flags
+    47                                 by value process
+    48                                 by reference filename
+    49                       returning status-code
+    50
+* Micro Focus COBOL                  V8.0 revision 000 04-Jul-23 12:39 Page   2
+* /home/oracle/Westpac/remote/MFABEND.cob
+    51
+    52      call "CBL_CREATE_STACKDUMP" using by value flags
+    53                                        by value process
+    54                                      by reference stackdump-name
+    55                           returning status-code
+    56
+    57          MOVE 0001 TO ABDCODE.
+    58          MOVE 0 TO TIMING.
+    59          CALL "CEE3ABD" USING ABDCODE , TIMING.
+    60          MOVE 99 TO RETURN-CODE
+    61     stop run.
+* Micro Focus COBOL                  V8.0 revision 000 Compiler
+* (C) Copyright 1984-2023 Micro Focus or one of its affiliates.
+*                                                        REF GNR-085800000AM
+* Total Messages:     0
+* Data:        1232     Code:         646

@@ -1,0 +1,2 @@
+#/opt/microfocus/VisualCOBOL/bin/cobchecker64 /home/oracle/Westpac/remote/MFABEND.cob "int(""MFABEND.int"")" "USE""/home/oracle/Westpac/remote/New_Configuration.bin/MFABEND.cob.dir"""
+^/home/oracle/Westpac/remote/MFABEND.cob

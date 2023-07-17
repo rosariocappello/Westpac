@@ -1,0 +1,4 @@
+#/opt/microfocus/VisualCOBOL/bin/cobchecker64 /home/oracle/Westpac/g64/catalog.cbl "int(""catalog.int"")" "USE""/home/oracle/Westpac/g64/New_Configuration.bin/catalog.cbl.dir"""
+^/home/oracle/Westpac/g64/catalog.cbl
+!/opt/microfocus/VisualCOBOL/cpylib/sqlca.cpy
++/opt/microfocus/VisualCOBOL/cpylib/sqlca.cpy

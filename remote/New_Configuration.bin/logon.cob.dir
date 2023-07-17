@@ -1,0 +1,21 @@
+DIALECT"MF"
+COPYEXT"cpy,cbl"
+SOURCETABSTOP"4"
+COLLECTION"GL1"
+MAX-ERROR"100"
+NOTESTCOVER
+CHARSET"ASCII"
+EXITPROGRAM"ANSI"
+NOPROFILE
+SOURCEFORMAT"fixed"
+WARNING"1"
+LISTPATH"Listing"
+LIST()
+showdir
+SQL(DB=Myorcl,DBMAN=ODBC,PASS=mfuser.Welcome01,TARGETDB=ORACLE)
+P(cobsql)  endp
+INT"/home/oracle/Westpac/remote/New_Configuration.bin/"
+ANIM
+LISTPATH"/home/oracle/Westpac/remote/Listing"
+ERRFORMAT(2)
+STDERR

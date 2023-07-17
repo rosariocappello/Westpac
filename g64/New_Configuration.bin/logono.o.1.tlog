@@ -1,0 +1,4 @@
+#/opt/microfocus/VisualCOBOL/bin/cobchecker64 /home/oracle/Westpac/g64/logono.cbl "int(""logono.int"")" "USE""/home/oracle/Westpac/g64/New_Configuration.bin/logono.cbl.dir"""
+^/home/oracle/Westpac/g64/logono.cbl
+!/opt/microfocus/VisualCOBOL/cpylib/sqlca.cpy
++/opt/microfocus/VisualCOBOL/cpylib/sqlca.cpy

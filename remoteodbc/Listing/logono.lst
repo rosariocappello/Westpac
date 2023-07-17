@@ -1,0 +1,54 @@
+* Micro Focus COBOL                  V8.0 revision 000 04-Jul-23 13:15 Page   1
+* /home/oracle/Westpac/remoteodbc/logono.cbl
+* Directives File: /home/oracle/Westpac/remoteodbc/New_Configuration.bin/logono.cbl.dir
+* Accepted - showdir
+* Accepted - SQL(DB)
+* Accepted - SQL(DBMAN)
+* Accepted - SQL(TARGETDB)
+* Accepted - INT"/home/oracle/Westpac/remoteodbc/New_Configuration.bin/"
+* Accepted - ANIM
+* Accepted - LISTPATH"/home/oracle/Westpac/remoteodbc/Listing"
+* Accepted - ERRFORMAT(2)
+* Accepted - STDERR
+* End Of Directives File: /home/oracle/Westpac/remoteodbc/New_Configuration.bin/logono.cbl.dir
+     1 IDENTIFICATION DIVISION.
+     2 PROGRAM-ID. logono
+     3
+     4 DATA DIVISION.
+     5 WORKING-STORAGE SECTION.
+     6 01 WS-DB-NAME PIC X(30) VALUE 'OracleODBC-19'.
+     7 01 WS-DB-USER PIC X(30) VALUE 'mfuser'.
+     8 01 WS-DB-PASS PIC X(30) VALUE 'Welcome01'.
+     9*01 WS-DB-HANDLE    USAGE IS SQL-HANDLE.
+    10 01 SQLCODE PIC S9(9) USAGE COMP.
+    11
+    12 PROCEDURE DIVISION.
+    13 MAIN-PROCEDURE.
+    14     EXEC SQL
+    15        CONNECT TO :WS-DB-NAME USER :WS-DB-USER
+    16                               USING :WS-DB-PASS
+    17     END-EXEC
+    18
+    19     MOVE SQLCODE TO SQLCODE
+    20     IF SQLCODE NOT EQUAL ZERO
+    21         DISPLAY "DB connection failed with SQLCODE: " SQLCODE
+    22     END-IF
+    23     DISPLAY "DB connection successful."
+    24
+    25     EXEC SQL
+    26         DISCONNECT :WS-DB-NAME
+    27     END-EXEC
+    28
+    29     MOVE SQLCODE TO SQLCODE
+    30     IF SQLCODE NOT EQUAL ZERO
+    31         DISPLAY "DB disconnect failed with SQLCODE: " SQLCODE
+    32     END-IF
+    33     DISPLAY "DB disconnect successful."
+    34
+    35     GOBACK
+    36     .
+* Micro Focus COBOL                  V8.0 revision 000 Compiler
+* (C) Copyright 1984-2023 Micro Focus or one of its affiliates.
+*                                                        REF GNR-085800000AM
+* Total Messages:     0
+* Data:      136608     Code:        1361

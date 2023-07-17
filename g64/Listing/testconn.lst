@@ -1,0 +1,194 @@
+* Micro Focus COBOL                  V8.0 revision 000 04-Jul-23 15:23 Page   1
+* /home/oracle/Westpac/g64/testconn.cbl
+* Directives File: /home/oracle/Westpac/g64/New_Configuration.bin/testconn.cbl.dir
+* Accepted - showdir
+* Accepted - SQL(DB)
+* Accepted - SQL(DBMAN)
+* Accepted - SQL(PASS)
+* Accepted - SQL(TARGETDB)
+* Accepted - INT"/home/oracle/Westpac/g64/New_Configuration.bin/"
+* Accepted - ANIM
+* Accepted - LISTPATH"/home/oracle/Westpac/g64/Listing"
+* Accepted - ERRFORMAT(2)
+* Accepted - STDERR
+* End Of Directives File: /home/oracle/Westpac/g64/New_Configuration.bin/testconn.cbl.dir
+     1
+     2****************************************************************
+     3* Copyright (C) Micro Focus 1988-2019. All rights reserved.
+     4*
+     5* This sample code is supplied for demonstration purposes only
+     6* on an "as is" basis and is for use at your own risk.
+     7*
+     8****************************************************************
+     9 working-storage section.
+    10
+    11*  Include the SQL Communications Area. This includes the
+    12*  definitions of SQLCODE, etc
+*   13 EXEC SQL INCLUDE SQLCA END-EXEC
+    14 01 SQLCA.
+    15     05  SQLCAID         PIC X(8)         VALUE "SQLCA   ".
+    16     05  SQLCABC         PIC S9(9) COMP-5 VALUE 136.
+    17     05  SQLCODE         PIC S9(9) COMP-5 VALUE 0.
+    18     05  SQLERRM.
+    19         49  SQLERRML    PIC S9(4) COMP-5.
+    20         49  SQLERRMC    PIC X(70).
+    21     05  SQLERRP         PIC X(8).
+    22     05  SQLERRD         PIC S9(9) COMP-5 OCCURS 6 VALUE 0.
+    23     05  SQLWARN.
+    24         10  SQLWARN0    PIC X.
+    25         10  SQLWARN1    PIC X.
+    26         10  SQLWARN2    PIC X.
+    27         10  SQLWARN3    PIC X.
+    28         10  SQLWARN4    PIC X.
+    29         10  SQLWARN5    PIC X.
+    30         10  SQLWARN6    PIC X.
+    31         10  SQLWARN7    PIC X.
+    32     05  SQLEXT.
+    33         10  SQLWARN8    PIC X.
+    34         10  SQLWARN9    PIC X.
+    35         10  SQLWARN10   PIC X.
+    36         10  SQLWARNA    REDEFINES SQLWARN10 PIC X .
+    37     05  SQLSTATE    PIC X(5).
+    38
+    39 EXEC SQL BEGIN DECLARE SECTION END-EXEC
+    40 01 svr          pic x(32).
+    41 01 usr          pic x(32).
+    42 01 pass         pic x(32).
+    43 01 usr-pass     pic x(64).
+    44 EXEC SQL END DECLARE SECTION END-EXEC.
+    45
+    46 procedure division.
+* Micro Focus COBOL                  V8.0 revision 000 04-Jul-23 15:23 Page   2
+* /home/oracle/Westpac/g64/testconn.cbl
+    47*    Connect to a database
+    48 display "Connect statement tests"
+    49 display " "
+    50 display "Enter data source name "
+    51     with no advancing
+    52 accept svr
+    53 display "Enter username "
+    54      with no advancing
+    55 accept usr
+    56 display "Enter password "
+    57      with no advancing
+    58 accept pass
+    59
+    60*Test 1 - Basic OpenESQL style connect
+    61 display "Test 1:"
+    62 string
+    63     usr delimited space
+    64     "." delimited size
+    65     pass delimited space
+    66 into usr-pass
+    67 EXEC SQL
+    68     CONNECT TO :svr USER :usr-pass
+    69 END-EXEC
+    70 if sqlcode not = 0
+    71  display "Error: cannot connect "
+    72  display sqlcode
+    73  display sqlerrmc
+    74
+    75 end-if
+    76 display "Test 1: OK"
+    77
+    78 EXEC SQL
+    79     DISCONNECT CURRENT
+    80 END-EXEC
+    81 if sqlcode not = 0
+    82         display "Error: cannot disconnect "
+    83         display sqlcode
+    84         display sqlerrmc
+    85
+    86 end-if
+    87
+    88*Test 2 - OpenESQL style connect with no prompt and slash.
+    89*         WITH PROMPT is an option only supported on PC
+    90*         platforms.
+    91 display "Test 2:"
+    92 string
+    93     usr delimited space
+    94     "/" delimited size
+    95     pass delimited space
+    96 into usr-pass
+    97 EXEC SQL
+    98     CONNECT TO :svr USER :usr-pass WITH NO PROMPT
+    99 END-EXEC
+   100 if sqlcode not = 0
+   101         display "Error: cannot connect "
+   102         display sqlcode
+   103         display sqlerrmc
+   104
+* Micro Focus COBOL                  V8.0 revision 000 04-Jul-23 15:23 Page   3
+* /home/oracle/Westpac/g64/testconn.cbl
+   105 end-if
+   106 display "Test 2: OK"
+   107
+   108 EXEC SQL
+   109     DISCONNECT DEFAULT
+   110 END-EXEC
+   111 if sqlcode not = 0
+   112         display "Error: cannot disconnect "
+   113         display sqlcode
+   114         display sqlerrmc
+   115
+   116 end-if
+   117
+   118*Test 3 - Oracle style connect with combined user and password
+   119 display "Test 3:"
+   120 string
+   121     usr delimited space
+   122     "/" delimited size
+   123     pass delimited space
+   124 into usr-pass
+   125 EXEC SQL
+   126     CONNECT :usr-pass USING :svr
+   127 END-EXEC
+   128 if sqlcode not = 0
+   129         display "Error: cannot connect "
+   130         display sqlcode
+   131         display sqlerrmc
+   132
+   133 end-if
+   134 display "Test 3: OK"
+   135
+   136 EXEC SQL
+   137     DISCONNECT
+   138 END-EXEC
+   139 if sqlcode not = 0
+   140         display "Error: cannot disconnect "
+   141         display sqlcode
+   142         display sqlerrmc
+   143
+   144 end-if
+   145
+   146*Test 4 - Oracle style connect with separate user and password
+   147 display "Test 4:"
+   148 EXEC SQL
+   149     CONNECT :usr IDENTIFIED BY :pass USING :svr
+   150 END-EXEC
+   151 if sqlcode not = 0
+   152         display "Error: cannot connect "
+   153         display sqlcode
+   154         display sqlerrmc
+   155
+   156 end-if
+   157 display "Test 4: OK"
+   158
+   159 EXEC SQL
+   160     DISCONNECT ALL
+   161 END-EXEC
+   162 if sqlcode not = 0
+* Micro Focus COBOL                  V8.0 revision 000 04-Jul-23 15:23 Page   4
+* /home/oracle/Westpac/g64/testconn.cbl
+   163         display "Error: cannot disconnect "
+   164         display sqlcode
+   165         display sqlerrmc
+   166
+   167 end-if
+   168
+   169 goback.
+* Micro Focus COBOL                  V8.0 revision 000 Compiler
+* (C) Copyright 1984-2023 Micro Focus or one of its affiliates.
+*                                                        REF GNR-085800000AM
+* Total Messages:     0
+* Data:      136688     Code:        4628

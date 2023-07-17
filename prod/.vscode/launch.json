@@ -29,16 +29,16 @@
    
             "name": "COBOL (native): Attach to process",
             "processId": "${command:pickProcess}",
-            "is64bit": true,
-            "cwd":"${workspaceFolder}/bin",
-            "env": [
-                {"name": "COBIDY", "value": "${workspaceFolder}/bin"},
-                {"name": "COBPATH", "value": "${workspaceFolder}/bin"},
-                {"name": "COBCPY", "value": "${workspaceFolder}/cobol"}
-                {"name": "PATH", "value": "$PATH:${workspaceFolder}/bin"}
-            ],
-            "stopOnEntry": true,
-            "externalConsole" : true
+            //"is64bit": true,
+            "cwd":"${workspaceFolder}/bin"
+            //"env": [
+            //    {"name": "COBIDY", "value": "${workspaceFolder}/bin"},
+            //    {"name": "COBPATH", "value": "${workspaceFolder}/bin"},
+            //    {"name": "COBCPY", "value": "${workspaceFolder}/cobol"}
+            //    {"name": "PATH", "value": "$PATH:${workspaceFolder}/bin"}
+            //],
+            //"stopOnEntry": true,
+            //"externalConsole" : true
         },
         {
             "type": "bashdb",
